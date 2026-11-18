@@ -2540,6 +2540,9 @@
     "NAMESPACE": {
       "checksum": "a32edd38dc23c669eb7a28bae4c77d79"
     },
+    "R/_disable_autoload.R": {
+      "checksum": "05148cd749b343f1c1ef204566c2fa58"
+    },
     "R/agent_cache_questions.R": {
       "checksum": "99b24111f713cb9e10a3dd04265ed605"
     },

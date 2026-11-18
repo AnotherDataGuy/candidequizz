@@ -21,3 +21,4 @@ dev_history.R
 ^app\.R$
 ^codecov\.yml$
 ^\.github$
+^R/_disable_autoload\.R$
