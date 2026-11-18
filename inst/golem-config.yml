@@ -1,0 +1,231 @@
+default:
+  golem_name: candidequizz
+  golem_version: 0.1.0
+  app_prod: no
+  app_title: CandideQuizz
+
+  # --- Banque de graines (référentiel pédagogique) -------------------------
+  bank:
+    file: banque_donnees_questions_reponses.xlsx
+    sheet_questions: QUESTIONS_REPONSES
+    sheet_referentiel: REFERENTIEL_THEMES_CUSTOM
+
+  # --- Persistance des séances --------------------------------------------
+  # Le répertoire n'est pas configuré ici : il est résolu par `store_dir()`
+  # dans `tools::R_user_dir()`, surchargeable par la variable
+  # d'environnement CANDIDEQUIZZ_STORE_DIR. Un paquet installé n'a pas le
+  # droit d'écrire dans sa bibliothèque, et l'application ne doit pas
+  # dépendre du répertoire de travail depuis lequel on l'a lancée.
+  store:
+    schema_version: 1
+    # rds : un fichier par séance (tests, poste local historique).
+    # sqlite : un fichier partagé, une ligne par séance et par compte.
+    backend: sqlite
+  auth:
+    # local : version à télécharger, sans écran de connexion (un compte unique
+    # sur l'ordinateur). comptes : connexion obligatoire (version en ligne).
+    # La variable d'environnement CANDIDEQUIZZ_AUTH_MODE prime.
+    mode: local
+    # ouverte : chacun crée un compte. fermee : seuls les comptes existants
+    # entrent (l'administrateur crée les autres). Fermé par défaut : sans effet
+    # en mode local, et évite une inscription publique ouverte par mégarde si
+    # quelqu'un force CANDIDEQUIZZ_AUTH_MODE=comptes sans la configuration
+    # `production`.
+    inscription: fermee
+    token_jours: 30
+
+  # --- Couche LLM ----------------------------------------------------------
+  # Preset actif surchargeable par la variable d'environnement
+  # CANDIDEQUIZZ_PRESET (economique | equilibre | qualite).
+  llm:
+    preset: equilibre
+    # IA proposée par défaut dans une nouvelle séance (si une clé est présente).
+    # ia_off pour la version à télécharger : chacun l'active dans « Options
+    # avancées » avec sa propre clé OPENAI_API_KEY.
+    par_defaut: ia_off
+    # Deux niveaux de reprise, à ne pas multiplier l'un par l'autre :
+    # - http_max_tries : reprises réseau de {ellmer}/{httr2} (429, 503...),
+    #   qui respectent l'en-tête Retry-After ;
+    # - max_retries : reprises applicatives (réponse illisible, schéma non
+    #   respecté). Une erreur 400/401/403/404 n'est jamais reprise.
+    # timeout_s borne chaque requête : sans lui, {ellmer} attend 5 minutes.
+    max_retries: 2
+    http_max_tries: 2
+    timeout_s: 60
+    # Les modèles de la famille gpt-5 raisonnent avant de répondre, et ce
+    # raisonnement est facturé en tokens de sortie. Mesuré sur un lot de
+    # 3 questions : 36 s et 1720 tokens sans réglage, contre 6 s et 547 tokens
+    # avec un effort minimal. L'effort n'est transmis qu'à ces modèles, les
+    # autres rejetteraient le paramètre.
+    modeles_raisonnement:
+      - gpt-5
+      - gpt-5-mini
+      - gpt-5-nano
+    presets:
+      # Preset assumé comme le moins cher : le vérificateur y reste sur nano,
+      # avec la fiabilité moindre mesurée ci-dessous. À réserver aux essais.
+      economique:
+        effort_raisonnement: minimal
+        roles:
+          redacteur: gpt-4.1-nano
+          verificateur: gpt-4.1-nano
+          reparateur: gpt-4.1-nano
+          synthetiseur: gpt-4.1-nano
+      # Le vérificateur factuel juge un lot entier en un appel, et c'est cette
+      # tâche groupée qui discrimine les modèles. Sur un lot de 5 items dont un
+      # comportait une erreur factuelle nette (Émile Zola présenté comme auteur
+      # des lois scolaires de Jules Ferry), gpt-4.1-nano ne l'a relevée qu'une
+      # fois sur trois, gpt-4.1-mini quatre fois sur quatre. Soumis seul,
+      # l'item était rejeté par les deux : c'est bien le lot qui dilue
+      # l'attention du plus petit modèle. Le surcoût est d'environ 0,0007 $
+      # par lot, soit quelques millièmes de dollar par séance, pour l'agent
+      # qui empêche un fait faux d'atteindre quelqu'un qui prépare un
+      # entretien officiel.
+      equilibre:
+        effort_raisonnement: minimal
+        roles:
+          redacteur: gpt-4.1-mini
+          verificateur: gpt-4.1-mini
+          reparateur: gpt-4.1-mini
+          synthetiseur: gpt-4.1-mini
+      qualite:
+        effort_raisonnement: medium
+        roles:
+          redacteur: gpt-5
+          verificateur: gpt-5-mini
+          reparateur: gpt-5
+          synthetiseur: gpt-5
+    # Tarifs en dollars par million de tokens, relevés en septembre 2026.
+    # Servent uniquement à estimer le coût affiché dans le rapport de séance.
+    prix_usd_par_million:
+      gpt-4.1-nano:
+        entree: 0.10
+        sortie: 0.40
+      gpt-4.1-mini:
+        entree: 0.40
+        sortie: 1.60
+      gpt-4.1:
+        entree: 2.00
+        sortie: 8.00
+      gpt-5-nano:
+        entree: 0.05
+        sortie: 0.40
+      gpt-5-mini:
+        entree: 0.25
+        sortie: 2.00
+      gpt-5:
+        entree: 1.25
+        sortie: 10.00
+
+  # --- Déroulement d'une séance -------------------------------------------
+  seance:
+    nb_questions_possibles: [10, 20, 40, 60]
+    # File glissante : les questions s'écrivent par petites tranches, et la
+    # tranche suivante part dès qu'il ne reste que `prefetch_questions_restantes`
+    # questions prêtes. Des tranches courtes démarrent vite (peu de types, donc
+    # peu d'appels) et laissent le régleur décider avec des réponses fraîches.
+    taille_premier_lot: 3
+    taille_lot: 3
+    taille_lot_min: 2
+    prefetch_questions_restantes: 3
+    # Le lot suivant s'écrit dans un processus R à part ({future}). Sans cela
+    # la génération bloque le processus principal, donc l'interface.
+    prefetch_async: yes
+    # Nombre de séances récentes dont les graines sont évitées. 0 = aucune.
+    # Absent ou très grand : tout l'historique enregistré.
+    anti_repetition_n_seances: 8
+    # Révision ciblée : nombre de sous-thèmes fragiles retenus, et seuil
+    # en dessous duquel un sous-thème est considéré fragile.
+    revision_n_sous_themes: 6
+    revision_seuil: 0.55
+    # Examen blanc : 40 questions, seuil 32, 45 minutes.
+    examen_nb_questions: 40
+    examen_seuil: 32
+    examen_limite_s: 2700
+
+  # --- Carnet de progression ----------------------------------------------
+  # La section « Progression » n'apparaît qu'après ce nombre de questions
+  # répondues (toutes séances confondues). D'ici là, une jauge l'annonce.
+  progression:
+    seuil_questions: 200
+
+  # --- Rédaction par IA : deuxième surprise -------------------------------
+  # L'option « Avec IA » n'apparaît qu'après ce nombre de questions
+  # DIFFÉRENTES répondues (graines distinctes, questions passées exclues) :
+  # revoir la même question ne compte qu'une fois. L'administrateur n'est
+  # pas concerné.
+  # 0 dans la version à télécharger : l'utilisateur paie l'IA avec sa propre
+  # clé, il l'active quand il veut. 400 dans la version en ligne (production),
+  # où l'IA est payée par l'administrateur.
+  ia:
+    seuil_questions_distinctes: 0
+
+  # --- Garde-fous contre l'usage abusif (R/fct_anti_abus.R) ----------------
+  # Actifs seulement dans la version en ligne (mode « comptes »).
+  # L'administrateur n'est pas limité, sauf par le budget global du jour.
+  # Les compteurs « par jour » repartent de zéro à minuit UTC.
+  anti_abus:
+    # Rythme des séances, par compte.
+    seances_par_heure: 20
+    delai_entre_seances_s: 10
+    # IA : séances avec IA par compte et par jour, puis budget de toute
+    # l'application (coût enregistré à chaque appel). Au-delà, la séance
+    # démarre sans IA. Gardez aussi un plafond de dépense chez OpenAI.
+    ia_seances_par_jour: 15
+    ia_budget_jour_usd: 2
+    # Une réponse plus rapide ne compte pas pour débloquer l'IA.
+    temps_min_reponse_s: 2
+
+  # --- Cache de questions vérifiées --------------------------------------
+  # Toute question écrite par le modèle et validée par le vérificateur est
+  # gardée sur l'appareil, puis resservie quand la même graine revient, au
+  # lieu d'être réécrite. Une graine modifiée dans le classeur invalide ses
+  # questions en cache.
+  cache:
+    actif: yes
+    # Une graine qui revient est réécrite jusqu'à avoir ce nombre de versions
+    # en cache ; ensuite les versions tournent, sans appel au modèle.
+    variantes_max: 2
+    # Écart de difficulté accepté entre la question en cache et la consigne.
+    tolerance_difficulte: 1
+    max_entrees: 5000
+
+  # --- Règles du régleur adaptatif (agent A-7) ----------------------------
+  adaptatif:
+    difficulte_min: 1
+    difficulte_max: 5
+    difficulte_initiale: 3
+    seuil_montee: 0.85
+    seuil_descente: 0.55
+    erreurs_consecutives_max: 3
+    questions_remise_en_confiance: 2
+    max_consecutif_meme_sous_theme: 2
+    # Nombre de réponses à accumuler avant qu'un taux ne fasse bouger le
+    # niveau : en dessous, un 2 sur 2 ou un 0 sur 2 ne veut rien dire.
+    echantillon_min: 4
+    # Rythme de la palette, en rang dans la séance : une sonde (+1) toutes les
+    # `sonde_tous_les` questions, un filet (-1) au rang `filet_rang` de chaque
+    # dizaine. Indépendant de la taille des tranches.
+    sonde_tous_les: 5
+    filet_rang: 7
+    # Aiguillage question par question, sans appel au modèle : après ce nombre
+    # d'erreurs d'affilée, la plus facile des questions prêtes passe devant ;
+    # après ce nombre de réussites d'affilée, la plus difficile.
+    aiguillage_erreurs: 2
+    aiguillage_reussites: 3
+    # Poids thématiques : seules les N réponses les plus récentes d'un
+    # sous-thème comptent, pour qu'un sous-thème rattrapé cesse d'être ciblé.
+    poids_fenetre: 6
+
+production:
+  app_prod: yes
+  auth:
+    mode: comptes
+    inscription: fermee
+  llm:
+    par_defaut: ia_on
+  ia:
+    seuil_questions_distinctes: 400
+
+dev:
+  golem_wd: !expr golem::pkg_path()

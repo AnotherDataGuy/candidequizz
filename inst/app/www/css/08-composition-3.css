@@ -1,0 +1,48 @@
+/* =============================================================================
+   8. Composition d'une séance (partie 3 sur 3) : illustrations des guichets
+   ----------------------------------------------------------------------------
+   Un dessin par guichet, à l'étape 1 (R/mod_seance_config.R,
+   seance_config_illustration()). Les traits sont en currentColor et les
+   aplats en variables de couleur : le dessin suit le thème clair, le thème
+   sombre et le guichet choisi (fond vert), sans image en double.
+   Chargée après 08-composition-2.css.
+   ============================================================================= */
+
+.jeu-guichet-visuel {
+  display: grid;
+  place-items: center;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  margin: 14px 0 2px;
+}
+
+.jeu-guichet-svg {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  max-height: 170px;
+}
+
+/* Guichet choisi : fond vert sombre, donc aplats et marques plus clairs. */
+.jeu-guichets .shiny-options-group label:has(input:checked) .jeu-guichet-visuel {
+  --surface: #35473a;
+  --soft: #3d5142;
+  --g-juste: #c5d9a3;
+  --g-faux: #e9bcab;
+}
+
+/* Écrans larges mais peu hauts : un dessin plus petit. */
+@media (min-width: 1024px) and (min-height: 640px) and (max-height: 860px) {
+  .jeu-guichet-svg {
+    max-height: 110px;
+  }
+}
+
+/* Tablette et téléphone : les cartes sont compactes, pas de dessin. */
+@media (max-width: 1023px) {
+  .jeu-guichet-visuel {
+    display: none;
+  }
+}

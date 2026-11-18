@@ -1,0 +1,997 @@
+/* =============================================================================
+   8. Composition d'une séance (partie 2 sur 3)
+   ----------------------------------------------------------------------------
+   Feuilles de style de Candide au guichet, une par écran, chargées dans
+   l'ordre de leur numéro (R/app_ui.R). L'ordre compte : une règle n'est
+   placée dans un fichier antérieur que si rien de même force sur la même
+   propriété ne doit passer avant elle.
+   Chargée après 08-composition-1.css.
+   ============================================================================= */
+
+.jeu-themes .shiny-options-group label:has(input:checked) .jeu-theme-coche::after {
+  content: "";
+  width: 9px;
+  height: 5px;
+  margin-top: -2px;
+  border-left: 2px solid #24331d;
+  border-bottom: 2px solid #24331d;
+  transform: rotate(-45deg);
+}
+
+.jeu-note {
+  margin: 0;
+  padding: 16px 20px;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.jeu-ticket-zone {
+  position: sticky;
+  top: 24px;
+  display: grid;
+  gap: 14px;
+}
+
+.jeu-ticket {
+  position: relative;
+  background: var(--lime);
+  color: #24331d;
+  border-radius: 14px;
+  transform: rotate(-1.2deg);
+  box-shadow: 0 18px 40px rgba(32, 45, 36, .16);
+  transition: transform .3s ease;
+}
+
+.jeu-ticket-haut {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 20px 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.jeu-ticket-corps {
+  padding: 18px 20px 20px;
+}
+
+.jeu-ticket-guichet {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+}
+
+.jeu-ticket-titre {
+  display: block;
+  margin: 2px 0 16px;
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1.05;
+  letter-spacing: -.03em;
+}
+
+.jeu-ticket dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.jeu-ticket dt {
+  font-weight: 400;
+  opacity: .7;
+}
+
+.jeu-ticket dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 700;
+}
+
+/* Ligne de découpe : pointillés + deux encoches. */
+
+.jeu-ticket-coupe {
+  position: relative;
+  height: 0;
+  margin: 0 14px;
+  border-top: 2px dashed rgba(36, 51, 29, .35);
+}
+
+.jeu-ticket-coupe::before,
+.jeu-ticket-coupe::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.jeu-ticket-coupe::before {
+  left: -26px;
+}
+
+.jeu-ticket-coupe::after {
+  right: -26px;
+}
+
+.jeu-ticket-talon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px 18px;
+}
+
+.jeu-ticket-numero {
+  font-family: Georgia, serif;
+  font-size: 44px;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.jeu-ticket-talon-texte {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  opacity: .75;
+}
+
+/* Le tampon : même style que le tampon « Curiosité » de l'illustration. */
+
+.jeu-tampon {
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  border: 2px dashed var(--red, #a34e38);
+  border-radius: 50%;
+  color: var(--red, #a34e38);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  transform: rotate(-14deg);
+  opacity: .28;
+  pointer-events: none;
+}
+
+.jeu-ticket.is-incomplet {
+  background: var(--soft);
+  color: var(--muted);
+}
+
+.jeu-ticket.is-incomplet .jeu-tampon {
+  opacity: .9;
+  font-size: 10px;
+  letter-spacing: .1em;
+}
+
+/* Au départ : le tampon s'abat sur le ticket. */
+
+.jeu-ticket.is-tamponne {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.jeu-ticket.is-tamponne .jeu-tampon {
+  animation: jeu-tampon .45s cubic-bezier(.2, .9, .3, 1.3) forwards;
+}
+
+.cq-app .cq-jeu .jeu-prendre {
+  width: 100%;
+  min-height: 54px;
+  font-size: 15px;
+  /* Les anciennes règles .cq-config .btn passent sinon devant. */
+  background: var(--lime) !important;
+  border-color: var(--lime) !important;
+  color: #24331d !important;
+}
+
+.cq-app .cq-jeu .jeu-prendre:hover {
+  background: #c0e651 !important;
+  border-color: #c0e651 !important;
+}
+
+.jeu-ticket-zone .shiny-html-output:last-child {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.jeu-ticket-zone:has(.is-incomplet) .jeu-prendre {
+  opacity: .45;
+  pointer-events: none;
+}
+
+/* Comme dans un jeu : on règle d'abord le guichet, puis la longueur, puis
+   les thèmes. Le conteneur porte data-etape (1, 2, 3) ; seule l'étape
+   correspondante est affichée. Toutes les entrées restent dans la page. */
+
+.cq-jeu .jeu-etape {
+  display: none;
+}
+
+.cq-jeu[data-etape="1"] .jeu-etape[data-etape-num="1"],
+.cq-jeu[data-etape="2"] .jeu-etape[data-etape-num="2"],
+.cq-jeu[data-etape="3"] .jeu-etape[data-etape-num="3"] {
+  display: block;
+  animation: jeu-etape-entree .28s ease both;
+}
+
+.jeu-etape h2:focus {
+  outline: none;
+}
+
+/* Le fil des étapes : numéro, nom, choix retenu */
+
+.jeu-fil {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.jeu-fil li {
+  position: relative;
+}
+
+/* Trait qui relie les étapes, comme une piste */
+
+.jeu-fil li + li::before {
+  content: "";
+  position: absolute;
+  top: 21px;
+  left: -50%;
+  right: 50%;
+  height: 2px;
+  margin: 0 28px;
+  background: var(--line);
+}
+
+.jeu-fil li:has(.is-fait) + li::before,
+.jeu-fil li:has(.is-fait) + li:has([aria-current="step"])::before {
+  background: var(--ink);
+}
+
+.jeu-fil button {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: center;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.jeu-fil-num {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-family: Georgia, serif;
+  font-size: 18px;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.jeu-fil-texte {
+  display: grid;
+  gap: 1px;
+}
+
+.jeu-fil-texte b {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.jeu-fil-texte small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.jeu-fil button[aria-current="step"] {
+  color: var(--ink);
+}
+
+.jeu-fil button[aria-current="step"] .jeu-fil-num {
+  background: var(--dark);
+  border-color: var(--dark);
+  color: var(--lime);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--lime) 45%, transparent);
+}
+
+.jeu-fil button.is-fait {
+  color: var(--ink);
+}
+
+.jeu-fil button.is-fait .jeu-fil-num {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #24331d;
+}
+
+.jeu-fil button.is-fait .jeu-fil-texte small {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.jeu-fil button:focus-visible .jeu-fil-num {
+  outline: 3px solid #899f40;
+  outline-offset: 3px;
+}
+
+/* Retour : dans l'en-tête de l'étape, à droite */
+
+.jeu-etape-tete .jeu-retour {
+  margin-left: auto;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.jeu-etape-tete .jeu-retour:hover {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+/* Sous la fiche : Continuer (étapes 1 et 2), puis Commencer (étape 3) */
+
+.cq-app .cq-jeu .jeu-suivant {
+  width: 100%;
+  min-height: 54px;
+  font-size: 15px;
+  background: var(--ink) !important;
+  border-color: var(--ink) !important;
+  color: var(--bg) !important;
+}
+
+.cq-app .cq-jeu .jeu-suivant:hover {
+  background: #344634 !important;
+  border-color: #344634 !important;
+}
+
+.cq-jeu[data-etape="3"] .jeu-suivant {
+  display: none;
+}
+
+.cq-jeu:not([data-etape="3"]) .jeu-prendre,
+.cq-jeu:not([data-etape="3"]) .jeu-ticket-zone .shiny-html-output:last-child {
+  display: none;
+}
+
+.cq-jeu[data-etape="3"] .jeu-prendre {
+  animation: jeu-pret .6s ease .15s both;
+}
+
+[data-theme="dark"] .cq-app .cq-jeu .jeu-suivant {
+  background: var(--lime) !important;
+  border-color: var(--lime) !important;
+  color: #1c261d !important;
+}
+
+[data-theme="dark"] .jeu-fil button[aria-current="step"] .jeu-fil-num {
+  background: #2f4433;
+}
+
+@media (min-width: 1024px) and (min-height: 640px) {
+  /* Titre et fil sur une ligne ; la zone de jeu prend la hauteur restante
+   (moins l'en-tête de l'application et le dock) ; la fiche et l'étape
+   s'étirent à la même hauteur, et leur contenu s'adapte à cette hauteur.
+   --cq-zoom compense l'agrandissement des grands écrans (section 7). */
+  .cq-jeu {
+    --jeu-reserve: 410px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "tete fil" "avert avert" "plateau plateau";
+    column-gap: 48px;
+    align-items: end;
+  }
+  .cq-jeu:has(.cq-config-banner) {
+    --jeu-reserve: 470px;
+  }
+  .cq-jeu > .jeu-tete {
+    grid-area: tete;
+    margin: 0 0 20px;
+  }
+  .cq-jeu > .jeu-fil {
+    grid-area: fil;
+    margin: 0 0 22px;
+  }
+  .cq-jeu > .shiny-html-output {
+    grid-area: avert;
+  }
+  .cq-jeu > .jeu-plateau {
+    grid-area: plateau;
+  }
+  .jeu-tete h1 {
+    font-size: clamp(30px, 2.6vw, 40px);
+  }
+  /* Le bandeau « mode dégradé » sur une seule ligne */
+  .cq-jeu .cq-config-banner {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin: 0 0 16px;
+    padding: 10px 16px;
+  }
+  .cq-jeu .cq-config-banner p {
+    margin: 0;
+  }
+  .jeu-plateau {
+    height: clamp(270px, calc(100dvh / var(--cq-zoom, 1) - var(--jeu-reserve)), 620px);
+    align-items: stretch;
+  }
+  .jeu-choix {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: 0;
+    height: 100%;
+  }
+  .cq-jeu[data-etape="1"] .jeu-etape[data-etape-num="1"],
+  .cq-jeu[data-etape="2"] .jeu-etape[data-etape-num="2"],
+  .cq-jeu[data-etape="3"] .jeu-etape[data-etape-num="3"] {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+  /* conditionalPanel n'a pas de classe, seulement data-display-if ; Shiny le
+     masque en style en ligne, donc display: flex ne s'applique qu'une fois visible. */
+  .jeu-etape > div[data-display-if] {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+  .jeu-etape-tete {
+    margin-bottom: 14px;
+  }
+  /* Étape 2 : longueur et options restent groupées en haut */
+  .jeu-etape[data-etape-num="2"] > div[data-display-if] {
+    flex: 0 0 auto;
+  }
+  /* Étape 1 : les guichets occupent la hauteur disponible */
+  .jeu-guichets {
+    flex: 1;
+    min-height: 0;
+  }
+  .jeu-guichets .shiny-input-container,
+  .jeu-guichets .shiny-options-group {
+    height: 100%;
+  }
+  .jeu-guichets .shiny-options-group label {
+    padding: 28px 18px 16px;
+  }
+  .jeu-guichet-num {
+    margin-top: 10px;
+  }
+  .jeu-guichet-icone {
+    width: 48px;
+    height: 48px;
+    margin: 10px 0 8px;
+  }
+  .jeu-guichet-stats {
+    padding-top: 12px;
+    gap: 4px;
+  }
+  /* Étape 3 : deux rangées de cartes qui se partagent la hauteur */
+  .jeu-themes-barre {
+    margin: -4px 0 10px;
+  }
+  .jeu-themes {
+    flex: 1;
+    min-height: 0;
+  }
+  .jeu-themes .shiny-input-container,
+  .jeu-themes .shiny-options-group {
+    height: 100%;
+  }
+  .jeu-themes .shiny-options-group {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .jeu-themes .checkbox {
+    display: flex;
+    min-height: 0;
+  }
+  .jeu-themes .shiny-options-group label {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    height: auto;
+  }
+  .jeu-themes img {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 0;
+    aspect-ratio: auto;
+  }
+  .jeu-theme-nom {
+    padding: 8px 12px 2px;
+  }
+  .jeu-theme-sous {
+    margin-top: 0;
+    padding: 0 12px 10px;
+  }
+  /* La fiche : même hauteur que l'étape, boutons en bas */
+  .jeu-ticket-zone {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    min-height: 0;
+  }
+  .jeu-ticket-zone > .shiny-html-output:first-child {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+  }
+  .jeu-ticket {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .jeu-ticket-corps {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .jeu-ticket dl {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+
+@media (min-width: 1024px) and (min-height: 640px) and (max-height: 860px) {
+  /* Écran d'ordinateur peu haut (13", 1366 × 768…) : en-tête resserré */
+  .cq-jeu {
+    --jeu-reserve: 344px;
+  }
+  .cq-jeu:has(.cq-config-banner) {
+    --jeu-reserve: 398px;
+  }
+  .cq-jeu > .jeu-tete {
+    margin-bottom: 12px;
+  }
+  .jeu-tete .eyebrow {
+    display: none;
+  }
+  .jeu-tete h1 {
+    font-size: 28px;
+    white-space: nowrap;
+  }
+  .jeu-tete h1 br {
+    display: none;
+  }
+  .jeu-tete h1 .serif {
+    margin-left: .2em;
+  }
+  .cq-jeu > .jeu-fil {
+    margin-bottom: 14px;
+  }
+  .jeu-fil button {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    text-align: left;
+  }
+  .jeu-fil-num {
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+  }
+  .jeu-fil li + li::before {
+    top: 16px;
+    margin: 0 70px;
+  }
+  .jeu-etape-tete {
+    margin-bottom: 10px;
+  }
+  .jeu-etape-tete h2 {
+    font-size: 19px;
+  }
+  .jeu-guichet-desc {
+    display: none;
+  }
+  .jeu-guichets .shiny-options-group label {
+    padding: 24px 16px 12px;
+  }
+  .jeu-guichet-icone {
+    width: 40px;
+    height: 40px;
+    margin: 6px 0;
+  }
+  .jeu-guichet-titre {
+    font-size: 17px;
+  }
+  .jeu-ticket-corps {
+    padding: 12px 18px;
+  }
+  .jeu-ticket-titre {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .jeu-ticket dl {
+    gap: 4px 16px;
+    font-size: 13px;
+  }
+  .jeu-ticket-talon {
+    padding: 10px 18px 12px;
+  }
+  .jeu-ticket-numero {
+    font-size: 34px;
+  }
+  .cq-app .cq-jeu .jeu-suivant,
+  .cq-app .cq-jeu .jeu-prendre {
+    min-height: 46px;
+  }
+}
+
+[data-theme="dark"] .jeu-guichets .shiny-options-group label:has(input:checked) {
+  background: #2f4433;
+  border-color: var(--lime);
+}
+
+[data-theme="dark"] .jeu-ticket {
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cq-jeu *,
+  .cq-jeu *::before,
+  .cq-jeu .jeu-etape {
+    transition: none;
+    animation: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .jeu-plateau {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .jeu-guichets .shiny-options-group label {
+    padding: 30px 14px 16px;
+  }
+  .jeu-guichet-stats {
+    display: none;
+  }
+  .jeu-themes .shiny-options-group {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  /* Le ticket devient un talon collé en bas, au-dessus du dock. */
+  .jeu-ticket-zone {
+    position: sticky;
+    top: auto;
+    bottom: calc(var(--cq-dock-clearance, 96px) + 8px);
+    z-index: 5;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding: 10px 10px 10px 0;
+    background: var(--bg);
+    border-radius: 16px;
+  }
+  .jeu-ticket {
+    transform: none;
+    display: flex;
+    align-items: center;
+  }
+  .jeu-ticket-haut,
+  .jeu-ticket-coupe,
+  .jeu-ticket-talon-texte,
+  .jeu-tampon {
+    display: none;
+  }
+  .jeu-ticket-corps {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    flex: 1;
+    min-width: 0;
+  }
+  .jeu-ticket-guichet {
+    display: none;
+  }
+  .jeu-ticket-titre {
+    margin: 0;
+    font-size: 22px;
+  }
+  .jeu-ticket dl {
+    display: flex;
+    gap: 4px 12px;
+    flex-wrap: wrap;
+    font-size: 13px;
+  }
+  .jeu-ticket dt {
+    display: none;
+  }
+  .jeu-ticket dd + dt + dd::before {
+    content: "· ";
+    font-weight: 400;
+    opacity: .6;
+  }
+  .jeu-ticket-talon {
+    order: -1;
+    padding: 12px 0 12px 16px;
+    border-right: 2px dashed rgba(36, 51, 29, .3);
+  }
+  .jeu-ticket-numero {
+    font-size: 28px;
+    padding-right: 14px;
+  }
+  .cq-app .cq-jeu .jeu-prendre,
+  .cq-app .cq-jeu .jeu-suivant {
+    width: auto;
+    min-height: 48px;
+    padding: 10px 18px;
+  }
+}
+
+@media (max-width: 699px) {
+  .jeu-tete {
+    margin-bottom: 24px;
+  }
+  .jeu-fil {
+    margin-bottom: 24px;
+  }
+  .jeu-fil-num {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+  .jeu-fil li + li::before {
+    top: 17px;
+    margin: 0 22px;
+  }
+  .jeu-fil-texte b {
+    font-size: 12px;
+  }
+  .jeu-fil-texte small {
+    font-size: 11px;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .jeu-choix {
+    gap: 32px;
+  }
+  /* Guichets : rangée qui défile horizontalement, comme une sélection de mode. */
+  .jeu-guichets {
+    margin: 0 -16px;
+  }
+  .jeu-guichets .shiny-options-group {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 6px 16px 14px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .jeu-guichets .radio {
+    flex: 0 0 72%;
+    scroll-snap-align: center;
+  }
+  .jeu-guichet-stats {
+    display: grid;
+  }
+  .jeu-longueurs .shiny-options-group {
+    gap: 8px;
+  }
+  .jeu-longueurs b {
+    font-size: 30px;
+  }
+  .jeu-longueurs .shiny-options-group label {
+    padding: 12px 4px 10px;
+  }
+  .jeu-longueurs small {
+    font-size: 11px;
+  }
+  .jeu-themes .shiny-options-group {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  /* Talon : ticket et bouton sur une ligne. */
+  .jeu-ticket-zone {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 8px 0;
+    gap: 8px;
+  }
+  .jeu-ticket-titre {
+    font-size: 17px;
+    flex-basis: 100%;
+  }
+  .jeu-ticket-talon {
+    display: none;
+  }
+  .jeu-ticket-corps {
+    padding: 8px 12px;
+    gap: 2px;
+  }
+  .jeu-ticket dl {
+    font-size: 12px;
+    gap: 0 8px;
+  }
+  .jeu-ticket dt:nth-of-type(4),
+  .jeu-ticket dd:nth-of-type(4) {
+    display: none;
+  }
+  .cq-app .cq-jeu .jeu-prendre,
+  .cq-app .cq-jeu .jeu-suivant {
+    width: auto;
+    min-height: 52px;
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+  .cq-app .cq-jeu .jeu-prendre .icon,
+  .cq-app .cq-jeu .jeu-suivant .icon {
+    display: none;
+  }
+  .jeu-ticket-zone .shiny-html-output:last-child {
+    display: none;
+  }
+}
+
+/* Bandeau de portée : distingue le bilan d'une séance (« Cette séance »)
+   de la Progression (« Toutes vos séances »). */
+
+.cq-app .report-portee {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 8px 0 18px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  letter-spacing: .02em;
+}
+
+/* Options : des cases de formulaire à cocher */
+
+.cq-passation .cq-fiche .cq-reponse :is(.radio, .checkbox) > label,
+.cq-passation .cq-fiche .cq-option {
+  border-radius: 4px !important;
+  border-width: 1.5px !important;
+  background-color: var(--g-papier) !important;
+  box-shadow: none !important;
+  transition: border-color .18s, background-color .18s, transform .18s, opacity .35s;
+}
+
+.cq-passation .cq-fiche .cq-reponse :is(.radio, .checkbox):has(input:checked) > label {
+  background-color: color-mix(in srgb, var(--ink) 7%, var(--g-papier)) !important;
+  border-color: var(--ink) !important;
+  box-shadow: none !important;
+}
+
+/* Options corrigées */
+
+/* Surlignage de la bonne réponse : un calque qui se déroule de gauche à droite
+   (le fond de .cq-option est fixé en !important ailleurs, il ne s'anime pas). */
+
+.cq-passation .cq-fiche .cq-option--juste {
+  border-color: var(--g-juste) !important;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.cq-passation .cq-fiche .cq-option--faux {
+  border-color: var(--g-faux) !important;
+  background: var(--g-faux-fond) !important;
+  animation: cq-secoue .42s .1s ease-in-out;
+}
+
+.cq-passation .cq-marge-titre {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  font-family: var(--g-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--g-faux);
+  margin: 0;
+}
+
+.cq-passation .cq-impression {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .cq-passation .cq-marge-titre {
+    grid-row: auto;
+  }
+}
+
+/* En-tête sur une ligne : contexte | talons | ticket */
+
+.cq-passation .cq-guichet-entete {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: clamp(10px, 2vh, 22px);
+}
+
+.cq-passation .cq-guichet-ligne {
+  display: contents;
+}
+
+.cq-passation .cq-guichet-mot {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  /* Petit écran : après correction, seules la bonne réponse et la vôtre restent */
+  .cq-passation .cq-guichet-entete {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 8px;
+  }
+}
+
+/* Le bouton Progression du dock reste caché jusqu'à l'ouverture. */
+
+.cq-app .dock-item[hidden] {
+  display: none !important;
+}
+
+.cq-jauge-chiffres strong {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--j-texte);
+}
+
+/* Tampon « Version d'essai » : un tampon encreur (SVG), bords usés.
+   Les marges négatives évitent qu'il agrandisse la ligne du haut. */
+
+.cq-accueil .cq-tampon-dev {
+  display: inline-block;
+  margin: -14px 0 -14px 10px;
+  color: var(--g-faux, #a34e38);
+  line-height: 0;
+  transform: rotate(-4deg);
+  opacity: .92;
+  cursor: help;
+}
+

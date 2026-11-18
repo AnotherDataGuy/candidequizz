@@ -1,0 +1,828 @@
+/* =============================================================================
+   7. Séance : le guichet (questions, réponses, correction) (partie 3 sur 3)
+   ----------------------------------------------------------------------------
+   Feuilles de style de Candide au guichet, une par écran, chargées dans
+   l'ordre de leur numéro (R/app_ui.R). L'ordre compte : une règle n'est
+   placée dans un fichier antérieur que si rien de même force sur la même
+   propriété ne doit passer avant elle.
+   Chargée après 07-seance-2.css.
+   ============================================================================= */
+
+/* Indicateurs : un talon de ticket citron, cases séparées en pointillés */
+
+.cq-app .report-kpis {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 20px;
+  padding: 0;
+  background: var(--lime);
+  color: #24331d;
+  border: 0;
+  border-radius: 16px;
+  overflow: visible;
+}
+
+.cq-app .report-kpi strong {
+  display: block;
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.05;
+  letter-spacing: -.04em;
+  color: #24331d;
+}
+
+.cq-app .report-kpi span {
+  display: block;
+  margin-top: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #24331d;
+}
+
+.cq-app .report-kpi small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgba(36, 51, 29, .75);
+}
+
+.cq-app .report-grid {
+  gap: 20px;
+}
+
+.cq-app .report-panel-pane > * + * {
+  margin-top: 20px;
+}
+
+/* Pistes immédiates : petits tickets */
+
+.cq-app .cq-stats-pistes {
+  gap: 10px;
+}
+
+/* Question par question : tuiles numérotées, comme les longueurs */
+
+.cq-app .explore-parcours {
+  gap: 8px;
+}
+
+/* Pour la suite : la fenêtre sombre, appel citron */
+
+.cq-app .next-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 32px;
+  margin-top: 28px;
+  padding: 28px 32px;
+  background: var(--dark);
+  color: #f4f5e7;
+  border: 0;
+  border-radius: 22px;
+}
+
+.cq-app .next-strip .btn {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+  background: var(--lime) !important;
+  border-color: var(--lime) !important;
+  color: #24331d !important;
+}
+
+.cq-app .next-strip .btn:hover {
+  background: #c0e651 !important;
+  border-color: #c0e651 !important;
+  color: #24331d !important;
+}
+
+@media (max-width: 1023px) {
+  /* Proportions : tablette et téléphone */
+  .cq-app .report-story {
+    grid-template-columns: minmax(0, 1fr) 210px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 699px) {
+  .cq-app .report-tabs {
+    display: flex;
+    width: 100%;
+  }
+  .cq-app .report-tabs > button {
+    flex: 1;
+    padding: 9px 6px;
+    font-size: 13px;
+  }
+  .cq-app .report-story {
+    grid-template-columns: 1fr;
+  }
+  .cq-app .score-island {
+    order: -1;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 18px;
+    padding: 16px 20px;
+    border-radius: 22px;
+    text-align: left;
+  }
+  .cq-app .score-orbit span {
+    display: none;
+  }
+  .cq-app .report-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cq-app .report-kpi strong {
+    font-size: 28px;
+  }
+  .cq-app .next-strip {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+  .cq-app .next-strip .btn {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+    margin-top: 8px;
+  }
+}
+
+/* Chronomètre (examen blanc) : mis à jour chaque seconde. Shiny assombrit une sortie
+   pendant son recalcul (.recalculating) ; sur ce petit texte, cela faisait
+   clignoter l'écran. On le désactive pour cette seule sortie.
+   Shiny 1.14 assombrit aussi le contenu de la sortie (.recalculating > *) via la
+   variable --shiny-fade-opacity : on la met à 1 ici. */
+
+.cq-chrono-sortie {
+  --shiny-fade-opacity: 1;
+}
+
+.cq-chrono-sortie.recalculating {
+  opacity: 1;
+  transition: none !important;
+}
+
+.cq-app .report-comparaison {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.cq-app .report-comparaison .textbtn {
+  margin-left: 6px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cq-guichet-entete {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.cq-guichet-ligne {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cq-guichet-contexte {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cq-guichet-lieu {
+  font-family: var(--g-mono);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cq-guichet-mot {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.cq-ticket {
+  display: flex;
+  align-items: stretch;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cq-ticket-mot {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  border-right: 2px dashed color-mix(in srgb, var(--bg) 40%, transparent);
+}
+
+.cq-ticket-numero {
+  padding: 8px 18px;
+  font-family: var(--g-mono);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.2;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+
+.cq-ticket-chiffres {
+  display: inline-block;
+}
+
+.cq-ticket-chiffres.is-flip {
+  animation: cq-flip .4s cubic-bezier(.2, .8, .3, 1) both;
+}
+
+.cq-ticket-total {
+  font-size: 15px;
+  opacity: .65;
+}
+
+.cq-talons {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22px, 1fr));
+  gap: 5px;
+}
+
+.cq-talon {
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+  font-family: var(--g-mono);
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--g-papier);
+  border: 1px dashed var(--line);
+  /* Encoches de ticket sur les deux côtés */
+  -webkit-mask: radial-gradient(circle 4px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 4px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  mask: radial-gradient(circle 4px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 4px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  transition: background .3s, color .3s;
+}
+
+.cq-talon--courant {
+  background: var(--ink);
+  color: var(--bg);
+  border: 1px solid var(--ink);
+  animation: cq-respire 2.4s ease-in-out infinite;
+}
+
+.cq-talon--juste,
+.cq-talon--faux,
+.cq-talon--passee {
+  color: var(--ink);
+  border: 1px solid transparent;
+  transform: translateY(-3px);
+}
+
+.cq-talon--juste {
+  background: var(--g-talon-juste);
+}
+
+.cq-talon--faux {
+  background: var(--g-talon-faux);
+}
+
+.cq-talon.is-nouveau {
+  animation: cq-arrache .55s cubic-bezier(.3, 1.4, .5, 1) both;
+}
+
+/* Au-delà de 20 questions (examen blanc : 40), les numéros cèdent la place. */
+
+.cq-talons:has(> li:nth-child(21)) .cq-talon {
+  font-size: 0;
+  height: 18px;
+}
+
+.cq-passation .cq-carte.cq-fiche {
+  position: relative;
+  background: var(--g-papier);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 var(--line), 0 18px 40px -28px rgba(38, 51, 37, .4);
+  animation: cq-entree .5s cubic-bezier(.2, .8, .3, 1) both;
+}
+
+.cq-passation .cq-fiche:has(.cq-tampon) {
+  animation: cq-choc .35s .12s ease-out;
+}
+
+.cq-fiche-mot {
+  display: block;
+  font-family: var(--g-mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cq-passation .cq-fiche .cq-question-enonce {
+  font-family: var(--g-serif);
+  font-weight: 400;
+  letter-spacing: -.01em;
+  max-width: 30ch;
+}
+
+.cq-passation .cq-reponse .control-label {
+  font-size: 13px;
+}
+
+.cq-passation .cq-fiche .cq-reponse :is(.radio, .checkbox) > label:hover {
+  border-color: var(--ink) !important;
+  transform: translateX(3px);
+}
+
+.cq-passation .cq-fiche .cq-option-lettre {
+  border: 0;
+  background: transparent !important;
+  color: var(--muted) !important;
+  font-family: var(--g-mono);
+  font-weight: 500;
+  width: 18px;
+  min-width: 18px;
+  order: -1;
+}
+
+/* La case, à gauche de la lettre de l'option */
+
+.cq-passation .cq-fiche .cq-reponse :is(.radio, .checkbox) > label::after {
+  order: -2;
+  margin-left: 0;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--ink) !important;
+  border-radius: 3px;
+  background: transparent !important;
+  content: "" !important;
+}
+
+.cq-passation .cq-fiche .cq-reponse :is(.radio, .checkbox) > label > span {
+  order: 0;
+}
+
+/* Coche tracée d'un trait : le masque se déroule de gauche à droite */
+
+.cq-passation .cq-fiche .cq-reponse :is(.radio, .checkbox):has(input:checked) > label::after {
+  background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3L13 4.5' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px no-repeat !important;
+  color: transparent;
+  font-size: 0;
+  animation: cq-coche .25s ease-out both;
+}
+
+.cq-passation .cq-fiche .cq-reponse :is(.radio, .checkbox):has(input:checked) .cq-option-lettre {
+  color: var(--ink) !important;
+  background: transparent !important;
+}
+
+.cq-passation .cq-fiche .cq-option--juste::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--g-juste-fond);
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: cq-balaye .55s .15s ease-out forwards;
+}
+
+.cq-passation .cq-fiche .cq-option--juste :is(.cq-option-mention, .cq-option-icone) {
+  color: var(--g-juste);
+}
+
+.cq-passation .cq-fiche .cq-option--faux :is(.cq-option-mention, .cq-option-icone) {
+  color: var(--g-faux);
+}
+
+.cq-passation .cq-fiche .cq-option--neutre {
+  opacity: .5;
+}
+
+.cq-passation .cq-fiche .cq-option-mention {
+  font-family: var(--g-mono);
+  font-weight: 500;
+  letter-spacing: .08em;
+}
+
+/* Les sorties Shiny sont en display: contents ailleurs : il faut un vrai bloc ici. */
+
+.cq-passation .cq-fiche > .cq-tampon-sortie {
+  display: block;
+  position: absolute;
+  top: 22px;
+  right: 34px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cq-tampon {
+  display: inline-block;
+  position: relative;
+  color: var(--g-faux);
+}
+
+.cq-tampon--juste {
+  color: var(--g-juste);
+}
+
+.cq-tampon-cadre {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 18px;
+  border: 3px double currentColor;
+  border-radius: 6px;
+  font-family: var(--g-mono);
+  text-transform: uppercase;
+  mix-blend-mode: var(--g-melange);
+  transform: rotate(-9deg);
+  filter: url(#cq-encre);
+  animation: cq-tampon .5s cubic-bezier(.2, .9, .3, 1.2) both;
+}
+
+.cq-tampon-haut {
+  font-size: 10px;
+  letter-spacing: .3em;
+}
+
+.cq-tampon-texte {
+  font-size: 26px;
+  letter-spacing: .14em;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.cq-tampon-bas {
+  font-size: 10px;
+  letter-spacing: .2em;
+}
+
+.cq-tampon-bavure {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, currentColor 35%, transparent) 0%, transparent 65%);
+  animation: cq-bavure .6s .18s ease-out both;
+}
+
+.cq-passation .cq-correction:not(.cq-correction--differee) {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  column-gap: 24px;
+  row-gap: 12px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 6px 0 0;
+  animation: cq-marge .45s .35s ease both;
+}
+
+.cq-passation .cq-correction:not(.cq-correction--differee) > :not(.cq-marge-titre) {
+  grid-column: 2;
+}
+
+.cq-marge-trait path {
+  fill: none;
+  stroke: var(--g-faux);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 125;
+  stroke-dashoffset: 125;
+  animation: cq-souligne .5s .55s ease-out forwards;
+}
+
+.cq-passation .cq-correction:not(.cq-correction--differee) .cq-correction-explication {
+  font-family: var(--g-serif);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.cq-ticket-papier {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 14px 22px;
+  background: var(--g-papier);
+  border: 1px solid var(--line);
+  border-top: 0;
+  color: var(--ink);
+  font-family: var(--g-mono);
+  animation: cq-impression 3s steps(14) infinite;
+  -webkit-mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) bottom / 14px 100% repeat-x;
+  mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) bottom / 14px 100% repeat-x;
+}
+
+.cq-ticket-papier-haut {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cq-ticket-papier-lot {
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1;
+  padding-bottom: 8px;
+  border-bottom: 1.5px dashed var(--line);
+}
+
+.cq-ticket-papier-bas {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.cq-points span {
+  animation: cq-point 1.2s infinite;
+}
+
+.cq-passation .cq-actions .btn {
+  transition: transform .12s, background-color .2s, color .2s;
+}
+
+.cq-passation .cq-actions .btn:active:not(:disabled) {
+  transform: scale(.96);
+}
+
+@media (max-width: 640px) {
+  .cq-ticket-numero {
+    font-size: 20px;
+    padding: 6px 12px;
+  }
+  .cq-guichet-mot {
+    display: none;
+  }
+  .cq-talon {
+    height: 10px;
+    font-size: 0;
+  }
+  /* Sur la ligne « Question », au bord haut de la fiche : jamais sur l'énoncé. */
+  .cq-passation .cq-fiche > .cq-tampon-sortie {
+    top: -14px;
+    right: 6px;
+    transform: scale(.6);
+    transform-origin: top right;
+  }
+  .cq-passation .cq-correction:not(.cq-correction--differee) {
+    grid-template-columns: 1fr;
+  }
+  .cq-passation .cq-correction:not(.cq-correction--differee) > :not(.cq-marge-titre) {
+    grid-column: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cq-passation *,
+  .cq-passation *::before,
+  .cq-passation *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .cq-marge-trait path {
+    stroke-dashoffset: 0;
+  }
+}
+
+.cq-passation .cq-actions .cq-raccourcis + .cq-bouton-discret {
+  margin-left: 16px;
+}
+
+.cq-passation .cq-guichet-contexte {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.cq-passation .cq-talons {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.cq-passation .cq-ticket {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.cq-passation .cq-talon {
+  height: 22px;
+}
+
+.cq-passation .cq-ticket-numero {
+  font-size: 22px;
+  padding: 5px 14px;
+}
+
+/* La fiche suit la hauteur de l'écran */
+
+.cq-passation .cq-carte.cq-fiche {
+  padding: clamp(16px, 3.4vh, 40px) clamp(18px, 3vw, 44px);
+}
+
+.cq-passation .cq-fiche .cq-question-enonce {
+  font-size: clamp(20px, 3.5vh, 34px);
+  margin: clamp(6px, 1.4vh, 16px) 0 clamp(10px, 2.2vh, 24px);
+}
+
+.cq-passation .cq-fiche .cq-reponse .control-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.cq-passation .cq-fiche .cq-reponse .shiny-options-group,
+.cq-passation .cq-fiche .cq-options-corrigees {
+  gap: clamp(5px, 1vh, 10px);
+  margin-top: 0;
+}
+
+.cq-passation .cq-fiche .cq-reponse :is(.radio, .checkbox) > label,
+.cq-passation .cq-fiche .cq-option {
+  min-height: clamp(42px, 6.4vh, 62px);
+  padding-block: clamp(6px, 1.1vh, 12px);
+}
+
+.cq-passation .cq-fiche .cq-option-texte {
+  font-size: clamp(14px, 2vh, 16px);
+  line-height: 1.35;
+}
+
+/* Boutons toujours visibles, juste au-dessus de la navigation */
+
+.cq-passation .cq-actions {
+  position: sticky;
+  bottom: calc(var(--cq-dock-clearance, 110px) - 6px);
+  z-index: 4;
+  margin-top: clamp(8px, 1.6vh, 18px);
+  padding: 8px 0;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+@media (min-width: 1100px) {
+  /* Grand écran : la note en marge à droite de la fiche */
+  .cq-passation:has(.cq-correction:not(.cq-correction--differee)) {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    column-gap: 32px;
+    align-items: start;
+    max-width: 1280px !important;
+  }
+  .cq-passation:has(.cq-correction:not(.cq-correction--differee)) > :is(.cq-guichet-entete, #seances-run-chrono) {
+    grid-column: 1 / -1;
+  }
+  .cq-passation:has(.cq-correction:not(.cq-correction--differee)) .cq-guichet-entete {
+    grid-column: 1 / -1;
+  }
+  .cq-passation:has(.cq-correction:not(.cq-correction--differee)) .cq-fiche {
+    grid-column: 1;
+    grid-row: span 2;
+  }
+  .cq-passation .cq-correction:not(.cq-correction--differee) {
+    grid-column: 2;
+    grid-template-columns: 1fr;
+    padding-top: 0;
+    max-height: calc(100dvh - 54px - var(--cq-dock-clearance, 110px) - 160px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .cq-passation .cq-correction:not(.cq-correction--differee) > :not(.cq-marge-titre) {
+    grid-column: 1;
+  }
+  .cq-passation .cq-correction:not(.cq-correction--differee) .cq-marge-titre {
+    grid-row: auto;
+  }
+  .cq-passation:has(.cq-correction:not(.cq-correction--differee)) .cq-actions {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .cq-passation .cq-guichet-contexte {
+    grid-column: 1;
+  }
+  .cq-passation .cq-ticket-numero {
+    font-size: 18px;
+    padding: 4px 10px;
+  }
+  .cq-passation .cq-fiche .cq-question-enonce {
+    font-size: clamp(19px, 2.9vh, 24px);
+  }
+  .cq-passation .cq-fiche .cq-option-texte {
+    font-size: 14px;
+  }
+  /* Boutons sur une ligne : Arrêter (discret) · Passer · Valider */
+  .cq-passation .cq-actions {
+    flex-wrap: nowrap;
+    padding: 6px 0;
+  }
+  .cq-passation .cq-actions .btn {
+    min-height: 46px;
+    width: auto;
+    flex: 0 0 auto;
+    padding-inline: 14px;
+    font-size: 13px;
+  }
+  .cq-passation .cq-actions .cq-bouton-cta {
+    flex: 1 1 auto;
+    order: 3;
+  }
+  .cq-passation .cq-actions .cq-bouton-secondaire {
+    order: 2;
+  }
+  .cq-passation .cq-actions .cq-bouton-discret {
+    order: 1;
+    margin: 0 !important;
+    padding-inline: 4px;
+    font-size: 12px;
+    white-space: normal;
+    line-height: 1.15;
+    max-width: 84px;
+  }
+  .cq-passation .cq-actions {
+    gap: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: stretch;
+  }
+  .cq-passation .cq-talons {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
+  .cq-passation .cq-talon {
+    height: 8px;
+    -webkit-mask: none;
+    mask: none;
+    border-radius: 2px;
+  }
+}
+
+.cq-app .cq-jauge .btn.primary {
+  background: #24331d !important;
+  border-color: #24331d !important;
+  color: #d3e99d !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cq-jauge,
+  .cq-jauge *,
+  .cq-app .dock-item.is-nouveau {
+    animation: none !important;
+  }
+}
+
+@media (min-width: 861px) {
+  .cq-app:has(.tab-pane.active[data-value="accueil"]) main {
+    flex: 1 1 auto;
+    display: flex;
+    min-height: 0;
+  }
+  /* Bandeau « Le principe » plus serré. */
+  .cq-accueil:not(.cq-auth) .editorial-band {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 860px) {
+  .cq-app:has(.tab-pane.active[data-value="accueil"]) main {
+    flex: 1 1 auto;
+  }
+}
+
+.cq-accueil .cq-tampon-dev .cq-tampon-svg {
+  display: block;
+  width: 150px;
+  height: auto;
+}
+

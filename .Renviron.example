@@ -1,0 +1,13 @@
+# Copiez ce fichier en `.Renviron`, remplissez les valeurs, redémarrez R.
+# Ne versionnez jamais `.Renviron`.
+
+# ── Réglages ──────────────────────────────────────────────────────────────
+# Aucune variable n'est nécessaire : pas de connexion, IA éteinte, données sur
+# votre ordinateur.
+#
+# Pour activer l'IA avec votre propre clé OpenAI, renseignez-la ici, puis
+# choisissez « Avec IA » dans « Options avancées » au moment de composer une séance.
+OPENAI_API_KEY=
+
+# Facultatif : economique | equilibre | qualite
+# CANDIDEQUIZZ_PRESET=equilibre

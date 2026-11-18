@@ -1,0 +1,841 @@
+/* =============================================================================
+   7. Séance : le guichet (questions, réponses, correction) (partie 1 sur 3)
+   ----------------------------------------------------------------------------
+   Feuilles de style de Candide au guichet, une par écran, chargées dans
+   l'ordre de leur numéro (R/app_ui.R). L'ordre compte : une règle n'est
+   placée dans un fichier antérieur que si rien de même force sur la même
+   propriété ne doit passer avant elle.
+   Chargée après 06-progression-3.css.
+   ============================================================================= */
+
+.quiz-wrap {
+  margin: auto;
+}
+
+.quiz-wrap {
+  padding-top: 15px;
+}
+
+/* CANDIDE · Reports as an exploration, from observation to action. */
+
+#result.quiz-wrap {
+  padding-top: 0;
+}
+
+.cq-carte {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: none;
+}
+
+.cq-progression {
+  margin-bottom: 25px;
+}
+
+.cq-question {
+  padding: 43px 46px;
+  border-radius: 5px;
+  animation: enter 0.35s ease;
+}
+
+.cq-question-enonce {
+  color: var(--ink);
+}
+
+@media (max-width: 760px) {
+  .cq-question {
+    padding: 27px 23px;
+  }
+  .cq-question-enonce {
+    font-size: 32px;
+  }
+}
+
+.cq-option {
+  opacity: 1;
+}
+
+.cq-option-icone {
+  font-size: 14px;
+}
+
+.cq-option--faux {
+  color: var(--bad);
+}
+
+@media (max-width: 760px) {
+  .cq-option {
+    padding: 13px;
+    font-size: 16px;
+    min-height: 68px;
+  }
+  .cq-option-texte {
+    font-size: 16px;
+  }
+}
+
+.cq-correction {
+  animation: enter 0.35s ease;
+}
+
+.cq-correction-titre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.cq-correction-explication {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.cq-correction-explication p {
+  margin: 0 0 0.55rem;
+  font-size: 16px;
+}
+
+.cq-correction-explication p:last-child {
+  margin-bottom: 0;
+}
+
+.cq-correction--juste .cq-correction-titre {
+  color: var(--good);
+}
+
+.cq-correction--faux .cq-correction-titre {
+  color: var(--bad);
+}
+
+.cq-correction--partiel,
+.cq-correction--differee {
+  border-left-color: var(--orange);
+}
+
+.cq-correction--partiel .cq-correction-titre,
+.cq-correction--differee .cq-correction-titre {
+  color: var(--ink);
+}
+
+.cq-actions .cq-bouton-cta {
+  margin-top: 0;
+}
+
+@media (max-width: 640px) {
+  .cq-actions .btn,
+  .cq-actions .cq-bouton-cta {
+    width: 100%;
+  }
+}
+
+.cq-chrono {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 7px 12px;
+  border-radius: 30px;
+  font-size: 14px;
+  background: var(--soft);
+}
+
+.cq-chrono--urgent {
+  background: color-mix(in srgb, var(--orange) 28%, var(--surface));
+}
+
+.cq-attente {
+  text-align: center;
+  padding-block: 2.5rem;
+}
+
+.cq-attente-piste {
+  width: min(16rem, 100%);
+  margin: 1.1rem auto 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cq-attente-jauge {
+    animation: none !important;
+  }
+}
+
+.cq-ordre {
+  display: grid;
+  gap: 11px;
+  margin-top: 20px;
+}
+
+.cq-ordre-ligne {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  padding: 19px;
+  min-height: 78px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 18px;
+}
+
+.cq-ordre-texte {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.cq-ordre-commandes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.cq-ordre-btn {
+  min-width: 2.4rem;
+  min-height: 2rem !important;
+  padding: 4px 8px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+}
+
+.cq-ordre-ligne--juste {
+  border-color: var(--good);
+  color: var(--good);
+}
+
+.cq-ordre-ligne--faux {
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+.cq-ordre-solution {
+  margin: 16px 0 0;
+  padding: 19px 23px;
+  border-radius: 14px;
+  background: var(--soft);
+  border-left: 3px solid var(--good);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.cq-trous-texte {
+  font-size: 18px;
+  line-height: 2.1;
+  color: var(--ink);
+  margin-top: 20px;
+}
+
+.cq-trou {
+  display: inline-flex;
+  align-items: center;
+  min-width: 4.5rem;
+  margin: 0 0.2rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.3;
+  vertical-align: baseline;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.cq-trou--vide {
+  color: var(--muted);
+  font-weight: 500;
+  border-style: dashed;
+}
+
+.cq-trou--actif {
+  border-color: var(--ink);
+  background: var(--soft);
+}
+
+.cq-trou--juste {
+  border-color: var(--good);
+  color: var(--good);
+  background: color-mix(in srgb, var(--good) 12%, var(--surface));
+}
+
+.cq-trou--faux {
+  border-color: var(--bad);
+  color: var(--bad);
+  background: color-mix(in srgb, var(--bad) 12%, var(--surface));
+}
+
+.cq-banque {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.cq-banque-mot {
+  padding: 10px 16px;
+  min-height: 43px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.cq-banque-mot:hover,
+.cq-banque-mot:focus-visible {
+  background: var(--soft);
+  border-color: var(--ink);
+}
+
+.cq-banque-mot:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+.segments .shiny-options-group,
+.modes .shiny-options-group,
+.field .shiny-options-group,
+.segments .radio,
+.field .radio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+.segments .radio,
+.segments .checkbox,
+.field .radio,
+.field .checkbox,
+.modes .radio,
+.modes .checkbox {
+  margin: 0;
+  padding: 0;
+}
+
+[data-theme="dark"] .cq-carte,
+[data-theme="dark"] .cq-option,
+[data-theme="dark"] .cq-ordre-ligne,
+[data-theme="dark"] .cq-banque-mot,
+[data-theme="dark"] .cq-trou {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+[data-theme="dark"] .cq-correction,
+[data-theme="dark"] .cq-ordre-solution {
+  background: var(--soft);
+}
+
+.cq-app .form-control:focus,
+.cq-app .btn:focus-visible,
+.cq-app a:focus-visible,
+.cq-option:focus-visible,
+.cq-banque-mot:focus-visible {
+  outline: 3px solid #899f40;
+  outline-offset: 5px;
+}
+
+.dock-nav > button.dock-item,
+.dock-nav > .dock-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 12px 22px;
+  border-radius: 17px;
+  font-size: 14px;
+  color: var(--muted);
+  white-space: nowrap;
+  background: transparent;
+  border: 0;
+}
+
+.segments .shiny-options-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cq-passation {
+  margin: auto;
+}
+
+.cq-carte.cq-question {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 5px;
+  padding: 38px 42px;
+}
+
+.cq-question-enonce {
+  font-size: clamp(27px, 3vw, 40px);
+  line-height: 1.2;
+  letter-spacing: -.035em;
+  margin: 20px 0 12px;
+  font-weight: 500;
+}
+
+.cq-actions .btn-primary,
+.cq-bouton-cta {
+  background: var(--lime) !important;
+  border-color: var(--lime) !important;
+  color: #24331d !important;
+  border-radius: 100px;
+}
+
+.cq-stats .report-toolbar {
+  margin-bottom: 8px;
+}
+
+/* Heading tools + Shiny download buttons on Progression */
+
+.cq-stats .report-heading {
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.cq-stats .report-heading-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.cq-stats .report-exports {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Outcome ribbon + report bars used by Progression */
+
+.cq-stats .outcome-ribbon {
+  margin-top: 8px;
+}
+
+.report-pistes-strip .panel-title {
+  margin-bottom: 0.55rem;
+}
+
+.report-panel--equal .report-panel-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 0;
+}
+
+.report-panel--equal .cq-graphe-bloc,
+.report-panel--equal .cq-graphe {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  min-height: 180px;
+}
+
+.peche-row .theme-art-figure,
+.peche-row .peche-art {
+  margin: 0;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--soft);
+}
+
+.explore-grid > .explore-legend {
+  grid-column: 1 / -1;
+  margin-top: -0.2rem;
+}
+
+.explore-lentes .eyebrow {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--muted);
+}
+
+.explore--revoir .next-strip {
+  margin-top: 0;
+}
+
+.report-parcours .panel-title {
+  margin-bottom: 1rem;
+}
+
+.cq-texte-riche {
+  max-width: 68ch;
+}
+
+.cq-texte-riche > * + * {
+  margin-top: 0.7em !important;
+}
+
+.cq-texte-riche p {
+  margin: 0;
+}
+
+.cq-texte-riche .cq-texte-lead {
+  font-weight: 600;
+  font-size: 1.04em;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.cq-texte-riche strong {
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.cq-texte-riche u {
+  text-decoration-color: color-mix(in srgb, var(--ink) 55%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+.cq-texte-riche mark {
+  padding: 0 0.15em;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--lime) 55%, transparent);
+  color: inherit;
+}
+
+[data-theme="dark"] .cq-texte-riche mark {
+  background: color-mix(in srgb, var(--lime) 28%, transparent);
+}
+
+.cq-texte-riche .cq-texte-date {
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.cq-texte-riche ul,
+.cq-texte-riche ol {
+  margin: 0;
+  padding-left: 1.25em;
+}
+
+.cq-texte-riche li + li {
+  margin-top: 0.3em;
+}
+
+.cq-texte-riche li::marker {
+  color: var(--muted);
+}
+
+.cq-texte-riche .cq-texte-retenir {
+  padding: 0.7em 0.9em;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--lime) 22%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--lime) 55%, var(--line));
+}
+
+[data-theme="dark"] .cq-texte-riche .cq-texte-retenir {
+  background: color-mix(in srgb, var(--lime) 8%, var(--surface));
+  border-color: color-mix(in srgb, var(--lime) 30%, var(--line));
+}
+
+.cq-texte-retenir-titre {
+  display: block;
+  margin-bottom: 0.2em;
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] .primary,
+[data-theme="dark"] .cq-app .btn-primary,
+[data-theme="dark"] .cq-bouton-cta,
+[data-theme="dark"] .cq-actions .btn-primary {
+  background: var(--lime) !important;
+  border-color: var(--lime) !important;
+  color: #24331d !important;
+}
+
+[data-theme="dark"] .primary:hover,
+[data-theme="dark"] .cq-app .btn-primary:hover,
+[data-theme="dark"] .cq-bouton-cta:hover {
+  background: #c0e651 !important;
+  border-color: #c0e651 !important;
+  color: #1a2414 !important;
+}
+
+[data-theme="dark"] .darkbtn,
+[data-theme="dark"] .hero .btn {
+  background: var(--lime) !important;
+  border-color: var(--lime) !important;
+  color: #24331d !important;
+}
+
+[data-theme="dark"] :focus-visible {
+  outline-color: var(--lime);
+}
+
+.topbar .brand {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  align-items: center;
+  gap: 0;
+}
+
+.topbar .brand-sub {
+  display: none;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+}
+
+.topbar .header-tools {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.55rem 0.85rem;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  margin-left: auto;
+  max-width: none;
+  min-width: max-content;
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 520px) {
+  .topbar .header-tools {
+    gap: 0.4rem 0.55rem;
+  }
+}
+
+.field-row--session .field {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.quiz-wrap,
+.cq-passation,
+#result.quiz-wrap {
+  max-width: none !important;
+  width: 100%;
+  margin-inline: 0;
+}
+
+.cq-passation {
+  padding-top: 8px;
+  padding-bottom: 2rem;
+}
+
+.cq-passation .cq-carte,
+.cq-passation .cq-carte.cq-question {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: clamp(1.25rem, 2.5vw, 2.5rem);
+  box-shadow: none;
+}
+
+.cq-passation .cq-question-enonce {
+  letter-spacing: -0.03em;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* Shiny radioButtons ? option cards (BS5 .radio AND .form-check) */
+
+.cq-reponse .shiny-options-group,
+.cq-reponse > .form-group > .shiny-options-group,
+.cq-options-corrigees {
+  display: grid !important;
+  gap: 0.65rem;
+  margin-top: 1.35rem;
+  width: 100%;
+}
+
+.cq-reponse .form-group {
+  margin-bottom: 0;
+}
+
+.cq-reponse .radio,
+.cq-reponse .checkbox,
+.cq-option {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  border: 0 !important;
+  background: transparent !important;
+  width: 100%;
+}
+
+.cq-reponse .radio > label,
+.cq-reponse .checkbox > label,
+.cq-option {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 0.9rem;
+  width: 100%;
+  margin: 0;
+  padding: 1rem 1.1rem;
+  min-height: 4.4rem;
+  border: 1px solid var(--line) !important;
+  border-radius: 8px !important;
+  background: var(--surface) !important;
+  color: var(--ink) !important;
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.cq-reponse .radio > label:hover,
+.cq-option:hover {
+  background: var(--soft) !important;
+  border-color: var(--muted) !important;
+}
+
+.cq-reponse .radio input[type="radio"],
+.cq-reponse .checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.cq-reponse .radio:has(input:checked) > label,
+.cq-option.selected {
+  background: var(--soft) !important;
+  border-color: var(--ink) !important;
+}
+
+.cq-reponse .radio:has(input:checked) > label .cq-option-lettre,
+.cq-option.selected .cq-option-lettre {
+  background: var(--ink) !important;
+  color: var(--bg) !important;
+  border-color: var(--ink) !important;
+}
+
+.cq-option-lettre {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  min-width: 2rem;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: transparent;
+  margin-top: 0.1rem;
+}
+
+.cq-option-texte {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.cq-option-corps {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.cq-option-mention {
+  margin-left: 0;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cq-option-icone {
+  margin-left: auto;
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+.cq-option {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  min-height: 4.4rem;
+  border: 1px solid var(--line) !important;
+  border-radius: 8px !important;
+  background: var(--surface) !important;
+}
+
+.cq-option--juste {
+  border-color: var(--good) !important;
+  background: color-mix(in srgb, var(--good) 12%, var(--surface)) !important;
+  color: var(--ink) !important;
+}
+
+.cq-option--juste .cq-option-lettre {
+  border-color: var(--good);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--good) 18%, transparent);
+}
+
+.cq-option--juste .cq-option-mention,
+.cq-option--juste .cq-option-icone {
+  color: var(--ink);
+}
+
+.cq-option--faux {
+  border-color: var(--bad) !important;
+  background: color-mix(in srgb, var(--bad) 10%, var(--surface)) !important;
+}
+
+.cq-option--faux .cq-option-lettre,
+.cq-option--faux .cq-option-mention,
+.cq-option--faux .cq-option-icone {
+  color: var(--muted);
+  border-color: var(--bad);
+}
+
+.cq-option--neutre {
+  opacity: 0.55;
+}
+

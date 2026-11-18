@@ -1,0 +1,43 @@
+Package: candidequizz
+Title: Candide Quizz
+Version: 0.1.0
+Authors@R: 
+    person("L. Gabriel", "Cruz Saavedra", email = "AnotherDataGuy@users.noreply.github.com",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-1079-5639"))
+Description: S'entraîner à l'examen civique : histoire, institutions et
+    valeurs de la République.
+License: AGPL (>= 3)
+Imports: 
+    blob,
+    bsicons,
+    bslib,
+    config,
+    DBI,
+    ellmer,
+    future,
+    glue,
+    htmltools,
+    golem,
+    jsonlite,
+    promises,
+    readxl,
+    rlang,
+    RSQLite,
+    shiny (>= 1.13.0),
+    sodium,
+    stats,
+    tibble,
+    tools,
+    utils,
+    writexl,
+    yaml
+Suggests: 
+    RPostgres,
+    pkgload,
+    testthat (>= 3.0.0),
+    withr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.3
+Config/testthat/edition: 3

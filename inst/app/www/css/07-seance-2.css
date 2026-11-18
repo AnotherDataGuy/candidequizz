@@ -1,0 +1,845 @@
+/* =============================================================================
+   7. Séance : le guichet (questions, réponses, correction) (partie 2 sur 3)
+   ----------------------------------------------------------------------------
+   Feuilles de style de Candide au guichet, une par écran, chargées dans
+   l'ordre de leur numéro (R/app_ui.R). L'ordre compte : une règle n'est
+   placée dans un fichier antérieur que si rien de même force sur la même
+   propriété ne doit passer avant elle.
+   Chargée après 07-seance-1.css.
+   ============================================================================= */
+
+.cq-correction {
+  margin-top: 1.1rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: 10px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ink);
+}
+
+.cq-correction--juste {
+  border-left-color: var(--good);
+}
+
+.cq-correction--faux {
+  border-left-color: var(--bad);
+}
+
+.cq-correction-titre {
+  color: var(--ink);
+  font-size: 1.05rem;
+}
+
+.cq-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-top: 1.25rem;
+}
+
+.cq-actions .btn-primary,
+.cq-actions .cq-bouton-cta {
+  order: 2;
+  margin-left: auto;
+}
+
+.cq-actions .cq-btn-ghost,
+.cq-actions .cq-bouton-secondaire {
+  order: 1;
+}
+
+.cq-actions .cq-bouton-discret,
+.cq-actions .btn-link {
+  order: 3;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.15rem;
+}
+
+.cq-attente {
+  padding: 1.5rem;
+}
+
+.cq-attente-titre {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.cq-attente-piste {
+  height: 4px;
+  background: var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.cq-attente-jauge {
+  height: 100%;
+  width: 40%;
+  background: var(--ink);
+  border-radius: 4px;
+  animation: cq-attente 1.1s ease-in-out infinite;
+}
+
+.cq-chrono {
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.cq-chrono--urgent {
+  color: var(--bad);
+}
+
+@media (max-width: 640px) {
+  .cq-passation .cq-carte.cq-question {
+    padding: 1.15rem 1rem;
+  }
+  .cq-passation .cq-question-enonce {
+    font-size: 1.35rem;
+  }
+  .cq-reponse .radio > label,
+  .cq-option {
+    padding: 0.85rem 0.9rem;
+    min-height: 3.6rem;
+    font-size: 0.98rem;
+  }
+  .cq-option-texte {
+    font-size: 0.98rem;
+  }
+  .cq-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cq-actions .btn-primary,
+  .cq-actions .cq-bouton-cta,
+  .cq-actions .cq-btn-ghost {
+    width: 100%;
+    margin-left: 0;
+    order: 0;
+  }
+}
+
+.cq-app .topbar,
+.shell > .topbar {
+  height: 72px;
+  min-height: 72px;
+  margin-bottom: 0;
+}
+
+.shell > main > .tab-content,
+.shell > main > .tab-content > .tab-pane.active {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.shell > .footer {
+  flex: 0 0 auto;
+  margin-top: 12px;
+  padding-top: 10px;
+  font-size: 11px;
+}
+
+.cq-stats .report-tabs {
+  margin: 4px 0 14px;
+  gap: 18px;
+}
+
+.cq-stats .report-tabs button {
+  padding: 12px 0 10px;
+  font-size: 15px;
+  min-height: 0;
+}
+
+.cq-stats .report-story {
+  padding: 18px 22px;
+  gap: 18px;
+}
+
+.cq-stats .report-grid {
+  gap: 14px;
+}
+
+/* Accueil: fit hero in remaining viewport */
+
+.cq-accueil .hero {
+  min-height: 0;
+  flex: 1 1 auto;
+  align-content: center;
+  gap: 12px;
+}
+
+.cq-accueil .editorial-band {
+  margin: 8px 0 0;
+  padding: 14px 0;
+  gap: 16px;
+}
+
+.cq-accueil .guichet-svg {
+  max-height: min(42dvh, 380px);
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+@media (max-width: 760px) {
+  .cq-app .topbar,
+  .shell > .topbar {
+    height: 64px;
+    min-height: 64px;
+  }
+  .cq-accueil .editorial-band {
+    display: none;
+  }
+  .cq-accueil .guichet-svg {
+    max-height: min(34dvh, 280px);
+  }
+}
+
+.cq-section-seances > .shiny-panel-conditional {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Passation / bilan denser within remaining viewport */
+
+.cq-section-seances .cq-passation {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-top: 4px;
+  padding-bottom: 0.5rem;
+}
+
+.cq-section-seances .cq-passation .cq-progression {
+  margin-bottom: 12px !important;
+}
+
+.cq-section-seances .cq-passation .cq-carte.cq-question {
+  padding: clamp(0.9rem, 1.8vw, 1.5rem);
+}
+
+.cq-section-seances .cq-passation .cq-question-enonce {
+  font-size: clamp(1.2rem, 2.1vw, 1.75rem);
+  margin: 0.65rem 0 0.85rem;
+}
+
+.cq-section-seances .cq-passation .cq-reponse .shiny-options-group,
+.cq-section-seances .cq-passation .cq-options-corrigees {
+  margin-top: 0.75rem;
+  gap: 0.5rem;
+}
+
+.cq-section-seances .cq-passation .cq-reponse :is(.radio, .checkbox) > label,
+.cq-section-seances .cq-passation .cq-option {
+  min-height: 3.4rem;
+  padding: 0.75rem 0.9rem;
+}
+
+/* Passation et lecture des résultats.
+   Les classes sont bornées aux écrans concernés ; les inputs restent natifs. */
+
+.cq-passation.quiz-wrap {
+  max-width: 1060px !important;
+  margin-inline: auto;
+}
+
+.cq-passation .cq-progression {
+  margin-bottom: 24px;
+}
+
+.cq-passation .cq-carte.cq-question {
+  border-radius: 20px;
+  padding: clamp(22px, 4vw, 48px);
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.cq-diagnostic-confusion {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--amber, #8a6a2b);
+  background: color-mix(in srgb, var(--amber, #8a6a2b) 10%, transparent);
+}
+
+.cq-passation .cq-question-enonce {
+  font-size: clamp(25px, 2.8vw, 37px);
+  line-height: 1.3;
+  max-width: 34ch;
+  margin: 24px 0 30px;
+  text-wrap: pretty;
+}
+
+.cq-passation .cq-reponse .control-label {
+  font-weight: 500;
+  color: var(--muted);
+  margin: 0;
+}
+
+.cq-passation .cq-reponse .shiny-options-group,
+.cq-passation .cq-options-corrigees {
+  gap: 12px;
+  margin-top: 14px;
+}
+
+/* Shiny wraps choiceNames in a span: flex must also reach that wrapper. */
+
+.cq-passation .cq-reponse :is(.radio, .checkbox) > label > span {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+}
+
+.cq-passation .cq-reponse :is(.radio, .checkbox) > label::after {
+  content: "";
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  margin-left: auto;
+}
+
+.cq-passation .cq-reponse .checkbox > label::after {
+  border-radius: 5px;
+}
+
+.cq-passation .cq-reponse :is(.radio, .checkbox, .form-check):has(input:focus-visible) {
+  outline: 3px solid var(--plot, #718c54);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+.cq-passation .cq-option-lettre {
+  border-radius: 9px;
+  background: var(--bg);
+  width: 34px;
+  height: 34px;
+  margin: 0;
+}
+
+.cq-passation .cq-reponse .checkbox:has(input:checked) .cq-option-lettre {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.cq-passation .cq-option-texte {
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.cq-passation .cq-option--neutre {
+  opacity: .75;
+}
+
+.cq-passation .cq-options-corrigees .cq-option {
+  cursor: default;
+}
+
+.cq-passation .cq-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.cq-passation .cq-actions .cq-bouton-cta {
+  min-height: 50px;
+  border-radius: 12px;
+  padding-inline: 26px;
+}
+
+.cq-passation .cq-actions .cq-bouton-discret {
+  margin-left: auto;
+  font-size: 12px;
+}
+
+.cq-category-detail {
+  display: flex;
+  gap: 5px 14px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Plein écran : guichet dessiné en CSS et mots du classeur, sans média réseau. */
+
+dialog.cq-loading {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  border: 0;
+  background: var(--bg);
+  color: var(--ink);
+  overflow: auto;
+}
+
+dialog.cq-loading::backdrop {
+  background: var(--bg);
+}
+
+.cq-loading-frame {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(20px, 4vw, 54px);
+}
+
+.cq-loading-header,
+.cq-loading-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.cq-loading-ticket {
+  font-size: 11px;
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  border-radius: 30px;
+}
+
+.cq-loading-stage {
+  flex: 1;
+  min-height: 340px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  margin: 24px 0;
+}
+
+.cq-loading-arch {
+  position: absolute;
+  inset: 2% 30% 0;
+  border: 1px solid var(--muted);
+  border-radius: 220px 220px 0 0;
+  opacity: .3;
+  z-index: -1;
+}
+
+.cq-loading-arch::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid var(--muted);
+  border-radius: inherit;
+  background: linear-gradient(135deg, transparent 30%, var(--soft) 30% 60%, transparent 60%);
+}
+
+.cq-loading-arch::after {
+  content: "";
+  position: absolute;
+  left: -12%;
+  right: -12%;
+  bottom: 10%;
+  border-top: 8px solid var(--ink);
+}
+
+.cq-loading-orbit {
+  position: absolute;
+  inset: 12% 4%;
+  border: 1px dashed var(--muted);
+  border-radius: 50%;
+  transform: rotate(-12deg);
+  opacity: .3;
+  z-index: -1;
+}
+
+.cq-loading-star {
+  position: absolute;
+  left: 8%;
+  top: 8%;
+  font-size: 70px;
+  color: var(--orange);
+  animation: cq-star-turn 24s linear infinite;
+}
+
+.cq-loading-stamp {
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
+  border: 1px solid var(--muted);
+  border-radius: 50%;
+  padding: 28px 15px;
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-align: center;
+  white-space: pre-line;
+  transform: rotate(12deg);
+}
+
+.cq-loading-question {
+  display: none;
+  width: min(920px, 88%);
+  text-align: center;
+}
+
+.cq-loading-question.is-active {
+  display: block;
+}
+
+.cq-loading-index {
+  display: block;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: .22em;
+  margin-bottom: 28px;
+  color: var(--muted);
+}
+
+.cq-loading-words {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0 14px;
+  line-height: 1.3;
+}
+
+.cq-loading-word {
+  display: inline-block;
+  font-size: clamp(25px, 3.5vw, 58px);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  animation: cq-word-arrive .9s both cubic-bezier(.2,.8,.2,1);
+  animation-delay: var(--word-delay);
+}
+
+.cq-loading-word.word-1 {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: clamp(33px, 5vw, 76px);
+  font-weight: 400;
+}
+
+.cq-loading-word.word-2 {
+  font-size: clamp(22px, 2.8vw, 43px);
+  color: var(--muted);
+}
+
+.cq-loading-word.word-3 {
+  background: var(--lime);
+  color: #20291f;
+  padding: 0 9px;
+  transform: rotate(-2deg);
+}
+
+.cq-loading-footer {
+  text-align: center;
+  max-width: 1040px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.cq-loading-footer h2 {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: clamp(22px, 2.5vw, 32px);
+}
+
+.cq-loading-rail {
+  height: 3px;
+  background: var(--line);
+  overflow: hidden;
+  margin: 24px 0 18px;
+}
+
+.cq-loading-rail span {
+  display: block;
+  width: 25%;
+  height: 100%;
+  background: var(--ink);
+  animation: cq-rail 3s ease-in-out infinite alternate;
+}
+
+.cq-loading-bottom {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: left;
+}
+
+.cq-loading-pause {
+  padding: 8px 0;
+  text-decoration: underline;
+  font-size: 11px;
+}
+
+.cq-loading.is-paused *,
+.cq-loading.is-paused *::before {
+  animation-play-state: paused !important;
+}
+
+.cq-loading.is-paused .cq-loading-word {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+@media (max-width: 600px) {
+  .cq-passation .cq-question-enonce {
+    font-size: 25px;
+    margin-block: 20px;
+  }
+  .cq-passation .cq-reponse :is(.radio, .checkbox) > label > span {
+    gap: 11px;
+  }
+  .cq-passation .cq-option-texte {
+    font-size: 14px;
+  }
+  .cq-passation .cq-actions .cq-bouton-discret {
+    margin-left: 0;
+  }
+  .cq-loading-stage {
+    min-height: 350px;
+    margin-block: 10px;
+  }
+  .cq-loading-arch {
+    inset-inline: 14%;
+  }
+  .cq-loading-star {
+    left: 0;
+    top: 0;
+    font-size: 45px;
+  }
+  .cq-loading-stamp {
+    right: 0;
+    bottom: 0;
+    padding: 18px 9px;
+    font-size: 7px;
+  }
+  .cq-loading-question {
+    width: 100%;
+  }
+  .cq-loading-words {
+    gap: 2px 8px;
+  }
+  .cq-loading-bottom {
+    align-items: start;
+  }
+  .cq-loading-bottom > span {
+    max-width: 55%;
+  }
+  .cq-loading-header .eyebrow {
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cq-loading *,
+  .cq-loading *::before {
+    animation: none !important;
+  }
+}
+
+.cq-carousel-slide:focus-visible {
+  outline: 2px solid var(--ink, #29352a);
+  outline-offset: 3px;
+}
+
+@media (max-width: 576px) {
+  .modal-dialog:has(.cq-theme-modal) {
+    margin: 0;
+    max-width: none;
+    min-height: 100%;
+  }
+}
+
+.cq-app .shell {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.cq-app .cq-accueil .guichet-scene {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 56%;
+  height: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.cq-app .cq-accueil .guichet-svg {
+  /* Boîte = largeur de la colonne, plafonnée à la hauteur du héros moins
+     le bouton !important; le dessin s'y centre en gardant ses proportions. */
+  flex: 0 1 auto;
+  width: 100%;
+  height: auto;
+  max-width: 720px;
+  max-height: calc(100% - 96px);
+}
+
+/* Le bouton « Et si on ouvrait ? » reste cliquable, au pied de l'image. */
+
+.cq-app .cq-accueil .scene-controls {
+  flex: none;
+  pointer-events: auto;
+  margin-top: 4px;
+}
+
+/* Aujourd'hui « Je me prépare » et « C'est parti » sont blancs, « Valider »
+   est citron : une seule règle pour tous les boutons principaux. */
+
+.cq-app .btn.primary,
+.cq-app .btn.btn-primary,
+.cq-app .cq-bouton-cta {
+  background: var(--lime) !important;
+  border-color: var(--lime) !important;
+  color: #24331d !important;
+}
+
+.cq-app .btn.primary:hover,
+.cq-app .btn.btn-primary:hover,
+.cq-app .cq-bouton-cta:hover {
+  background: #c0e651 !important;
+  border-color: #c0e651 !important;
+  color: #24331d !important;
+}
+
+[data-theme="dark"] .cq-app .btn.primary,
+[data-theme="dark"] .cq-app .btn.btn-primary,
+[data-theme="dark"] .cq-app .cq-bouton-cta {
+  color: #1c261d !important;
+}
+
+.cq-app .cq-question {
+  position: relative !important;
+}
+
+.cq-app .cq-question > .textbtn {
+  position: absolute !important;
+  top: 28px !important;
+  right: 32px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: var(--muted) !important;
+}
+
+.cq-app .cq-question > .textbtn:hover {
+  text-decoration: underline !important;
+  background: none !important;
+}
+
+@media (min-width: 700px) and (max-width: 1023px) {
+  .cq-app .cq-accueil .guichet-scene {
+    width: 46%;
+  }
+  .cq-app .hero-micro {
+    display: none;
+  }
+}
+
+@media (max-width: 699px) {
+  .cq-app .why-label {
+    display: none;
+  }
+  .cq-app .cq-accueil .guichet-scene {
+    position: relative;
+    right: auto;
+    width: 100%;
+    height: auto;
+    margin-top: 32px;
+    pointer-events: auto;
+  }
+  .cq-app .cq-accueil .guichet-svg {
+    flex: none;
+    width: 100%;
+    height: auto;
+    max-height: 360px;
+  }
+  .cq-app .dock-nav {
+    flex: 1;
+    gap: 2px;
+  }
+  .cq-app .dock-nav > button,
+  .cq-app .dock-nav > button.dock-item {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 54px;
+    padding: 6px 2px;
+    gap: 4px;
+    font-size: 11px;
+    border-radius: 14px;
+  }
+}
+
+/* Onglets : contrôle segmenté */
+
+.cq-app .report-tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  margin: 8px 0 24px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.cq-app .report-tabs > button {
+  padding: 9px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Le récit : texte à gauche, score dans une fenêtre de guichet à droite */
+
+.cq-app .report-story {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 28px;
+  align-items: stretch;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.cq-app .story-actions {
+  margin-top: 22px;
+  gap: 18px;
+}
+
+.cq-app .score-island {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 44px 20px 22px;
+  background: var(--dark);
+  color: #f4f5e7;
+  border-radius: 140px 140px 22px 22px;
+  text-align: center;
+}
+

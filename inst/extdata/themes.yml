@@ -1,0 +1,72 @@
+# Contenu des fenêtres « thème » ouvertes depuis le carrousel de l'accueil.
+#
+# Éditable sans toucher au code : modifiez les textes, puis redémarrez
+# l'application. Les sous-thèmes et le nombre de questions viennent de la
+# banque ; ce fichier ne porte que l'accroche et les repères à retenir.
+# Règle de rédaction : des faits stables et vérifiables, un ton neutre.
+
+themes:
+  REHF:
+    accroche: >
+      Des grandes dates aux moments fondateurs : les repères qui racontent
+      l'histoire de France.
+    a_retenir:
+      - "1789 : début de la Révolution française et Déclaration des droits de l'homme et du citoyen."
+      - "1905 : loi de séparation des Églises et de l'État."
+      - "1958 : naissance de la Ve République."
+  PRVS:
+    accroche: >
+      Les valeurs et les symboles qui rassemblent les citoyens, et les règles
+      qui protègent les libertés.
+    a_retenir:
+      - "La devise de la République : Liberté, Égalité, Fraternité."
+      - "Les symboles : le drapeau tricolore, La Marseillaise, Marianne et le 14 Juillet."
+      - "La laïcité garantit la liberté de conscience et la neutralité de l'État."
+  INPO:
+    accroche: >
+      Qui décide, qui vote la loi, qui juge : le fonctionnement des
+      institutions, de l'État jusqu'à la commune.
+    a_retenir:
+      - "Le Président de la République est élu au suffrage universel direct pour cinq ans."
+      - "Le Parlement est composé de l'Assemblée nationale et du Sénat."
+      - "Le territoire est organisé en communes, départements et régions."
+  CIDD:
+    accroche: >
+      Être citoyen, c'est avoir des droits et des devoirs : voter, respecter
+      la loi, participer à la vie commune.
+    a_retenir:
+      - "Le droit de vote est ouvert aux citoyens français à partir de 18 ans."
+      - "Respecter la loi et contribuer aux dépenses publiques font partie des devoirs du citoyen."
+      - "L'égalité entre les femmes et les hommes est un principe fondamental."
+  SOCF:
+    accroche: >
+      L'école, le travail, la santé, la culture : la vie quotidienne et le
+      patrimoine partagé.
+    a_retenir:
+      - "L'instruction est obligatoire de 3 à 16 ans."
+      - "La Sécurité sociale protège face à la maladie, à la vieillesse et aux charges de famille."
+      - "Monuments, musées, littérature, cinéma, gastronomie : un patrimoine vivant et varié."
+  GEOG:
+    accroche: >
+      Montagnes, fleuves, littoraux et territoires d'outre-mer : la France et
+      ses paysages.
+    a_retenir:
+      - "La France compte 18 régions, dont 13 en métropole."
+      - "Les grands fleuves : la Loire, la Seine, le Rhône et la Garonne."
+      - "Le plus haut sommet est le mont Blanc, dans les Alpes."
+  ECON:
+    accroche: >
+      Agriculture, industrie, services, finances publiques : comment
+      l'économie française fonctionne.
+    a_retenir:
+      - "Une économie diversifiée : agriculture, industrie, services et tourisme."
+      - "L'euro est la monnaie de la France ; pièces et billets circulent depuis 2002."
+      - "Les impôts financent les services publics et la solidarité."
+  FUEM:
+    accroche: >
+      La France dans l'Union européenne et dans le monde : institutions,
+      droits des citoyens européens, coopération internationale.
+    a_retenir:
+      - "La France est l'un des six pays fondateurs de la construction européenne."
+      - "Le Parlement européen est élu au suffrage universel direct."
+      - "La France est membre permanent du Conseil de sécurité des Nations unies."

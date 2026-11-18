@@ -1,0 +1,41 @@
+# Secrets : ne jamais versionner
+.Renviron
+.Renviron.*
+!.Renviron.example
+.env
+*.key
+
+# Données locales et journaux
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.log
+data/
+
+# Déploiement (nom de compte, identifiant d'application)
+rsconnect/
+
+# Notes et scripts internes (déploiement, décisions, outils de la banque) :
+# gardés sur l'ordinateur, jamais publiés.
+dev/
+PLAN_ADAPTATION_FIABLE.md
+
+# Copies de sauvegarde et brouillons locaux (jamais publiés)
+_sauvegarde*/
+_a_supprimer/
+
+# R / RStudio
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rcheck/
+*.tar.gz
+
+# Système
+.DS_Store
+Thumbs.db
+.Rproj.user
+.httr-oauth
+.quarto

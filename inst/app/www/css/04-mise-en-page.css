@@ -1,0 +1,702 @@
+/* =============================================================================
+   4. Mise en page : coque, en-tête, dock, rail, pied de page
+   ----------------------------------------------------------------------------
+   Feuilles de style de Candide au guichet, une par écran, chargées dans
+   l'ordre de leur numéro (R/app_ui.R). L'ordre compte : une règle n'est
+   placée dans un fichier antérieur que si rien de même force sur la même
+   propriété ne doit passer avant elle.
+   Chargée après 03-accueil-2.css.
+   ============================================================================= */
+
+.footer {
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.skip-link {
+  position: fixed;
+  left: 20px;
+  top: -100px;
+  z-index: 100;
+  background: var(--lime);
+  color: #222;
+  padding: 12px;
+}
+
+.skip-link:focus {
+  top: 10px;
+}
+
+@media (min-width:1600px) {
+  .shell {
+    margin-inline: auto;
+  }
+}
+
+@media (max-width:1150px) {
+  .brand {
+    font-size: 16px;
+  }
+  .shell {
+    padding-inline: 25px;
+  }
+}
+
+@media (max-width:900px) {
+  .shell {
+    padding-inline: 24px;
+  }
+}
+
+@media (max-width:640px) {
+  .shell {
+    margin: 0 auto;
+    padding: 0 18px 20px;
+  }
+  .topbar {
+    height: 77px;
+    margin-bottom: 24px;
+  }
+  .topbar .pill {
+    display: none;
+  }
+  .topbar .row {
+    gap: 9px;
+  }
+  .footer {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.shell {
+  margin-left: 0;
+  margin-right: auto;
+  margin-inline: auto;
+}
+
+.shell {
+  padding: 0 clamp(22px,5vw,88px) 32px;
+}
+
+.topbar {
+  height: 112px;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--ink);
+}
+
+.brand {
+  gap: 18px;
+}
+
+.brand-period {
+  color: var(--red);
+}
+
+.brand-sub {
+  border-left: 1px solid var(--line);
+  padding-left: 18px;
+  font-size: 11px;
+  letter-spacing: .15em;
+  line-height: 1.8;
+  font-weight: 600;
+}
+
+.brand-sub>span {
+  font-size: 8px;
+  letter-spacing: .08em;
+  color: var(--muted);
+}
+
+.header-tools {
+  gap: 24px;
+}
+
+.header-tools .textbtn {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.header-tools .textbtn span {
+  color: var(--red);
+}
+
+.page-rail {
+  display: flex;
+  justify-content: space-between;
+}
+
+.page-rail .eyebrow {
+  font-size: 11px;
+}
+
+.rail-note {
+  font-size: 9px;
+  letter-spacing: .1em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.rail-note i {
+  display: block;
+  width: 5px;
+  height: 5px;
+  background: var(--red);
+  border-radius: 50%;
+}
+
+.footer {
+  font-size: 12px;
+  margin-top: 37px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.dock {
+  position: fixed;
+  z-index: 30;
+  bottom: max(20px,env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 32px);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 25px;
+  background: var(--glass);
+  backdrop-filter: blur(22px) saturate(1.2);
+  -webkit-backdrop-filter: blur(22px) saturate(1.2);
+  box-shadow: 0 8px 36px #13211024,inset 0 1px #ffffff42;
+}
+
+.dock-nav {
+  display: flex;
+  gap: 5px;
+}
+
+.dock-nav>button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 12px 22px;
+  border-radius: 17px;
+  font-size: 14px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.dock-nav>button:hover {
+  background: var(--soft);
+}
+
+.dock-nav>button[aria-current="page"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.dock-nav>button .icon {
+  width: 19px;
+  height: 19px;
+}
+
+.dock-toggle {
+  border-left: 1px solid var(--line);
+  padding: 12px;
+  min-width: 47px;
+  min-height: 47px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.dock-toggle .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.dock-reopen {
+  display: none;
+}
+
+.dock.is-collapsed {
+  border-radius: 99px;
+  padding: 4px 8px;
+}
+
+.dock.is-collapsed .dock-toggle {
+  border: 0;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.dock.is-collapsed .dock-toggle .icon {
+  transform: rotate(180deg);
+}
+
+.dock.is-collapsed .dock-reopen {
+  display: inline;
+}
+
+.heading>.muted,
+.heading p.muted {
+  font-size: 16px;
+}
+
+.segments button {
+  font-size: 15px;
+  min-height: 49px;
+  border-radius: 6px;
+}
+
+@media (max-width:1050px) {
+  .dock-nav>button {
+    padding-inline: 17px;
+  }
+  .footer {
+    padding-bottom: 10px;
+  }
+}
+
+@media (max-width:760px) {
+  .shell {
+    padding-inline: 24px;
+  }
+  .topbar {
+    height: 96px;
+  }
+  .brand-sub {
+    display: none;
+  }
+  .header-tools {
+    gap: 15px;
+  }
+  .header-tools .textbtn {
+    font-size: 12px;
+  }
+  .page-rail {
+    padding: 17px 0;
+  }
+  .rail-note {
+    font-size: 8px;
+  }
+  .rail-note i,
+  .rail-note {
+    gap: 5px;
+  }
+  .dock {
+    bottom: max(14px,env(safe-area-inset-bottom));
+    border-radius: 21px;
+    gap: 2px;
+    padding: 7px;
+    max-width: calc(100vw - 22px);
+  }
+  .dock-nav {
+    gap: 2px;
+    flex: 1;
+  }
+  .dock-nav>button {
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    min-height: 56px;
+    padding: 9px 14px;
+    font-size: 11px;
+    border-radius: 14px;
+  }
+  .dock-toggle {
+    min-width: 35px;
+    padding: 8px;
+  }
+  .dock-nav>button .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .dock.is-collapsed .dock-toggle {
+    padding: 10px 15px;
+  }
+  .heading p.muted {
+    font-size: 16px;
+  }
+  .footer {
+    font-size: 11px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .segments button {
+    font-size: 14px;
+  }
+}
+
+@media (max-width:410px) {
+  .shell {
+    padding-inline: 19px;
+  }
+  .header-tools {
+    gap: 9px;
+  }
+  .header-tools .why {
+    font-size: 11px;
+  }
+  .page-rail .eyebrow {
+    font-size: 9px;
+  }
+  .rail-note i {
+    display: none;
+  }
+  .rail-note {
+    font-size: 7px;
+    max-width: 145px;
+    text-align: right;
+  }
+  .dock-nav>button {
+    padding-inline: 10px;
+    font-size: 10px;
+  }
+  .dock-toggle {
+    min-width: 29px;
+    padding: 6px;
+  }
+  .dock {
+    gap: 0;
+  }
+}
+
+@media (max-width:350px) {
+  .dock-nav>button {
+    padding-inline: 7px;
+    font-size: 9px;
+  }
+  .header-tools .why {
+    max-width: 85px;
+    text-align: right;
+  }
+  .brand {
+    gap: 0;
+  }
+}
+
+.stack>* {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.source-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 260px;
+}
+
+.next-strip .eyebrow {
+  font-size: 10px;
+  color: var(--red);
+}
+
+@media (max-width:760px) {
+  .source-label {
+    max-width: none;
+    font-size: 11px;
+  }
+}
+
+.dock-nav > button.dock-item:hover {
+  background: var(--soft);
+}
+
+.dock-nav > button.dock-item[aria-current="page"],
+.dock-nav > button.dock-item.is-actif {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.dock.is-collapsed .dock-nav {
+  display: none;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+[data-theme="dark"] .dock-nav > button[aria-current="page"],
+[data-theme="dark"] .dock-nav > button.dock-item.is-actif {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #24331d;
+}
+
+[data-theme="dark"] .brand-period,
+[data-theme="dark"] .edition-number {
+  color: var(--lime);
+}
+
+[data-theme="dark"] .rail-note i {
+  background: var(--lime);
+}
+
+html,
+body,
+.cq-app {
+  max-width: 100%;
+}
+
+.shell > main,
+.shell .footer {
+  overflow-x: clip;
+}
+
+.topbar {
+  display: flex !important;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+  overflow: visible;
+}
+
+.topbar .wordmark {
+  font-size: clamp(1.6rem, 3.6vw, 2.5rem);
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+}
+
+.topbar .header-tools .why .why-label {
+  display: inline;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+  max-width: none;
+}
+
+.topbar .header-tools .why .why-arrow {
+  flex: 0 0 auto;
+  color: var(--red);
+}
+
+[data-theme="dark"] .topbar .header-tools .why,
+[data-theme="dark"] .topbar .header-tools .why .why-label {
+  color: var(--ink);
+}
+
+[data-theme="dark"] .topbar .header-tools .why .why-arrow {
+  color: var(--lime);
+}
+
+@media (max-width: 520px) {
+  .topbar .wordmark {
+    font-size: 1.35rem;
+  }
+}
+
+.modes {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100%;
+}
+
+.modes .radio > label,
+.modes .shiny-options-group label {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100%;
+  min-height: 108px !important;
+  box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.25rem;
+  padding: 0.85rem 0.9rem !important;
+  text-align: left;
+  white-space: normal;
+}
+
+@media (max-width: 900px) {
+  .modes .radio > label,
+  .modes .shiny-options-group label {
+    min-height: 0 !important;
+    padding: 0.8rem 0.9rem 0.8rem 3rem !important;
+  }
+}
+
+.shell {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding-inline: clamp(16px, 2.5vw, 40px);
+}
+
+.page-rail {
+  padding: 10px 0;
+  gap: 10px;
+}
+
+.shell {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100dvh;
+  padding-bottom: calc(var(--cq-dock-clearance) + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+}
+
+.shell > main {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Section roots fill remaining viewport */
+
+.cq-accueil,
+.cq-section-seances,
+.cq-stats,
+.cq-ressources {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 576px) {
+  .cq-theme-modal-art {
+    max-height: 35vh;
+  }
+}
+
+/* Le contenu ne passe jamais sous le dock flottant. */
+
+.cq-app .shell {
+  padding-bottom: 120px;
+}
+
+@media (max-width: 699px) {
+  .cq-app .shell {
+    padding-bottom: 110px;
+  }
+  /* En-tête : une seule ligne. */
+  .cq-app .page-rail .rail-note {
+    display: none;
+  }
+  /* Dock : toute la largeur, quatre entrées égales, libellés courts lisibles. */
+  .cq-app .dock {
+    left: 8px;
+    right: 8px;
+    transform: none;
+    max-width: none;
+    width: auto;
+    padding: 6px;
+  }
+  .cq-app .dock-nav > button span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+  .cq-app .dock-toggle {
+    min-width: 30px;
+    padding: 6px !important;
+  }
+}
+
+/* Le conteneur principal reçoit le focus par programme (tabindex=-1) :
+   pas de cadre de focus autour de toute la page quand on tape au clavier. */
+
+main#main:focus,
+main#main:focus-visible {
+  outline: none;
+}
+
+body:has(.tab-pane.active .shiny-conditional--shown[data-display-if*="passation"]) .page-rail,
+body:has(.tab-pane.active .shiny-conditional--shown[data-display-if*="passation"]) .footer {
+  display: none;
+}
+
+body:has(.tab-pane.active .shiny-conditional--shown[data-display-if*="passation"]) .topbar {
+  height: 54px;
+  min-height: 0;
+  margin-bottom: 10px;
+}
+
+/* Le bouton Progression qui apparaît dans le dock. */
+
+.cq-app .dock-item.is-nouveau {
+  animation: cq-dock-nouveau 1.4s ease-in-out 3;
+}
+
+.cq-app:has(.tab-pane.active[data-value="accueil"]) .shell {
+  padding-bottom: var(--cq-accueil-dock);
+}
+
+@media (min-width: 861px) {
+  .cq-app:has(.tab-pane.active[data-value="accueil"]) .shell {
+    min-height: calc(100dvh / var(--cq-zoom, 1));
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Pied de page : à hauteur du dock, de part et d'autre (il ne prend plus de ligne). */
+  .cq-app:has(.tab-pane.active[data-value="accueil"]) .footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 14px;
+    z-index: 1;
+    margin: 0;
+    padding: 0 clamp(18px, 3vw, 42px);
+    border: 0;
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 861px) and (max-width: 1499px) {
+  /* Écrans moyens : le dock laisse peu de place sur les côtés. On garde la seule
+   mention qui compte (« Application indépendante… »), à gauche du dock. */
+  .cq-app:has(.tab-pane.active[data-value="accueil"]) .footer {
+    justify-content: flex-start;
+  }
+  .cq-app:has(.tab-pane.active[data-value="accueil"]) .footer > span:first-child {
+    display: none;
+  }
+  .cq-app:has(.tab-pane.active[data-value="accueil"]) .footer > span:last-child {
+    max-width: calc(50vw / var(--cq-zoom, 1) - 380px);
+    min-width: 140px;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 860px) {
+  /* Écrans bas : on retire les mentions décoratives avant de rapetisser le contenu. */
+  .cq-app:has(.tab-pane.active[data-value="accueil"]) .shell {
+    min-height: 100dvh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: calc(var(--cq-accueil-dock) - 8px);
+  }
+  .cq-app:has(.tab-pane.active[data-value="accueil"]) .footer {
+    margin-top: 8px;
+    padding-top: 6px;
+    gap: 2px;
+  }
+}
+

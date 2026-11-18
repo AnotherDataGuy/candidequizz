@@ -1,0 +1,76 @@
+/* =============================================================================
+   1. Jetons : couleurs et réglages communs (thème clair, puis sombre)
+   ----------------------------------------------------------------------------
+   Feuilles de style de Candide au guichet, une par écran, chargées dans
+   l'ordre de leur numéro (R/app_ui.R). L'ordre compte : une règle n'est
+   placée dans un fichier antérieur que si rien de même force sur la même
+   propriété ne doit passer avant elle.
+   Chargée en premier : les autres fichiers lisent ces variables.
+   ============================================================================= */
+
+:root {
+  --good: #25663d;
+  --bad: #a2392c;
+  --shadow: 0 12px 35px #22331a08;
+  --bg: #f3f1e5;
+  --surface: #faf9f0;
+  --ink: #29352a;
+  --muted: #68705e;
+  --line: #d7d9c9;
+  --soft: #e7ead8;
+  --lime: #d3e99d;
+  --orange: #ef9775;
+  --dark: #2c3b2d;
+  --red: #a34e38;
+  --glass: rgba(250,249,240,.84);
+  --plot: #718c54;
+  --warm: #b96d52;
+  --amber: #be994f;
+  --report-paper: #fafbf4;
+  --g-juste: #3f6b2e;
+  --g-faux: #a34e38;
+  --g-partiel: #8a6a1f;
+  --g-juste-fond: #e3ebd2;
+  --g-faux-fond: #f5e6df;
+  --g-talon-juste: #d6e6b5;
+  --g-talon-faux: #ecd2c7;
+  --g-talon-passee: #e4e1d3;
+  --g-papier: #f9f7ef;
+  --g-melange: multiply;
+  --cq-dock-clearance: 110px;
+  --cq-chrome-top: 148px;
+  --g-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --g-serif: Georgia, "Times New Roman", serif;
+}
+
+[data-theme="dark"] {
+  --good: #c5d9a3;
+  --bad: #a8b090;
+  --shadow: none;
+  --bg: #121612;
+  --surface: #1a1f1a;
+  --ink: #f1f2e8;
+  --muted: #a8b09a;
+  --line: #3a4236;
+  --soft: #252b22;
+  --lime: #d3e99d;
+  --orange: #c5d4a8;
+  --dark: #0c0f0c;
+  --red: #c9d4a6;
+  --glass: rgba(26, 31, 26, 0.92);
+  --plot: #c5d9a3;
+  --warm: #b8c49a;
+  --amber: #c9d4a6;
+  --report-paper: #171c16;
+  --g-juste: #b9d58f;
+  --g-faux: #e6a38c;
+  --g-partiel: #dcc078;
+  --g-juste-fond: #27331f;
+  --g-faux-fond: #3a2822;
+  --g-talon-juste: #4a6136;
+  --g-talon-faux: #6b3f31;
+  --g-talon-passee: #3a4236;
+  --g-papier: var(--surface);
+  --g-melange: normal;
+}
+

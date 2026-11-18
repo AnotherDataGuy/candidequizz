@@ -1,0 +1,345 @@
+/* =============================================================================
+   11. Ressources
+   ----------------------------------------------------------------------------
+   Feuilles de style de Candide au guichet, une par écran, chargées dans
+   l'ordre de leur numéro (R/app_ui.R). L'ordre compte : une règle n'est
+   placée dans un fichier antérieur que si rien de même force sur la même
+   propriété ne doit passer avant elle.
+   Chargée après 10-avis.css.
+   ============================================================================= */
+
+.res-v3 {
+  --res-sceau-1: #f6d9c8;
+  --res-sceau-2: #e7ead8;
+  --res-sceau-3: #dcd9ea;
+  --res-sceau-4: #f3e3b8;
+  --res-sceau-5: #d6e6ef;
+  padding-bottom: 32px;
+}
+
+[data-theme="dark"] .res-v3 {
+  --res-sceau-1: #5a3d30;
+  --res-sceau-2: #3a4a36;
+  --res-sceau-3: #403c55;
+  --res-sceau-4: #55492a;
+  --res-sceau-5: #2f4652;
+}
+
+.res-v3 .eyebrow {
+  margin: 0 0 14px;
+}
+
+.res-v3 .res-accent {
+  color: var(--red, #a34e38);
+}
+
+.res-entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 36px 0 36px;
+}
+
+.res-entete-titre {
+  flex: 1 1 480px;
+  min-width: 0;
+}
+
+.res-entete h1 {
+  font-size: clamp(36px, 4.4vw, 60px);
+  line-height: 1.03;
+  letter-spacing: -.03em;
+  font-weight: 600;
+}
+
+.res-entete h1 em,
+.res-typologie h2 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+}
+
+.res-chapeau {
+  margin-top: 16px;
+  max-width: 540px;
+  font-size: 17px;
+  color: var(--muted);
+}
+
+.res-recherche {
+  flex: 0 1 380px;
+  min-width: 0;
+}
+
+.res-recherche label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.res-recherche input {
+  display: block;
+  width: 100%;
+  min-height: 50px;
+  margin-top: 8px;
+  padding: 0 20px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.res-vedettes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding-bottom: 48px;
+}
+
+.res-vedette {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 200px;
+  padding: 28px 30px;
+  border-radius: 20px;
+  background: var(--lime);
+  color: #24331d;
+  text-decoration: none;
+  transition: transform .18s;
+}
+
+.res-vedette:hover {
+  transform: translateY(-2px);
+  color: #24331d;
+}
+
+.res-vedette .eyebrow {
+  margin: 0;
+}
+
+.res-vedette strong {
+  font-family: Georgia, serif;
+  font-size: clamp(24px, 2.4vw, 31px);
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.res-vedette-texte {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.res-vedette-ouvrir {
+  margin-top: auto;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.res-vedette.is-sombre {
+  background: var(--dark, #2c3b2d);
+  color: #f3f1e5;
+}
+
+.res-vedette.is-sombre:hover {
+  color: #f3f1e5;
+}
+
+.res-vedette.is-sombre .eyebrow,
+.res-vedette.is-sombre .res-vedette-ouvrir {
+  color: #d3e99d;
+}
+
+.res-vedette.is-sombre .res-vedette-texte {
+  color: #c9d2c0;
+}
+
+[data-theme="dark"] .res-vedette.is-sombre {
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.res-groupe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+  padding: 40px 0;
+  border-top: 1px solid var(--ink);
+}
+
+.res-groupe-tete {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.res-numero {
+  font-family: Georgia, serif;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--red, #a34e38);
+}
+
+.res-groupe-tete h2 {
+  margin: 10px 0 10px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+}
+
+.res-groupe-tete p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.res-liste {
+  flex: 2 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.res-lien {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 44px;
+  padding: 16px 6px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background .18s;
+}
+
+.res-lien:hover {
+  background: var(--soft);
+  color: var(--ink);
+}
+
+.res-lien:hover .res-source {
+  color: var(--ink);
+}
+
+.res-sceau {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  letter-spacing: .02em;
+  background: var(--res-sceau-1);
+}
+
+.res-g2 .res-sceau {
+  background: var(--res-sceau-2);
+}
+
+.res-g3 .res-sceau {
+  background: var(--res-sceau-3);
+}
+
+.res-g4 .res-sceau {
+  background: var(--res-sceau-4);
+}
+
+.res-g5 .res-sceau {
+  background: var(--res-sceau-5);
+}
+
+.res-texte {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.res-texte strong {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.res-texte span {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.res-source {
+  flex: none;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.res-typologie {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 24px 56px;
+  margin-top: 24px;
+  padding: 40px 44px;
+  border-radius: 20px;
+  background: var(--soft);
+}
+
+.res-typologie h2 {
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -.02em;
+}
+
+.res-typologie-tete > p:not(.eyebrow) {
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.res-typologie-raisons {
+  margin: 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.res-typologie-raisons li::marker {
+  font-family: Georgia, serif;
+  color: var(--red, #a34e38);
+}
+
+.res-typologie-pied {
+  grid-column: 1 / -1;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+@media (max-width: 699px) {
+  .res-entete {
+    padding: 20px 0 24px;
+  }
+  .res-groupe {
+    padding: 28px 0;
+  }
+  .res-source {
+    display: none;
+  }
+  .res-typologie {
+    grid-template-columns: 1fr;
+    padding: 28px 22px;
+  }
+}
+

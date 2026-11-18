@@ -1,0 +1,554 @@
+/* =============================================================================
+   3. Accueil : héros, carrousel, fenêtres des thèmes, manifeste (partie 2 sur 2)
+   ----------------------------------------------------------------------------
+   Feuilles de style de Candide au guichet, une par écran, chargées dans
+   l'ordre de leur numéro (R/app_ui.R). L'ordre compte : une règle n'est
+   placée dans un fichier antérieur que si rien de même force sur la même
+   propriété ne doit passer avant elle.
+   Chargée après 03-accueil-1.css.
+   ============================================================================= */
+
+[data-theme="dark"] .guichet-svg {
+  filter: brightness(0.9) saturate(0.85);
+}
+
+.modes .shiny-options-group label {
+  color: var(--ink);
+}
+
+.field-row--session .field > label {
+  font-size: 0.82rem !important;
+  margin-bottom: 0.55rem !important;
+  color: var(--ink) !important;
+  font-weight: 550;
+}
+
+.cq-accueil .hero h1 {
+  line-height: 1.08;
+  max-width: 16.5ch;
+}
+
+.cq-carousel {
+  margin-bottom: 10px !important;
+}
+
+.cq-carousel-slide {
+  width: clamp(88px, 11vw, 120px) !important;
+}
+
+.cq-carousel-slide figcaption {
+  font-size: 9px !important;
+  margin-top: 4px !important;
+}
+
+.cq-stats .story-copy h2 {
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  margin: 10px 0 10px;
+}
+
+.cq-accueil .hero-copy {
+  padding: 12px 0 8px;
+}
+
+.cq-accueil .hero h1 {
+  margin: 14px 0 12px;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+}
+
+.cq-accueil .hero p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.cq-accueil .editorial-band p {
+  font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+}
+
+.cq-accueil .guichet-scene {
+  padding-top: 0;
+  align-self: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cq-carousel-track {
+    animation: none !important;
+    transform: none;
+  }
+}
+
+/* Carrousel thématique sous le rail — compact, défilement continu */
+
+.cq-carousel {
+  margin: 0 0 18px;
+  padding: 0;
+}
+
+.cq-carousel-viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.cq-carousel-track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  animation: cq-carousel-scroll 48s linear infinite;
+  will-change: transform;
+}
+
+.cq-carousel:hover .cq-carousel-track,
+.cq-carousel:focus-within .cq-carousel-track {
+  animation-play-state: paused;
+}
+
+.cq-carousel-slide {
+  margin: 0;
+  width: clamp(112px, 14vw, 148px);
+}
+
+.cq-carousel-slide img {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line, #d8d4c4);
+  background: var(--soft, #ebe7d8);
+}
+
+.cq-carousel-slide figcaption {
+  margin-top: 6px;
+  font-size: 10px;
+  letter-spacing: .04em;
+  line-height: 1.35;
+  color: var(--muted, #68705e);
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .cq-carousel-slide img {
+  border-color: rgba(255, 255, 255, .12);
+  opacity: .92;
+}
+
+@media (max-width: 760px) {
+  .cq-carousel {
+    margin-bottom: 12px;
+  }
+  .cq-carousel-slide {
+    width: 100px;
+  }
+  .cq-carousel-slide figcaption {
+    font-size: 9px;
+  }
+  .cq-carousel-track {
+    gap: 10px;
+    animation-duration: 36s;
+  }
+}
+
+/* Vignettes cliquables du carrousel,
+   fenêtre « thème », options avancées du paramétrage. Écrite avec les
+   variables existantes, sans !important. */
+
+.cq-carousel-slide {
+  flex: 0 0 auto;
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.cq-carousel-slide img {
+  display: block;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.cq-carousel-slide:hover img,
+.cq-carousel-slide:focus-visible img {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow, 0 6px 18px rgba(0, 0, 0, .12));
+}
+
+.cq-carousel-caption {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  letter-spacing: .04em;
+  line-height: 1.35;
+  color: var(--muted, #68705e);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal-open .cq-carousel-track {
+  animation-play-state: paused;
+}
+
+.modal-content:has(.cq-theme-modal) {
+  border: 1px solid var(--line, #d8d4c4);
+  border-radius: 16px;
+  background: var(--surface, var(--bg, #f3f1e5));
+  color: var(--ink, #29352a);
+}
+
+.modal-body.cq-theme-modal {
+  padding: 24px;
+}
+
+.cq-theme-modal-art {
+  display: block;
+  width: 100%;
+  height: 260px;
+  /* Illustration vectorielle entière, centrée sur son propre fond. */
+  object-fit: contain;
+  background: #e7ead8;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.cq-theme-modal-title {
+  margin: 4px 0 8px;
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(22px, 3vw, 30px);
+}
+
+.cq-theme-modal-lead {
+  font-size: 16px;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+
+.cq-theme-modal-sub {
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted, #68705e);
+  margin: 20px 0 8px;
+}
+
+.cq-theme-modal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.cq-theme-modal-list li span {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+@media (max-width: 576px) {
+  .modal-content:has(.cq-theme-modal) {
+    min-height: 100vh;
+    border-radius: 0;
+  }
+}
+
+/* Le texte garde sa colonne ; l'illustration occupe la moitié droite du
+   héros, sur toute sa hauteur, derrière le texte (z-index 0). */
+
+.cq-app .cq-accueil .hero {
+  display: block;
+  position: relative;
+  min-height: 660px;
+  overflow: visible;
+}
+
+.cq-app .cq-accueil .hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+}
+
+/* Séance en cours : bandeau compact sous l'appel à l'action. */
+
+.cq-app .cq-accueil .hero-copy .cq-carte {
+  margin-top: 24px;
+  padding: 16px 20px;
+  max-width: 520px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 16px;
+  align-items: center;
+}
+
+.cq-app .cq-accueil .hero-copy .cq-carte .eyebrow {
+  grid-column: 1;
+  margin: 0;
+}
+
+.cq-app .cq-accueil .hero-copy .cq-carte > p:not(.eyebrow) {
+  grid-column: 1;
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+.cq-app .cq-accueil .hero-copy .cq-carte .hero-cta {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  margin: 0 !important;
+  gap: 8px;
+}
+
+.cq-app .cq-accueil .hero-copy .cq-carte .btn {
+  min-height: 40px;
+  padding: 8px 16px;
+  margin: 0;
+}
+
+@media (min-width: 700px) and (max-height: 860px) {
+  /* Le bouton « Je me prépare » doit rester visible au-dessus du dock. */
+  .cq-app .cq-accueil .hero {
+    min-height: 560px;
+  }
+  .cq-app .cq-accueil .hero-copy > .row:first-child {
+    margin-bottom: 0;
+  }
+  .cq-app .cq-accueil .hero-cta {
+    margin-top: 0 !important;
+  }
+  .cq-app .cq-carousel-slide img {
+    max-height: 64px;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 1023px) {
+  .cq-app .cq-accueil .hero {
+    min-height: 520px;
+  }
+  .cq-app .cq-accueil .hero-copy {
+    max-width: 54%;
+  }
+  .cq-app .cq-accueil .hero p {
+    font-size: 14px;
+  }
+  .cq-app .cq-accueil .hero-copy .cq-carte {
+    grid-template-columns: 1fr;
+  }
+  .cq-app .cq-accueil .hero-copy .cq-carte .hero-cta {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 12px !important;
+  }
+}
+
+@media (max-width: 699px) {
+  /* Héros empilé, illustration sous le texte, à taille raisonnable. */
+  .cq-app .cq-accueil .hero {
+    min-height: 0;
+  }
+  .cq-app .cq-accueil .hero-copy {
+    max-width: none;
+  }
+  .cq-app .cq-accueil .hero-copy .cq-carte {
+    grid-template-columns: 1fr;
+  }
+  .cq-app .cq-accueil .hero-copy .cq-carte .hero-cta {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 12px !important;
+  }
+}
+
+.cq-app .story-copy {
+  padding: 32px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+}
+
+.cq-app .story-copy .eyebrow {
+  color: var(--red, #a34e38);
+}
+
+.cq-app .story-copy h2 {
+  margin: 10px 0 12px;
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(28px, 2.6vw, 38px);
+  line-height: 1.08;
+  letter-spacing: -.03em;
+}
+
+.cq-app .story-copy p {
+  max-width: 62ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.cq-app .next-strip .eyebrow {
+  color: var(--lime);
+}
+
+.cq-app .next-strip h2,
+.cq-app .next-strip h3 {
+  color: #f4f5e7 !important;
+  font-size: clamp(20px, 2vw, 26px) !important;
+  font-weight: 500 !important;
+  letter-spacing: -.03em !important;
+}
+
+.cq-app .next-strip p,
+.cq-app .next-strip .muted {
+  color: #c1cbb8;
+  font-size: 13px;
+}
+
+@media (max-width: 699px) {
+  .cq-app .story-copy {
+    padding: 22px;
+  }
+}
+
+/* Dans la fenêtre « Pourquoi Candide ? » : une seule colonne. */
+
+#manifesto .res-typologie {
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin: 27px 0;
+  padding: 26px 26px;
+}
+
+#manifesto .res-typologie h2 {
+  font-size: 26px;
+  letter-spacing: -.02em;
+  margin: 6px 0 0;
+}
+
+#manifesto .res-typologie-raisons {
+  font-size: 15px;
+}
+
+#manifesto .res-typologie p {
+  margin: 0;
+}
+
+#manifesto .res-typologie-tete > p:not(.eyebrow) {
+  margin-top: 10px;
+}
+
+@media (min-width: 861px) {
+  /* Le bloc principal prend la place qui reste, ni plus ni moins. */
+  .cq-app .cq-accueil:not(.cq-auth) .hero {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .cq-app .cq-accueil:not(.cq-auth) .hero-copy {
+    padding-top: 0;
+    padding-bottom: 0;
+    max-width: min(50%, 860px);
+  }
+  /* Titre : sa taille suit la hauteur de l'écran autant que sa largeur. */
+  .cq-app .cq-accueil:not(.cq-auth) .hero .hero-copy h1 {
+    font-size: clamp(26px, calc(min(3.4vw, 5.4dvh) / var(--cq-zoom, 1)), 64px);
+    max-width: none;
+    /* une ligne par <br> : la taille règle la largeur */
+    margin: min(1.6dvh, 12px) 0 min(2dvh, 16px);
+  }
+  .cq-app .cq-accueil:not(.cq-auth) .hero .hero-copy p {
+    font-size: clamp(13px, calc(1.9dvh / var(--cq-zoom, 1)), 17px);
+    line-height: 1.55;
+  }
+  .cq-app .cq-accueil:not(.cq-auth) .hero .btn {
+    min-height: clamp(42px, calc(6dvh / var(--cq-zoom, 1)), 57px);
+  }
+  .cq-accueil:not(.cq-auth) .hero-cta {
+    margin-top: min(2dvh, 18px) !important;
+  }
+  /* Illustration : contenue dans la hauteur du bloc. */
+  .cq-app .cq-accueil:not(.cq-auth) .guichet-svg {
+    max-height: calc(100% - 84px);
+    width: auto;
+    max-width: 100%;
+  }
+}
+
+/* Séance en cours à reprendre : la carte prend la place du texte de
+   présentation (l'utilisateur connaît déjà l'application), en plus serré. */
+
+.cq-app .cq-accueil:not(.cq-auth) .hero-copy:has(#accueil-reprise > *) > p,
+.cq-app .cq-accueil:not(.cq-auth) .hero-copy:has(#accueil-reprise > *) .hero-micro {
+  display: none;
+}
+
+@media (min-width: 700px) and (max-height: 760px) {
+  .cq-app .cq-accueil:not(.cq-auth) .hero .hero-copy:has(#accueil-reprise > *) h1 {
+    font-size: clamp(22px, calc(4.6dvh / var(--cq-zoom, 1)), 40px);
+  }
+}
+
+@media (max-width: 860px) {
+  .cq-app .cq-accueil:not(.cq-auth) .hero {
+    min-height: 0;
+  }
+  .cq-app .cq-accueil:not(.cq-auth) .hero-copy {
+    padding: 0;
+  }
+  .cq-app .cq-accueil:not(.cq-auth) .hero .hero-copy h1 {
+    font-size: clamp(24px, min(8.4vw, 4.6dvh), 40px);
+    margin: min(1.4dvh, 12px) 0 min(1.6dvh, 14px);
+    max-width: none;
+  }
+  .cq-app .cq-accueil:not(.cq-auth) .hero .hero-copy p {
+    font-size: clamp(13px, 1.9dvh, 16px);
+    line-height: 1.5;
+  }
+  .cq-app .cq-accueil:not(.cq-auth) .hero-cta {
+    margin-top: min(1.8dvh, 16px) !important;
+  }
+  .cq-app .cq-accueil:not(.cq-auth) .hero .btn {
+    min-height: 46px;
+  }
+}
+
+/* Téléphone : le bandeau « Le principe » renvoie à « Notre démarche », déjà
+   accessible en haut (« Pourquoi Candide ? ») : on le retire. */
+
+@media (max-width: 699px) {
+  .cq-accueil:not(.cq-auth) .editorial-band {
+    display: none;
+  }
+}
+
+@media (max-width: 699px) and (max-height: 700px) {
+  /* Petits téléphones : titre un cran plus petit. */
+  .cq-app .cq-accueil:not(.cq-auth) .hero .hero-copy h1 {
+    font-size: clamp(22px, 4.2dvh, 32px);
+  }
+  .cq-app .cq-accueil:not(.cq-auth) .hero-micro {
+    display: none;
+  }
+  /* Mention décorative « 01 / Préparation à l'examen civique » : déjà dite dans le bandeau du haut. */
+  .cq-app .cq-accueil:not(.cq-auth) .hero-copy > .row:first-child {
+    display: none;
+  }
+}
+
+/* L'illustration du guichet n'apparaît que si l'écran est assez haut pour elle. */
+
+@media (max-width: 860px) and (max-height: 959px) {
+  .cq-app .cq-accueil:not(.cq-auth) .guichet-scene {
+    display: none;
+  }
+}
+

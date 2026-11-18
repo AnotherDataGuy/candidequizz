@@ -1,0 +1,771 @@
+/* =============================================================================
+   2. Base et passerelles vers Bootstrap et Shiny (partie 2 sur 2)
+   ----------------------------------------------------------------------------
+   Feuilles de style de Candide au guichet, une par écran, chargées dans
+   l'ordre de leur numéro (R/app_ui.R). L'ordre compte : une règle n'est
+   placée dans un fichier antérieur que si rien de même force sur la même
+   propriété ne doit passer avant elle.
+   Chargée après 02-base-1.css.
+   ============================================================================= */
+
+.stack {
+  grid-template-columns: minmax(0,1fr);
+}
+
+.source-label .dot {
+  color: var(--plot);
+  flex-shrink: 0;
+}
+
+.story-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-top: 23px;
+}
+
+.story-actions .btn {
+  font-size: 13px;
+  min-height: 46px;
+  padding: 11px 18px;
+}
+
+.story-actions .textbtn {
+  font-size: 12px;
+}
+
+.span-two {
+  grid-column: 1/-1;
+}
+
+.panel-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 23px;
+}
+
+.panel-title h2 {
+  font-size: 25px;
+  line-height: 1.25;
+}
+
+.chart-note {
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 16px;
+}
+
+.outcome-ribbon {
+  display: flex;
+  border-radius: 5px;
+  overflow: hidden;
+  gap: 3px;
+  height: 35px;
+  margin: 30px 0 22px;
+}
+
+.outcome-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.outcome-legend button:hover {
+  background: var(--soft);
+}
+
+.outcome-legend strong {
+  margin-left: auto;
+  font-weight: 500;
+}
+
+@media (max-width:760px) {
+  .span-two {
+    grid-column: auto;
+  }
+}
+
+@media (max-width:360px) {
+  .story-actions {
+    gap: 8px;
+  }
+  .story-actions .btn {
+    font-size: 12px;
+    padding: 10px 13px;
+  }
+  .outcome-legend {
+    gap: 5px;
+  }
+}
+
+.outcome-ribbon .skip {
+  padding: 0;
+}
+
+body.cq-app,
+.cq-app {
+  background: var(--bg) !important;
+  color: var(--ink);
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+
+body,
+body.cq-app {
+  padding-bottom: 125px;
+}
+
+@media (max-width: 760px) {
+  body,
+  body.cq-app {
+    padding-bottom: 120px;
+  }
+}
+
+/* Enter animation alias (.view → .cq-enter) */
+
+@media (prefers-reduced-motion: reduce) {
+  .cq-enter {
+    animation: none !important;
+  }
+}
+
+.cq-app .btn:not(:disabled):active,
+.cq-bouton-cta:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+@keyframes cq-attente-glisse {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(350%); }
+}
+
+.segments .shiny-options-group .radio label,
+.segments .shiny-input-container label.radio-inline,
+.field .shiny-options-group .radio label,
+.segments label.radio-inline,
+.field label.radio-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 0;
+  padding: 10px 16px;
+  min-height: 49px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.segments .shiny-options-group input[type="radio"],
+.segments .shiny-options-group input[type="checkbox"],
+.field .shiny-options-group input[type="radio"],
+.field .shiny-options-group input[type="checkbox"],
+.modes .shiny-options-group input[type="radio"],
+.modes .shiny-options-group input[type="checkbox"],
+.segments input[type="radio"],
+.field input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.segments .shiny-options-group .radio:has(input:checked) label,
+.field .shiny-options-group .radio:has(input:checked) label,
+.segments label.radio-inline:has(input:checked),
+.field label.radio-inline:has(input:checked) {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+/* modes → choice cards */
+
+.modes .shiny-options-group .radio label,
+.modes label.radio-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  min-height: 173px;
+  padding: 25px 18px;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 17px;
+  position: relative;
+  width: 100%;
+}
+
+.modes .shiny-options-group .radio:has(input:checked) label,
+.modes label.radio-inline:has(input:checked) {
+  background: var(--soft);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+}
+
+.modes .shiny-options-group .radio:has(input:checked) label::after,
+.modes label.radio-inline:has(input:checked)::after {
+  content: "✓";
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+[data-theme="dark"] .cq-app,
+[data-theme="dark"] body.cq-app {
+  background: var(--bg) !important;
+  color: var(--ink);
+}
+
+.cq-app.container-fluid {
+  padding: 0;
+}
+
+.cq-app .tab-content > .tab-pane {
+  animation: enter .35s ease;
+}
+
+.cq-enter {
+  animation: enter .35s ease;
+}
+
+.modes .shiny-options-group .radio {
+  margin: 0;
+  padding: 0;
+}
+
+.modes .shiny-options-group input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segments .shiny-options-group .radio,
+.segments .shiny-options-group .checkbox {
+  margin: 0;
+}
+
+.segments .radio:has(input:checked) label {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+@media (max-width: 410px) {
+  .modes .shiny-options-group label .icon {
+    position: absolute;
+    left: 19px;
+    top: 20px;
+  }
+}
+
+.container-fluid.cq-app {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+}
+
+[data-theme="dark"] body,
+[data-theme="dark"] .cq-app {
+  background: var(--bg) !important;
+  background-image: none !important;
+  color: var(--ink);
+}
+
+/* Segments coch�s : fond lime + texte sombre (pas --ink clair sur fond clair) */
+
+[data-theme="dark"] .segments .radio:has(input:checked) > label,
+[data-theme="dark"] .segments .shiny-options-group .radio:has(input:checked) label,
+[data-theme="dark"] .segments label:has(> input:checked),
+[data-theme="dark"] .field .segments .radio:has(input:checked) label {
+  background: var(--lime) !important;
+  border-color: var(--lime) !important;
+  color: #24331d !important;
+}
+
+[data-theme="dark"] .segments .radio:not(:has(input:checked)) > label,
+[data-theme="dark"] .segments label:has(> input:not(:checked)) {
+  background: var(--surface) !important;
+  border-color: var(--line) !important;
+  color: var(--ink) !important;
+}
+
+/* Labels / titres de config : Bootstrap garde --bs-body-color sombre */
+
+[data-theme="dark"] .modes .shiny-options-group label,
+[data-theme="dark"] .modes .radio > label {
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+  background: var(--surface) !important;
+}
+
+[data-theme="dark"] .modes .shiny-options-group label strong {
+  color: var(--ink) !important;
+}
+
+[data-theme="dark"] .modes .shiny-options-group label small {
+  color: var(--muted) !important;
+}
+
+[data-theme="dark"] .modes .shiny-options-group label .icon {
+  color: var(--ink) !important;
+  stroke: currentColor !important;
+}
+
+[data-theme="dark"] .modes .radio:has(input:checked) label {
+  background: var(--soft) !important;
+  border-color: var(--lime) !important;
+  color: var(--ink) !important;
+}
+
+/* Titres de champ seulement � pas les labels des segments */
+
+[data-theme="dark"] .field > label,
+[data-theme="dark"] .field > legend,
+[data-theme="dark"] .field-row--session .field > label {
+  color: var(--ink) !important;
+}
+
+[data-theme="dark"] .track i {
+  background: var(--lime) !important;
+}
+
+/* Ic�nes � Les rep�res � emporter � : garder les couleurs jour */
+
+/* Les liens Bootstrap restent encre claire (#29352a) : illisible sur la carte sombre. */
+
+[data-theme="dark"] .day.done b {
+  background: var(--lime) !important;
+  color: #24331d !important;
+}
+
+#cq-theme-toggle.theme-toggle {
+  order: 1;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: none;
+}
+
+#cq-theme-toggle.theme-toggle:hover {
+  background: var(--soft);
+  color: var(--ink);
+}
+
+#cq-theme-toggle .theme-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#cq-theme-toggle .theme-icon--to-light {
+  display: none;
+}
+
+[data-theme="dark"] #cq-theme-toggle .theme-icon--to-dark {
+  display: none;
+}
+
+[data-theme="dark"] #cq-theme-toggle .theme-icon--to-light {
+  display: block;
+}
+
+[data-theme="dark"] #cq-theme-toggle.theme-toggle,
+[data-theme="dark"] #cq-theme-toggle.theme-toggle:hover {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+@media (max-width: 520px) {
+  #cq-theme-toggle.theme-toggle {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+}
+
+.modes .shiny-input-container,
+.modes .form-group {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+.modes .shiny-options-group label strong {
+  display: block;
+  margin: 0.05rem 0;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.modes .shiny-options-group label small {
+  display: block;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* Longueur / Format / R�ponses sur une m�me ligne */
+
+.field-row--session {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+  gap: 0.85rem 1rem;
+  margin-top: 0.35rem;
+  align-items: start;
+}
+
+.field-row--session > .shiny-panel-conditional,
+.field-row--session > .field {
+  min-width: 0;
+}
+
+.field-row--session .segments .shiny-options-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+@media (max-width: 900px) {
+  .modes .shiny-options-group label .icon {
+    position: absolute;
+    left: 0.95rem;
+    top: 0.95rem;
+  }
+  .field-row--session {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cq-app.container-fluid {
+  max-width: none;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@keyframes cq-attente {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(280%); }
+}
+
+body.cq-app,
+.cq-app {
+  padding-bottom: 0 !important;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --cq-dock-clearance: 100px;
+  }
+}
+
+.cq-readiness-value {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.cq-readiness > p:not(.chart-note) {
+  line-height: 1.6;
+}
+
+.cq-lecture {
+  padding: 17px 18px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--plot, #718c54);
+  border-radius: 0 10px 10px 0;
+  margin-top: 22px;
+}
+
+.cq-lecture-titre {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+
+body.cq-is-loading {
+  overflow: hidden;
+}
+
+body.cq-is-loading .shiny-notification-panel {
+  z-index: 1;
+}
+
+@keyframes cq-word-arrive { from { opacity: 0; translate: 0 22px; rotate: -4deg; } to { opacity: 1; translate: 0 0; rotate: 0deg; } }
+
+@keyframes cq-star-turn { to { transform: rotate(360deg); } }
+
+@keyframes cq-rail { from { transform: translateX(-100%); } to { transform: translateX(400%); } }
+
+@keyframes cq-carousel-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Plutôt que d'étirer la mise en page (lignes trop longues, vide au centre),
+   on agrandit tout d'un même rapport : la page à 2560px ressemble à la page
+   à 1440px, en plus grand. */
+
+/* Facteurs choisis pour que la largeur « vue » reste entre 1550 et 1780px
+   et la hauteur vue proche de 900px sur un écran 16:9. */
+
+@media (min-width: 1680px) {
+  body {
+    zoom: 1.08;
+    --cq-zoom: 1.08 !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  body {
+    zoom: 1.16;
+    --cq-zoom: 1.16 !important;
+  }
+}
+
+@media (min-width: 2240px) {
+  body {
+    zoom: 1.3;
+    --cq-zoom: 1.3 !important;
+  }
+}
+
+@media (min-width: 2560px) {
+  body {
+    zoom: 1.45;
+    --cq-zoom: 1.45 !important;
+  }
+}
+
+@media (min-width: 3200px) {
+  body {
+    zoom: 1.8;
+    --cq-zoom: 1.8 !important;
+  }
+}
+
+/* Préparation à l'examen */
+
+.cq-app .cq-readiness-value {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 34px;
+  letter-spacing: -.03em;
+}
+
+@keyframes jeu-tampon {
+  0%   { transform: rotate(-30deg) scale(2.2); opacity: 0; }
+  60%  { transform: rotate(-12deg) scale(.92); opacity: 1; }
+  100% { transform: rotate(-14deg) scale(1); opacity: 1; }
+}
+
+@keyframes jeu-etape-entree {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes jeu-pret {
+  0% { transform: scale(.96); box-shadow: 0 0 0 0 rgba(211, 233, 157, .9); }
+  70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(211, 233, 157, 0); }
+  100% { box-shadow: none; }
+}
+
+/* Shiny >= 1.14 masque un conditionalPanel par une classe (shiny-conditional--shown
+   absente => display: none) et non plus par un style en ligne. Les règles
+   `display: flex` posées plus haut sur ces panneaux l'emportaient alors, et les
+   trois écrans de « S'entraîner » (paramétrage, passation, bilan) s'affichaient
+   ensemble. Cette règle ne s'active que si Shiny utilise ce mécanisme ;
+   avec Shiny 1.13 (masquage en ligne) elle reste inerte. */
+
+body:has(.shiny-conditional--shown) [data-display-if]:not(.shiny-conditional--shown) {
+  display: none;
+}
+
+.cq-imprimante {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cq-imprimante-tete {
+  position: relative;
+  width: 240px;
+  height: 20px;
+  background: var(--ink);
+  border-radius: 6px 6px 2px 2px;
+  animation: cq-vibre .12s linear infinite;
+}
+
+.cq-imprimante-tete::before {
+  content: "";
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  top: 8px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, .55);
+}
+
+.cq-imprimante-voyant {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: cq-voyant 1s ease-in-out infinite;
+}
+
+.cq-imprimante-sortie {
+  width: 170px;
+  height: 170px;
+  overflow: hidden;
+}
+
+.cq-points span:nth-child(2) {
+  animation-delay: .2s;
+}
+
+.cq-points span:nth-child(3) {
+  animation-delay: .4s;
+}
+
+@keyframes cq-entree { from { opacity: 0; transform: translateX(36px) rotate(.6deg); } to { opacity: 1; transform: none; } }
+
+@keyframes cq-choc { 30% { transform: translateY(3px) scale(.997); } }
+
+@keyframes cq-tampon {
+  0% { opacity: 0; transform: rotate(-15deg) scale(2.3); }
+  55% { opacity: 1; transform: rotate(-8deg) scale(.9); }
+  78% { transform: rotate(-9.5deg) scale(1.04); }
+  100% { opacity: 1; transform: rotate(-9deg) scale(1); }
+}
+
+@keyframes cq-bavure { 0% { opacity: 0; transform: scale(.4); } 40% { opacity: .9; } 100% { opacity: 0; transform: scale(1.6); } }
+
+@keyframes cq-coche { from { background-size: 0 16px; } to { background-size: 16px 16px; } }
+
+@keyframes cq-balaye { to { transform: scaleX(1); } }
+
+@keyframes cq-secoue { 20% { transform: translateX(-6px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
+
+@keyframes cq-marge { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+@keyframes cq-souligne { to { stroke-dashoffset: 0; } }
+
+@keyframes cq-flip { from { transform: translateY(-70%); opacity: 0; } to { transform: none; opacity: 1; } }
+
+@keyframes cq-arrache { 0% { transform: none; } 35% { transform: translateY(-9px) rotate(-7deg); } 100% { transform: translateY(-3px); } }
+
+@keyframes cq-respire { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ink) 35%, transparent); } 50% { box-shadow: 0 0 0 4px transparent; } }
+
+@keyframes cq-impression { 0% { transform: translateY(-100%); } 80%, 100% { transform: none; } }
+
+@keyframes cq-vibre { 50% { transform: translateX(.6px); } }
+
+@keyframes cq-voyant { 0%, 100% { background: #c9e27f; box-shadow: 0 0 8px #c9e27f; } 50% { background: #56603f; box-shadow: none; } }
+
+@keyframes cq-point { 0%, 20% { opacity: 0; } 40%, 100% { opacity: 1; } }
+
+/* Rappel des raccourcis clavier (pas sur téléphone) */
+
+.cq-raccourcis {
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.cq-raccourcis kbd {
+  font-family: var(--g-mono);
+  font-size: 11px;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 6px;
+  box-shadow: none;
+}
+
+@media (max-width: 640px), (hover: none) {
+  .cq-raccourcis {
+    display: none;
+  }
+}
+
+@keyframes cq-jauge-entree {
+  from { opacity: 0; transform: translate(-40px, -50%); }
+  to { opacity: 1; transform: translate(0, -50%); }
+}
+
+@keyframes cq-jauge-remplir { from { width: 0; } }
+
+@keyframes cq-jauge-pulse { 50% { opacity: .55; } }
+
+@keyframes cq-jauge-tampon {
+  from { opacity: 0; transform: rotate(-12deg) scale(1.8); }
+}
+
+@keyframes cq-dock-nouveau {
+  50% { box-shadow: 0 0 0 6px #d3e99d; }
+}
+
+@media (max-width: 699px) {
+  @keyframes cq-jauge-entree-bas {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* Hauteur réservée en bas pour le dock flottant de navigation.
+   Les grands écrans agrandissent la page (zoom, voir les proportions selon l'écran) : les
+   tailles en dvh / vw sont divisées par --cq-zoom pour rester à l'échelle. */
+
+.cq-app:has(.tab-pane.active[data-value="accueil"]) {
+  --cq-accueil-dock: 100px;
+}
+
+/* Les deux réserves sous le contenu (corps de page + conteneur) se cumulaient :
+   une seule suffit, celle du dock. */
+
+body:has(.tab-pane.active[data-value="accueil"]) {
+  padding-bottom: 0;
+}
+

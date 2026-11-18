@@ -1,0 +1,665 @@
+/* =============================================================================
+   6. Progression : graphiques, carnet, jauge (partie 3 sur 3)
+   ----------------------------------------------------------------------------
+   Feuilles de style de Candide au guichet, une par écran, chargées dans
+   l'ordre de leur numéro (R/app_ui.R). L'ordre compte : une règle n'est
+   placée dans un fichier antérieur que si rien de même force sur la même
+   propriété ne doit passer avant elle.
+   Chargée après 06-progression-2.css.
+   ============================================================================= */
+
+@media (max-width: 680px) {
+  .explore-legend-axis {
+    margin-left: 0;
+    width: 100%;
+  }
+  .explore-heat tbody th {
+    min-width: 7.5rem;
+    max-width: 9rem;
+    font-size: 0.78rem;
+  }
+  .explore-heat-cell {
+    min-width: 2.4rem;
+    height: 2.3rem;
+    font-size: 0.76rem;
+  }
+  .explore-mosaic-cases {
+    grid-template-columns: repeat(10, 12px);
+  }
+  .explore-case {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .explore-rang-track > b,
+  .explore-col-track > b,
+  .revoir-corps {
+    transition: none;
+    animation: none;
+  }
+}
+
+.explore-parcours {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(3.1rem, 1fr));
+  gap: 0.45rem;
+}
+
+.explore-parcours-q {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.05rem;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--issue) 30%, var(--surface));
+  box-shadow: inset 0 -3px 0 var(--issue);
+  color: var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-theme="dark"] .explore-parcours-q,
+[data-theme="dark"] .revoir-mark,
+[data-theme="dark"] .explore-temps-num {
+  background: color-mix(in srgb, var(--issue) 48%, var(--surface));
+}
+
+.explore-parcours-q b {
+  font-family: Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.explore-parcours-q span {
+  font-size: 0.7rem;
+  opacity: 0.75;
+}
+
+.explore-parcours-q:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 -3px 0 var(--issue), 0 0 0 1.5px var(--ink);
+}
+
+.explore-temps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.explore-temps-row {
+  display: grid;
+  grid-template-columns: 1.9rem minmax(0, 13rem) minmax(0, 1fr) 3.2rem;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.42rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  font-size: 0.84rem;
+}
+
+.explore-temps-row:last-child {
+  border-bottom: 0;
+}
+
+.explore-temps-num {
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--issue) 30%, var(--surface));
+  font-family: Georgia, serif;
+  font-size: 0.82rem;
+}
+
+.explore-temps-lab {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.explore-temps-track {
+  position: relative;
+  display: block;
+  height: 10px;
+  border-radius: 100px;
+  background: var(--soft);
+}
+
+.explore-temps-track > b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--issue);
+}
+
+.explore-temps-track > b.explore-temps-deborde {
+  border-radius: 100px 0 0 100px;
+  -webkit-mask: linear-gradient(90deg, #000 88%, transparent);
+  mask: linear-gradient(90deg, #000 88%, transparent);
+}
+
+.explore-temps-track::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  left: var(--seuil);
+  border-left: 1.5px dashed var(--muted);
+  opacity: 0.75;
+}
+
+.explore-temps-row strong {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+@container (max-width: 520px) {
+  .explore-temps-row {
+    grid-template-columns: 1.9rem minmax(0, 1fr) 3rem;
+    grid-template-areas: "num lab val" "num track track";
+    gap: 0.3rem 0.7rem;
+    padding: 0.55rem 0;
+  }
+  .explore-temps-num {
+    grid-area: num;
+  }
+  .explore-temps-lab {
+    grid-area: lab;
+  }
+  .explore-temps-track {
+    grid-area: track;
+  }
+  .explore-temps-row strong {
+    grid-area: val;
+  }
+}
+
+[data-theme="dark"] .outcome-ribbon .right,
+[data-theme="dark"] .swatch.right,
+[data-theme="dark"] .heat-cell.high {
+  background: #3a4630 !important;
+  color: #e8f0d4 !important;
+}
+
+[data-theme="dark"] .outcome-ribbon .partial,
+[data-theme="dark"] .swatch.partial,
+[data-theme="dark"] .heat-cell.mid {
+  background: #3a3a28 !important;
+  color: #e6e6c8 !important;
+}
+
+[data-theme="dark"] .outcome-ribbon .wrong,
+[data-theme="dark"] .swatch.wrong,
+[data-theme="dark"] .heat-cell.low {
+  background: #2e2e28 !important;
+  color: #c8c8b0 !important;
+}
+
+[data-theme="dark"] .outcome-ribbon .skip,
+[data-theme="dark"] .swatch.skip {
+  background: #222820 !important;
+  color: #9aa090 !important;
+}
+
+[data-theme="dark"] .cq-graphe-ligne {
+  stroke: var(--lime);
+}
+
+[data-theme="dark"] .cq-graphe-aire {
+  fill: rgba(211, 233, 157, 0.14);
+}
+
+[data-theme="dark"] .cq-ton--haut,
+[data-theme="dark"] .cq-graphe-point.cq-ton--haut {
+  fill: #c5d9a3;
+  stroke: #c5d9a3;
+}
+
+[data-theme="dark"] .cq-ton--moyen,
+[data-theme="dark"] .cq-graphe-point.cq-ton--moyen {
+  fill: #9bb06a;
+  stroke: #9bb06a;
+}
+
+[data-theme="dark"] .cq-ton--fragile,
+[data-theme="dark"] .cq-graphe-point.cq-ton--fragile {
+  fill: #b8a86a;
+  stroke: #b8a86a;
+}
+
+[data-theme="dark"] .cq-ton--bas,
+[data-theme="dark"] .cq-graphe-point.cq-ton--bas {
+  fill: #8a8a70;
+  stroke: #8a8a70;
+}
+
+.analytics,
+.cq-stats,
+.cq-section-seances,
+.cq-ressources,
+.cq-accueil,
+.report-grid {
+  width: 100%;
+  max-width: none;
+}
+
+/* Compact headings outside S'entrainer */
+
+.cq-stats .heading,
+.cq-ressources .heading {
+  margin: 10px 0 14px !important;
+  gap: 12px !important;
+}
+
+.cq-stats .heading h1,
+.cq-ressources .heading h1 {
+  font-size: clamp(1.55rem, 2.8vw, 2.35rem) !important;
+  line-height: 1.12 !important;
+}
+
+.cq-stats .heading > div > p.muted,
+.cq-ressources .heading > div > p.muted {
+  margin-top: 6px !important;
+  font-size: 0.92rem !important;
+}
+
+/* Responsive labels live outside SVG. Unknown scores stay explicitly unknown. */
+
+.cq-graphe-bloc {
+  overflow: visible;
+}
+
+.cq-graphe-bloc > svg.cq-graphe {
+  max-height: none;
+}
+
+.cq-category {
+  padding-block: 15px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cq-category:first-child {
+  padding-top: 0;
+}
+
+.cq-category-heading {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.cq-category-heading > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cq-category-track {
+  height: 8px;
+  position: relative;
+  background: var(--soft);
+  border-radius: 10px;
+  margin: 12px 0 9px;
+}
+
+.cq-category-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--plot, #718c54);
+}
+
+.cq-category-fill.cq-ton--bas {
+  background: var(--warm, #e9bcab);
+}
+
+.cq-category-fill.cq-ton--fragile {
+  background: var(--amber, #e7d4a2);
+}
+
+.cq-category-fill.cq-ton--moyen {
+  background: #9bb06a;
+}
+
+.cq-category-threshold {
+  position: absolute;
+  left: 55%;
+  top: -4px;
+  height: 16px;
+  border-left: 1px dashed var(--muted);
+}
+
+.report-heat tbody th {
+  overflow-wrap: anywhere;
+}
+
+/* En-tête de page */
+
+.cq-app .report-heading {
+  margin-bottom: 20px !important;
+}
+
+.cq-app .report-heading h1 {
+  font-size: clamp(32px, 3.6vw, 52px) !important;
+  line-height: 1.04 !important;
+  letter-spacing: -.045em;
+  font-weight: 500;
+}
+
+.cq-app .cq-piste {
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--muted);
+  border-radius: 10px;
+}
+
+.cq-app .cq-piste--plus {
+  border-left-color: #8fb04a;
+}
+
+.cq-app .cq-piste--moins {
+  border-left-color: var(--red, #a34e38);
+}
+
+.cq-app .cq-piste-kicker {
+  font-size: 10px;
+  letter-spacing: .14em;
+  color: var(--muted);
+}
+
+.cq-app .cq-piste-texte {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cq-app .explore-parcours-q {
+  min-width: 52px;
+  height: 60px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.cq-app .explore-parcours-q b {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 22px;
+}
+
+.cq-app .explore-parcours-q[data-issue="juste"] {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #24331d;
+}
+
+.cq-app .explore-parcours-q[data-issue="fausse"] {
+  background: color-mix(in srgb, var(--red, #a34e38) 14%, var(--surface));
+  border-color: color-mix(in srgb, var(--red, #a34e38) 35%, transparent);
+}
+
+.cq-app .explore-parcours-q[data-issue="partielle"] {
+  background: color-mix(in srgb, #be994f 18%, var(--surface));
+}
+
+.cq-app .explore-parcours-q:hover {
+  transform: translateY(-2px);
+}
+
+.cq-jauge {
+  --j-fond: #2c3b2d;
+  --j-texte: #f3f1e5;
+  --j-doux: #c9d2c0;
+  --j-case: #3d4e3e;
+  --j-acquis: #d3e99d;
+  --j-gain: #f1fbc9;
+  --j-trait: rgba(243, 241, 229, .22);
+  position: fixed;
+  z-index: 1040;
+  left: 24px;
+  top: 50%;
+  width: 320px;
+  box-sizing: border-box;
+  padding: 22px 24px 20px;
+  border-radius: 22px;
+  background: var(--j-fond);
+  color: var(--j-texte);
+  box-shadow: 0 24px 60px rgba(20, 30, 18, .28);
+  transform: translateY(-50%);
+  animation: cq-jauge-entree .5s cubic-bezier(.2, .8, .2, 1) both;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.cq-jauge.is-ouvert {
+  --j-fond: #d3e99d;
+  --j-texte: #24331d;
+  --j-doux: #3c4a35;
+  --j-case: rgba(36, 51, 29, .14);
+  --j-acquis: #24331d;
+  --j-gain: #5b7048;
+  --j-trait: rgba(36, 51, 29, .3);
+}
+
+.cq-jauge-tete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cq-jauge-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--j-acquis);
+}
+
+.cq-jauge.is-ouvert .cq-jauge-eyebrow {
+  color: var(--j-texte);
+}
+
+.cq-jauge-cadenas {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.cq-jauge-fermer {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--j-trait);
+  background: transparent;
+  color: var(--j-texte);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cq-jauge-fermer:hover {
+  background: rgba(255, 255, 255, .08);
+}
+
+.cq-jauge h2 {
+  margin: 18px 0 18px;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  color: var(--j-texte);
+}
+
+.cq-jauge h2 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 1.12em;
+  color: var(--j-acquis);
+}
+
+.cq-jauge.is-ouvert h2 em {
+  color: var(--j-texte);
+}
+
+.cq-jauge-cases {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.cq-jauge-case {
+  position: relative;
+  height: 30px;
+  border-radius: 7px;
+  background: var(--j-case);
+  overflow: hidden;
+}
+
+.cq-jauge-acquis,
+.cq-jauge-gain {
+  position: absolute;
+  inset: 0 auto 0 0;
+  animation: cq-jauge-remplir .6s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.cq-jauge-acquis {
+  width: calc(var(--avant) * 100%);
+  background: var(--j-acquis);
+  animation-delay: calc(.25s + var(--rang) * .04s);
+}
+
+/* La part gagnée pendant la séance : plus claire, et elle arrive en dernier. */
+
+.cq-jauge-gain {
+  width: calc(var(--total) * 100%);
+  background: var(--j-gain);
+  animation: cq-jauge-remplir .6s cubic-bezier(.2, .8, .2, 1) both, cq-jauge-pulse 1.6s ease-in-out 1.2s 2;
+  animation-delay: calc(.75s + var(--rang) * .06s), 1.4s;
+}
+
+.cq-jauge-chiffres {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--j-doux);
+}
+
+.cq-jauge-plus {
+  align-self: center;
+  padding: 3px 9px;
+  border-radius: 100px;
+  background: var(--j-gain);
+  color: #24331d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cq-jauge.is-ouvert .cq-jauge-plus {
+  color: #d3e99d;
+}
+
+/* Talon du ticket : pointillés et deux encoches. */
+
+.cq-jauge-texte {
+  position: relative;
+  margin: 18px -24px 0;
+  padding: 16px 24px 0;
+  border-top: 1.5px dashed var(--j-trait);
+  font-size: 13px;
+  color: var(--j-doux);
+}
+
+.cq-jauge-texte::before,
+.cq-jauge-texte::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bg, #f3f1e5);
+}
+
+.cq-jauge-texte::before {
+  left: -9px;
+}
+
+.cq-jauge-texte::after {
+  right: -9px;
+}
+
+.cq-jauge-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.cq-jauge-actions .textbtn {
+  min-height: 40px;
+  padding: 8px 4px;
+  border: 0;
+  background: none;
+  color: var(--j-acquis);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Tampon « OUVERT » du jour de l'ouverture. */
+
+.cq-jauge-tampon {
+  position: absolute;
+  right: 70px;
+  top: -22px;
+  padding: 16px 8px;
+  background: #f3f1e5;
+  border: 1.5px dashed #a34e38;
+  border-radius: 50%;
+  color: #a34e38;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  transform: rotate(-12deg);
+  animation: cq-jauge-tampon .5s cubic-bezier(.3, 1.6, .5, 1) .9s both;
+}
+
+[data-theme="dark"] .cq-jauge:not(.is-ouvert) {
+  --j-fond: #222e25;
+  --j-case: #33432d;
+  border: 1px solid #43513e;
+}
+
+@media (max-width: 699px) {
+  .cq-jauge {
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: 96px;
+    width: auto;
+    transform: none;
+    animation-name: cq-jauge-entree-bas;
+  }
+}
+

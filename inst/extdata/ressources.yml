@@ -1,0 +1,151 @@
+# Liens utiles affichés dans la section « Ressources ».
+#
+# Ce fichier est éditable sans toucher au code : ajoutez, retirez ou réordonnez
+# les groupes et les liens, puis redémarrez l'application.
+#
+# Chaque groupe : id, titre, description, liens.
+# Chaque lien   : titre, url, source, description.
+#                 essentiel: true le met en avant dans « À lire en premier ».
+
+groupes:
+  - id: demarche
+    titre: La démarche et l'examen civique
+    description: >
+      Les pages officielles qui décrivent la procédure, les conditions et
+      l'examen civique auquel cette application vous prépare.
+    liens:
+      - titre: Naturalisation française par décret
+        url: https://www.service-public.gouv.fr/particuliers/vosdroits/F34708
+        source: service-public.gouv.fr
+        description: >
+          La démarche complète étape par étape : conditions d'âge et de
+          résidence, niveau de langue exigé, pièces à fournir, coût et délais.
+      - titre: Comment passer l'examen civique ?
+        url: https://www.service-public.gouv.fr/particuliers/vosdroits/F39426
+        source: service-public.gouv.fr
+        essentiel: true
+        description: >
+          Le programme officiel de l'examen, son format (un questionnaire à
+          choix multiples de 40 questions) et les modalités d'inscription.
+      - titre: Acquisition de la nationalité française
+        url: https://www.service-public.gouv.fr/particuliers/vosdroits/F2213
+        source: service-public.gouv.fr
+        description: >
+          Vue d'ensemble des différentes voies d'accès à la nationalité, pour
+          identifier celle qui correspond à votre situation.
+      - titre: Espace personnel étrangers en France (ANEF)
+        url: https://administration-etrangers-en-france.interieur.gouv.fr/
+        source: ministère de l'Intérieur
+        description: >
+          Le portail de dépôt et de suivi en ligne des demandes par décret.
+
+  - id: valeurs
+    titre: Principes, valeurs et droits
+    description: >
+      Les textes fondateurs. Ce sont les sources directes des thèmes
+      « Principes, valeurs et symboles » et « Citoyenneté, droits et devoirs ».
+    liens:
+      - titre: Charte des droits et devoirs du citoyen français
+        url: https://www.legifrance.gouv.fr/loda/id/JORFTEXT000025241393/
+        source: Légifrance
+        essentiel: true
+        description: >
+          Le texte que vous signerez. Court, dense, et directement interrogé à
+          l'entretien : à lire en entier au moins une fois.
+      - titre: Déclaration des droits de l'homme et du citoyen de 1789
+        url: https://www.conseil-constitutionnel.fr/le-bloc-de-constitutionnalite/declaration-des-droits-de-l-homme-et-du-citoyen-de-1789
+        source: Conseil constitutionnel
+        description: >
+          Le texte de référence sur les libertés et l'égalité devant la loi.
+      - titre: Constitution du 4 octobre 1958
+        url: https://www.conseil-constitutionnel.fr/le-bloc-de-constitutionnalite/texte-integral-de-la-constitution-du-4-octobre-1958-en-vigueur
+        source: Conseil constitutionnel
+        description: >
+          La Constitution de la Ve République dans sa version en vigueur.
+      - titre: Défenseur des droits
+        url: https://www.defenseurdesdroits.fr/
+        source: autorité indépendante
+        description: >
+          Le rôle d'une autorité administrative indépendante, et les recours
+          possibles en cas de discrimination.
+
+  - id: institutions
+    titre: Institutions de la République
+    description: >
+      Les sites des institutions elles-mêmes, utiles pour comprendre qui fait
+      quoi plutôt que pour mémoriser des listes.
+    liens:
+      - titre: Vie publique
+        url: https://www.vie-publique.fr/
+        source: Direction de l'information légale et administrative
+        description: >
+          La ressource la plus pédagogique pour les institutions et la vie
+          démocratique. À privilégier si un sous-thème vous résiste.
+      - titre: Présidence de la République
+        url: https://www.elysee.fr/
+        source: Élysée
+        description: Les pouvoirs du Président et son rôle dans les institutions.
+      - titre: Assemblée nationale
+        url: https://www.assemblee-nationale.fr/
+        source: Assemblée nationale
+        description: La chambre basse, son élection et son rôle dans la loi.
+      - titre: Sénat
+        url: https://www.senat.fr/
+        source: Sénat
+        description: La chambre haute, son mode d'élection et ses spécificités.
+      - titre: Conseil constitutionnel
+        url: https://www.conseil-constitutionnel.fr/
+        source: Conseil constitutionnel
+        description: Le contrôle de constitutionnalité et la hiérarchie des normes.
+      - titre: Gouvernement
+        url: https://www.gouvernement.fr/
+        source: Gouvernement
+        description: L'organisation de l'exécutif et l'action des ministères.
+      - titre: Cour des comptes
+        url: https://www.ccomptes.fr/fr
+        source: Cour des comptes
+        description: Le contrôle des finances publiques.
+      - titre: CNIL
+        url: https://www.cnil.fr/fr
+        source: CNIL
+        description: La protection des données personnelles et les libertés numériques.
+
+  - id: societe
+    titre: Société, géographie et économie
+    description: >
+      Des sources de données et de culture générale pour les thèmes
+      « Société et culture », « Géographie » et « Économie ».
+    liens:
+      - titre: Insee
+        url: https://www.insee.fr/fr/accueil
+        source: Insee
+        description: >
+          Démographie, emploi, chômage, niveaux de vie : les chiffres officiels
+          de la France.
+      - titre: Légifrance
+        url: https://www.legifrance.gouv.fr/
+        source: Légifrance
+        description: >
+          Le service public de la diffusion du droit. Utile pour retrouver le
+          texte exact d'une loi citée dans une question.
+      - titre: Éducation nationale
+        url: https://www.education.gouv.fr/
+        source: ministère de l'Éducation nationale
+        description: L'organisation du système scolaire et ses grands principes.
+      - titre: France.fr
+        url: https://www.france.fr/fr
+        source: France.fr
+        description: Patrimoine, culture, régions et art de vivre.
+
+  - id: europe
+    titre: France, Union européenne et monde
+    description: >
+      Pour le thème « France, Union Européenne et Monde », souvent sous-estimé
+      dans la préparation.
+    liens:
+      - titre: Union européenne
+        url: https://european-union.europa.eu/index_fr
+        source: Union européenne
+        description: >
+          Les institutions de l'Union, la citoyenneté européenne et les droits
+          qui y sont attachés.
