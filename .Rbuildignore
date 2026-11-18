@@ -19,3 +19,5 @@ dev_history.R
 ^manifest\.json$
 ^PLAN_ADAPTATION_FIABLE\.md$
 ^app\.R$
+^codecov\.yml$
+^\.github$
