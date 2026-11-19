@@ -226,6 +226,14 @@ production:
     par_defaut: ia_on
   ia:
     seuil_questions_distinctes: 400
+  seance:
+    # Pas de processus d'arrière-plan en ligne : chaque processus de l'app en
+    # lançait 2 de plus (chargement du paquet et de la banque). Sur 1 CPU et
+    # 4 Go, Connect Cloud tuait des processus faute de mémoire (« Worker
+    # error: signal: killed », 19/11/2026), ce qui déconnectait les joueurs.
+    # Sans clé OpenAI, la génération vient de la banque et reste instantanée.
+    # À réexaminer si l'IA est activée en ligne.
+    prefetch_async: no
 
 dev:
   golem_wd: !expr golem::pkg_path()

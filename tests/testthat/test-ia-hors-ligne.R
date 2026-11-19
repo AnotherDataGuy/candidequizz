@@ -144,3 +144,11 @@ test_that("travailleur en panne : la séance continue en synchrone", {
 	ctx <- attendre(async_generer_lot(list(parametres = p, lot = 1L)))
 	expect_true(length(ctx$items) >= 1L)
 })
+
+test_that("version en ligne : pas de processus d'arrière-plan (mémoire de Connect Cloud)", {
+	withr::local_envvar(GOLEM_CONFIG_ACTIVE = "production")
+	expect_false(isTRUE(cq_config("seance", "prefetch_async")))
+	expect_false(async_active())
+	# Les autres réglages de séance restent ceux par défaut.
+	expect_identical(as.integer(cq_config("seance", "examen_nb_questions")), 40L)
+})
