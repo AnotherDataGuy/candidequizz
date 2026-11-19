@@ -2355,7 +2355,7 @@
       "checksum": "182b1f0395ea918b0d9614c9a28ec2bb"
     },
     "DESCRIPTION": {
-      "checksum": "0fba9645957462275cf49ef352562e12"
+      "checksum": "d365fbdd0f697bf5cb052ecaa60c870b"
     },
     "inst/app/www/auth-token.js": {
       "checksum": "298c70e3a95b67654f541b17f9f39a8b"
@@ -2376,7 +2376,7 @@
       "checksum": "e43af08a36e20eba0c2e53dabb1b887a"
     },
     "inst/app/www/css/03-accueil-2.css": {
-      "checksum": "a65fff2d27e91a3c95c8391505b0de96"
+      "checksum": "ac68d43388389cbd8ad89c72b565934d"
     },
     "inst/app/www/css/04-mise-en-page.css": {
       "checksum": "4a27753dbcf896b793580467a6529e97"
@@ -2427,7 +2427,10 @@
       "checksum": "d2b953bf6b7a9cfbfc5c735f7d30c5ac"
     },
     "inst/app/www/css/13-administration.css": {
-      "checksum": "0c6c2341db854f6a0f39f748fe265d70"
+      "checksum": "4b2e9bf5444c94954634addfa06f23be"
+    },
+    "inst/app/www/css/14-retours-appli.css": {
+      "checksum": "972caf71022387470aca011ed7b056ba"
     },
     "inst/app/www/favicon.ico": {
       "checksum": "bdf792d3e3cd903ace03fad62468e3fe"
@@ -2442,7 +2445,7 @@
       "checksum": "6ddb229635b51dda90ec5bd7abd085ad"
     },
     "inst/app/www/icons.svg": {
-      "checksum": "f5f268ec9909f6ddd8a39d23dc166bad"
+      "checksum": "888627dbb75338c19795655bbd83bb3a"
     },
     "inst/app/www/illustrations/guichets/examen_blanc.svg": {
       "checksum": "ae5fac21326947ff0e7d9b8906a0ecc4"
@@ -2481,13 +2484,16 @@
       "checksum": "484323f4ee7c0e9c09fa1d1b8b64e2ea"
     },
     "inst/app/www/navbar.js": {
-      "checksum": "fdb8473f6e1bd1f610f2e04f38e691bb"
+      "checksum": "37f7be7c7defa636f9d6298937b0e6d3"
     },
     "inst/app/www/quiz-loading.js": {
       "checksum": "f73a17da930c98fdd741ad9de6585b02"
     },
     "inst/app/www/report.js": {
       "checksum": "6335758975ce89d67eb247d796a2909f"
+    },
+    "inst/app/www/retour-appli.js": {
+      "checksum": "e1a16dfc552710774e1d574144b3eb7a"
     },
     "inst/app/www/seance-fiche.js": {
       "checksum": "cca933999bdc85bbd2687b6e4fe1ebaa"
@@ -2496,7 +2502,7 @@
       "checksum": "dc3af89a82a6b97231d2e5fc29a1ed8d"
     },
     "inst/app/www/themes-carousel.js": {
-      "checksum": "389fbd195c58d1ee2199b09fd006ec95"
+      "checksum": "af3e0d1d7b5f7ba7dee9a653bec32da3"
     },
     "inst/extdata/banque_donnees_questions_reponses.xlsx": {
       "checksum": "9eceb820c0b066d127ba4269ee75dcd1"
@@ -2574,13 +2580,16 @@
       "checksum": "363815ca23672d639ee4df6f19e00225"
     },
     "R/app_server.R": {
-      "checksum": "f04857c96622de9e4a63e0257877b16a"
+      "checksum": "cf51b331d5ffb06a6861ce89c3accc3f"
     },
     "R/app_ui.R": {
-      "checksum": "70c41342f97c94115532b16880ee25ed"
+      "checksum": "5a47c04dc3a1fedcca768f7623af390f"
     },
     "R/fct_adaptatif.R": {
       "checksum": "f32dfde1ba5ce33a3072e199e00f98e3"
+    },
+    "R/fct_admin.R": {
+      "checksum": "7358cf134c9df0764de4ddd3065d19be"
     },
     "R/fct_agents.R": {
       "checksum": "35af4453afb08d6738cb9bb6eef53257"
@@ -2592,7 +2601,7 @@
       "checksum": "cf08096569b7c72ada7a8a72708ace44"
     },
     "R/fct_auth.R": {
-      "checksum": "72f32a1630d93820b6c9f1981b2ead01"
+      "checksum": "ed6e5a1a7dfcc1131dafa880403f5020"
     },
     "R/fct_avis.R": {
       "checksum": "41729a17be56d87e156a519f92997e21"
@@ -2645,11 +2654,14 @@
     "R/fct_retours.R": {
       "checksum": "f11cca504e51bda64676dce97b36111b"
     },
+    "R/fct_retours_appli.R": {
+      "checksum": "236b370acfbf694cf6a9765b5fa159fb"
+    },
     "R/fct_revision.R": {
       "checksum": "bce678dba7b4ca47213ad816b7df21ec"
     },
     "R/fct_stats.R": {
-      "checksum": "59cf1ef88956235b3580a336de61cd4d"
+      "checksum": "73f2861edf75c91a0e72ce80a4241426"
     },
     "R/fct_stats_explore.R": {
       "checksum": "995d4492aa22c26653a8c0d3c1bf1809"
@@ -2667,7 +2679,7 @@
       "checksum": "832d34e85aa3b29f9f1de88789676a05"
     },
     "R/fct_store_sqlite.R": {
-      "checksum": "677b78cb9732e23e220d9644390a93ac"
+      "checksum": "99773cf3be36b8a159192df2c435877a"
     },
     "R/fct_theme_art.R": {
       "checksum": "dd77c9b969ea3dbeeb53a97df035e04a"
@@ -2678,17 +2690,23 @@
     "R/fct_validation.R": {
       "checksum": "29dc94acde8ec8fedb20ef850beb138c"
     },
+    "R/mod_admin.R": {
+      "checksum": "25ecaa2d0504b2b7af2fb26ef16dca94"
+    },
     "R/mod_admin_retours.R": {
-      "checksum": "626b064de5137fe722d99e4e52b74082"
+      "checksum": "c6f9b6c0475de9cf150472181873406d"
     },
     "R/mod_auth.R": {
       "checksum": "906918c8279db478865056f2d131b045"
     },
     "R/mod_home.R": {
-      "checksum": "50c4805b99d2c49c3112e5163f79cc03"
+      "checksum": "ef73fe6ee831be944d99e55cd36f59a0"
     },
     "R/mod_ressources.R": {
       "checksum": "04c9ec9ea9dfa217330c28cfec60e814"
+    },
+    "R/mod_retour_appli.R": {
+      "checksum": "21c736f7962057d8c3d8886998ea84e8"
     },
     "R/mod_seance_avis.R": {
       "checksum": "d3b0286d82ba1d1f56896be9a7191bf8"
@@ -2697,7 +2715,7 @@
       "checksum": "f9e7a47fa3525948911febb94ef254a7"
     },
     "R/mod_seance_config.R": {
-      "checksum": "92c8049d4c63830641fbb49f147b4b8f"
+      "checksum": "cb5c09a8fad283f8222aaf0aa904f4e6"
     },
     "R/mod_seance_run.R": {
       "checksum": "70e6c211efeff45d9682b8c3e965c94b"
@@ -2727,7 +2745,7 @@
       "checksum": "7f90d6de609d728ee41ef37c7460c683"
     },
     "R/utils_ui.R": {
-      "checksum": "dc32fa91a1d044e5d5d005d0f4f10022"
+      "checksum": "00b7a6ae375b21589ed0a2485ca3195a"
     },
     "R/zzz.R": {
       "checksum": "1e8579775f3ed5dd6767b28d59f7357c"

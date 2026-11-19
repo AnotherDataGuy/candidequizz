@@ -211,4 +211,39 @@ app_server <- function(input, output, session) {
 	})
 
 	mod_ressources_server("ressources")
+
+	# « Un problème avec l'appli ? Une suggestion ? » : version en ligne
+	# seulement (en local, personne ne lirait les retours).
+	if (!local) {
+		output$retour_bouton <- shiny::renderUI({
+			shiny::req(utilisateur())
+			mod_retour_appli_bouton("retour")
+		})
+		mod_retour_appli_server("retour", utilisateur = utilisateur, section = section)
+	}
+
+	# Administration : section à part, ouverte par l'icône de l'en-tête.
+	# Le bouton n'est envoyé qu'aux administrateurs ; l'ouverture et chaque
+	# action du module revérifient `is_admin` côté serveur.
+	output$admin_bouton <- shiny::renderUI({
+		u <- utilisateur()
+		shiny::req(u, isTRUE(u$is_admin))
+		shiny::tags$button(
+			id = "cq_admin_ouvrir",
+			type = "button",
+			class = "iconbtn admin-toggle action-button",
+			title = "G\u00e9rer les comptes",
+			`aria-label` = "G\u00e9rer les comptes",
+			cq_icon("i-users")
+		)
+	})
+
+	observeEvent(input$cq_admin_ouvrir, {
+		u <- utilisateur()
+		req(u, isTRUE(u$is_admin))
+		jauge(NULL)
+		section("admin")
+	})
+
+	mod_admin_server("admin", utilisateur = utilisateur)
 }

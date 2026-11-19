@@ -319,18 +319,32 @@ auth_oublier_echecs <- function(username) {
 	invisible(NULL)
 }
 
+.auth_factice <- new.env(parent = emptyenv())
+
+#' Empreinte factice, vérifiée quand l'identifiant n'existe pas
+#'
+#' Sans elle, un identifiant inconnu répondait tout de suite, et un
+#' identifiant existant après le calcul de l'empreinte : la durée de la
+#' réponse révélait quels alias existent. Calculée une fois par processus.
+#' @noRd
+auth_empreinte_factice <- function() {
+	if (is.null(.auth_factice$empreinte)) {
+		.auth_factice$empreinte <- sodium::password_store(sodium::bin2hex(sodium::random(16L)))
+	}
+	.auth_factice$empreinte
+}
+
 #' Connecter un compte et ouvrir un jeton
 #' @noRd
 auth_connecter <- function(username, password) {
 	user <- auth_trouver(username)
-	ok <- FALSE
 
-	if (!is.null(user)) {
-		ok <- isTRUE(tryCatch(
-			sodium::password_verify(user$password_hash, as.character(password %||% "")),
-			error = function(e) FALSE
-		))
-	}
+	# Même travail que l'identifiant existe ou non (voir auth_empreinte_factice()).
+	empreinte <- if (is.null(user)) auth_empreinte_factice() else user$password_hash
+	ok <- isTRUE(tryCatch(
+		sodium::password_verify(empreinte, as.character(password %||% "")),
+		error = function(e) FALSE
+	)) && !is.null(user)
 
 	if (!ok) {
 		rlang::abort(
@@ -381,7 +395,8 @@ auth_reinitialiser <- function(username, password) {
 #' Supprimer un compte et toutes ses données
 #'
 #' Pour l'administrateur (version en ligne) : efface le compte, ses jetons de
-#' connexion, ses séances (réponses et avis compris) et ses signalements.
+#' connexion, ses séances (réponses et avis compris), ses signalements et ses
+#' retours sur l'application.
 #' Irréversible. Un compte administrateur ne peut pas être supprimé ici, ce
 #' qui évite de se fermer la porte.
 #'
@@ -405,7 +420,7 @@ auth_supprimer <- function(username) {
 
 	n <- db_query("SELECT COUNT(*) AS n FROM seances WHERE user_id = ?", params = list(user$user_id))$n[[1L]]
 
-	for (table in c("auth_tokens", "seances", "signalements", "users")) {
+	for (table in c("auth_tokens", "seances", "signalements", "retours_appli", "users")) {
 		db_execute(paste("DELETE FROM", table, "WHERE user_id = ?"), params = list(user$user_id))
 	}
 

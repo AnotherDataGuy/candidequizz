@@ -258,6 +258,22 @@ store_sqlite_schema <- function(con) {
 		")"
 	))
 
+	# Retours sur l'application (bouton « Un problème ? Une suggestion ? »,
+	# fct_retours_appli.R) : version en ligne seulement.
+	DBI::dbExecute(con, paste(
+		"CREATE TABLE IF NOT EXISTS retours_appli (",
+		id_auto,
+		"user_id TEXT NOT NULL,",
+		"cree_le TEXT NOT NULL,",
+		"genre TEXT NOT NULL,",
+		"partie TEXT NOT NULL,",
+		"partie_autre TEXT,",
+		"texte TEXT NOT NULL,",
+		"contexte TEXT,",
+		"statut TEXT NOT NULL DEFAULT 'nouveau'",
+		")"
+	))
+
 	# Retours des participants : statut « traité » par graine (fct_retours.R).
 	DBI::dbExecute(con, paste(
 		"CREATE TABLE IF NOT EXISTS retours_statut (",

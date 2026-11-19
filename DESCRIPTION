@@ -33,6 +33,7 @@ Imports:
     writexl,
     yaml
 Suggests: 
+    later,
     RPostgres,
     pkgload,
     testthat (>= 3.0.0),

@@ -612,13 +612,21 @@ mod_seance_config_server <- function(id,
 				return(NULL)
 			}
 
+			# Version en ligne sans clé : rien n'est cassé pour les joueurs (les
+			# questions viennent de la banque), donc pas de bandeau qui ressemble
+			# à une erreur. Seul l'administrateur voit le rappel.
+			u <- utilisateur()
+			if (is.null(u) || !isTRUE(u$is_admin)) {
+				return(NULL)
+			}
+
 			shiny::div(
 				class = "cq-config-banner cq-config-banner--warn",
 				role = "status",
-				shiny::tags$span(class = "cq-config-banner-kicker", "Mode d\u00e9grad\u00e9"),
+				shiny::tags$span(class = "cq-config-banner-kicker", "Admin \u00b7 IA \u00e9teinte"),
 				shiny::tags$p(
-					"Aucune cl\u00e9 d'API OpenAI n'a \u00e9t\u00e9 trouv\u00e9e. La s\u00e9ance reste jouable, ",
-					"mais les questions seront servies telles quelles depuis la banque."
+					"Aucune cl\u00e9 OpenAI sur le serveur (OPENAI_API_KEY) : les questions viennent de la banque. ",
+					"Les autres comptes ne voient pas ce message."
 				)
 			)
 		})

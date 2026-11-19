@@ -101,6 +101,12 @@ cq_entete <- function() {
 		),
 		shiny::tags$div(
 			class = "header-tools",
+			# Icône « Gérer les comptes » : envoyée par le serveur aux seuls
+			# administrateurs (output$admin_bouton, app_server.R).
+			# « Un problème ? Une suggestion ? » : version en ligne seulement
+			# (output$retour_bouton, app_server.R).
+			shiny::uiOutput("retour_bouton", inline = TRUE),
+			shiny::uiOutput("admin_bouton", inline = TRUE),
 			shiny::tags$button(
 				id = "cq-theme-toggle",
 				class = "iconbtn theme-toggle",
@@ -141,8 +147,9 @@ cq_page_rail <- function(crumb = "Touchez un th\u00e8me pour en savoir plus.") {
 
 #' Carrousel compact des illustrations de th\u00e8mes
 #'
-#' Plac\u00e9 juste sous le rail de contexte. D\u00e9filement automatique, pause
-#' au survol / focus.
+#' Plac\u00e9 juste sous le rail de contexte. D\u00e9filement automatique (JS),
+#' pause au survol, au toucher et au focus ; glissement au doigt et
+#' fl\u00e8ches dans les deux sens.
 #'
 #' @param bank Banque optionnelle (libell\u00e9s des th\u00e8mes).
 #'
@@ -203,16 +210,33 @@ cq_themes_carousel <- function(bank = NULL) {
 		do.call(shiny::tags$button, attrs)
 	}
 
-	# Dupliquer pour une boucle continue sans trou.
+	# Trois fois la bande pour une boucle continue sans trou, dans les deux
+	# sens, même quand la fenêtre est presque aussi large qu'une bande
+	# (voir www/themes-carousel.js).
 	piste <- c(
 		lapply(names(carte), vignette),
+		lapply(names(carte), vignette, copie = TRUE),
 		lapply(names(carte), vignette, copie = TRUE)
 	)
+
+	# Fl\u00e8ches gauche / droite (souris) ; au doigt, on fait glisser la bande
+	# dans les deux sens. Le d\u00e9filement automatique est pilot\u00e9 par
+	# www/themes-carousel.js.
+	fleche <- function(sens) {
+		shiny::tags$button(
+			type = "button",
+			class = paste0("cq-carousel-btn cq-carousel-btn--", sens),
+			`data-carousel-dir` = if (identical(sens, "prev")) "-1" else "1",
+			`aria-label` = if (identical(sens, "prev")) "Th\u00e8mes pr\u00e9c\u00e9dents" else "Th\u00e8mes suivants",
+			shiny::HTML(if (identical(sens, "prev")) "&#8249;" else "&#8250;")
+		)
+	}
 
 	shiny::tags$div(
 		class = "cq-carousel",
 		role = "region",
 		`aria-label` = "Th\u00e8mes de l'examen civique",
+		fleche("prev"),
 		shiny::tags$div(
 			class = "cq-carousel-viewport",
 			shiny::tags$div(
@@ -220,7 +244,8 @@ cq_themes_carousel <- function(bank = NULL) {
 				id = "cq-carousel-track",
 				piste
 			)
-		)
+		),
+		fleche("next")
 	)
 }
 

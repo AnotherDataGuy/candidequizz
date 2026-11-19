@@ -1,6 +1,6 @@
 # Administration : retours des participants, question par question.
 #
-# Affiché dans le panneau Administration de l'accueil (mod_home.R), pour
+# Onglet « Questions » de la section Administration (mod_admin.R), pour
 # l'administrateur seulement. Sert à repérer les questions à corriger dans la
 # banque : commentaires, taux d'échec, difficulté ressentie. La correction se
 # fait dans le classeur Excel de la banque, grâce à l'identifiant de graine.
@@ -12,7 +12,6 @@ mod_admin_retours_ui <- function(id) {
 
 	shiny::div(
 		class = "cq-retours",
-		shiny::tags$p(class = "eyebrow", "Retours sur les questions"),
 		# Aide repliée : où et comment corriger une question repérée ici.
 		# Détails : dev/BANQUE_DE_QUESTIONS.md.
 		shiny::tags$details(
@@ -44,7 +43,7 @@ mod_admin_retours_ui <- function(id) {
 			shiny::selectInput(
 				ns("statut"), NULL,
 				choices = c("\u00c0 traiter" = "a_traiter", "Trait\u00e9es" = "traite", "Toutes" = "tous"),
-				width = "auto"
+				width = "150px"
 			),
 			shiny::selectInput(
 				ns("tri"), NULL,
@@ -53,7 +52,7 @@ mod_admin_retours_ui <- function(id) {
 					"Plus souvent rat\u00e9es" = "echec",
 					"Ressenties plus difficiles" = "difficulte"
 				),
-				width = "auto"
+				width = "240px"
 			),
 			shiny::checkboxInput(ns("avec_avis"), "Seulement avec un avis", value = TRUE),
 			shiny::actionButton(ns("actualiser"), "Actualiser", class = "btn"),
@@ -68,19 +67,28 @@ mod_admin_retours_ui <- function(id) {
 #' @param utilisateur Réactif du compte connecté (seul l'administrateur voit
 #'   et modifie quelque chose).
 #' @noRd
-mod_admin_retours_server <- function(id, utilisateur) {
+mod_admin_retours_server <- function(id, utilisateur, tableau = NULL, rafraichir = NULL) {
 	shiny::moduleServer(id, function(input, output, session) {
 		maj <- shiny::reactiveVal(0L)
 		est_admin <- shiny::reactive(isTRUE(utilisateur()$is_admin))
 
-		# Relu à la demande (bouton Actualiser, ou après un changement de statut) :
-		# la lecture parcourt toutes les séances.
-		tableau <- shiny::reactive({
-			maj()
-			input$actualiser
-			shiny::req(est_admin())
-			tryCatch(retours_tableau(), error = function(e) NULL)
-		})
+		# Tableau fourni par l'écran d'administration (lu une fois pour tous les
+		# onglets), sinon relu ici à la demande (bouton Actualiser, ou après un
+		# changement de statut) : la lecture parcourt toutes les séances.
+		if (is.null(tableau)) {
+			tableau <- shiny::reactive({
+				maj()
+				input$actualiser
+				shiny::req(est_admin())
+				tryCatch(retours_tableau(), error = function(e) NULL)
+			})
+		}
+		relire <- function() {
+			if (is.null(rafraichir)) maj(maj() + 1L) else rafraichir()
+		}
+		shiny::observeEvent(input$actualiser, {
+			if (!is.null(rafraichir)) rafraichir()
+		}, ignoreInit = TRUE)
 
 		output$liste <- shiny::renderUI({
 			t <- tableau()
@@ -96,51 +104,16 @@ mod_admin_retours_server <- function(id, utilisateur) {
 			}
 
 			montres <- utils::head(t, 50L)
-			pourcent <- function(x) if (is.na(x)) "\u2013" else paste0(round(100 * x), " %")
-			un_chiffre <- function(x) if (is.na(x)) "\u2013" else format(round(x, 1), decimal.mark = ",")
 
 			shiny::tagList(
 				shiny::tags$p(
 					class = "muted tiny",
-					sprintf("%d question(s), %d affich\u00e9e(s).", nrow(t), nrow(montres))
+					sprintf("%d question(s), %d affich\u00e9e(s). Touchez une ligne pour lire les commentaires.", nrow(t), nrow(montres))
 				),
-				lapply(seq_len(nrow(montres)), function(i) {
-					l <- montres[i, ]
-					traite <- identical(l$statut, "traite")
-					shiny::tags$details(
-						class = paste("cq-retour", if (traite) "is-traite"),
-						shiny::tags$summary(
-							shiny::tags$code(l$seed_id),
-							shiny::tags$span(class = "cq-retour-question", l$question),
-							shiny::tags$span(
-								class = "cq-retour-chiffres",
-								sprintf(
-									"%d comm. \u00b7 \u00e9chec %s (%d r\u00e9p.) \u00b7 ressenti %s / banque %s",
-									l$n_commentaires, pourcent(l$taux_echec), l$n_reponses,
-									un_chiffre(l$difficulte_ressentie), un_chiffre(l$difficulte_banque)
-								)
-							)
-						),
-						if (!is.na(l$theme)) shiny::tags$p(class = "muted tiny", l$theme),
-						if (l$n_commentaires) {
-							shiny::tags$ul(lapply(l$commentaires[[1L]], shiny::tags$li))
-						} else {
-							shiny::tags$p(class = "muted", "Pas de commentaire.")
-						},
-						shiny::tags$button(
-							type = "button",
-							class = "btn",
-							onclick = sprintf(
-								"Shiny.setInputValue('%s', {seed: '%s', statut: '%s'}, {priority: 'event'});",
-								session$ns("marquer"),
-								# Identifiants de graine : lettres, chiffres et tirets seulement.
-								gsub("[^A-Za-z0-9_-]", "", l$seed_id),
-								if (traite) "a_traiter" else "traite"
-							),
-							if (traite) "Remettre \u00e0 traiter" else "Marquer comme trait\u00e9e"
-						)
-					)
-				})
+				shiny::div(
+					class = "cq-q-liste",
+					lapply(seq_len(nrow(montres)), function(i) retours_ligne(montres[i, ], session$ns("marquer")))
+				)
 			)
 		})
 
@@ -151,7 +124,7 @@ mod_admin_retours_server <- function(id, utilisateur) {
 
 			tryCatch({
 				retours_marquer(input$marquer$seed, input$marquer$statut)
-				maj(maj() + 1L)
+				relire()
 			}, error = function(e) {
 				shiny::showNotification(cq_message_utilisateur(e), type = "error", duration = 6)
 			})
@@ -170,4 +143,99 @@ mod_admin_retours_server <- function(id, utilisateur) {
 
 		invisible(NULL)
 	})
+}
+
+#' Une question dans la liste des retours (ligne repliable)
+#'
+#' @param l Une ligne de [retours_tableau()].
+#' @param input_id Identifiant d'entrée du bouton « traitée ».
+#' @noRd
+retours_ligne <- function(l, input_id) {
+	traite <- identical(l$statut, "traite")
+	echec <- l$taux_echec
+	ressenti <- l$difficulte_ressentie
+	prevue <- l$difficulte_banque
+	ecart <- if (is.na(ressenti) || is.na(prevue)) NA_real_ else ressenti - prevue
+	un_chiffre <- function(x) if (is.na(x)) "\u2013" else format(round(x, 1), decimal.mark = ",")
+	# Identifiants de graine : lettres, chiffres et tirets seulement.
+	seed <- gsub("[^A-Za-z0-9_-]", "", l$seed_id)
+
+	bouton <- shiny::tags$button(
+		type = "button",
+		class = paste("cq-q-traiter", if (traite) "is-traite"),
+		title = if (traite) "Remettre \u00e0 traiter" else "Marquer comme trait\u00e9e",
+		onclick = sprintf(
+			"event.preventDefault();event.stopPropagation();Shiny.setInputValue('%s', {seed: '%s', statut: '%s'}, {priority: 'event'});",
+			input_id, seed, if (traite) "a_traiter" else "traite"
+		),
+		bsicons::bs_icon(if (traite) "arrow-counterclockwise" else "check2"),
+		if (traite) " Rouvrir" else " Trait\u00e9e"
+	)
+
+	shiny::tags$details(
+		class = paste("cq-q", if (traite) "is-traite"),
+		shiny::tags$summary(
+			shiny::div(
+				class = "cq-q-texte",
+				shiny::div(
+					class = "cq-q-meta",
+					if (!is.na(l$theme)) shiny::tags$span(class = "cq-q-theme", l$theme),
+					shiny::tags$code(l$seed_id),
+					if (l$n_commentaires) {
+						shiny::tags$span(
+							class = "cq-q-comm",
+							title = "Commentaires",
+							bsicons::bs_icon("chat-left-text"), paste0(" ", l$n_commentaires)
+						)
+					}
+				),
+				shiny::tags$span(class = "cq-q-question", l$question %||% "")
+			),
+			shiny::div(
+				class = "cq-q-chiffre",
+				`data-label` = "\u00c9chec",
+				if (is.na(echec)) {
+					shiny::tags$span(class = "muted", "pas de r\u00e9ponse")
+				} else {
+					shiny::tagList(
+						admin_barre(echec, admin_couleur_echec(echec)),
+						shiny::tags$span(class = "tiny", sprintf("%d %% \u00b7 %d r\u00e9p.", round(100 * echec), l$n_reponses))
+					)
+				}
+			),
+			shiny::div(
+				class = "cq-q-chiffre",
+				`data-label` = "Difficult\u00e9",
+				title = "Difficult\u00e9 ressentie par les joueurs / pr\u00e9vue dans la banque (1 facile, 10 difficile)",
+				shiny::tags$span(
+					class = paste(
+						"cq-q-diff",
+						if (!is.na(ecart) && ecart >= 2) "is-plus-dure",
+						if (!is.na(ecart) && ecart <= -2) "is-plus-facile"
+					),
+					un_chiffre(ressenti), shiny::tags$span(class = "muted", paste0("/ ", un_chiffre(prevue))),
+					if (!is.na(ecart) && ecart >= 2) bsicons::bs_icon("arrow-up-short"),
+					if (!is.na(ecart) && ecart <= -2) bsicons::bs_icon("arrow-down-short")
+				),
+				shiny::tags$span(class = "muted tiny", "ressentie / pr\u00e9vue")
+			),
+			bouton
+		),
+		shiny::div(
+			class = "cq-q-detail",
+			if (l$n_commentaires) {
+				shiny::tags$ul(class = "cq-q-commentaires", lapply(l$commentaires[[1L]], shiny::tags$li))
+			} else {
+				shiny::tags$p(class = "muted", "Pas de commentaire.")
+			},
+			shiny::tags$p(
+				class = "muted tiny",
+				sprintf(
+					"%d avis \u00b7 temps de r\u00e9ponse m\u00e9dian : %s",
+					l$n_avis,
+					if (is.na(l$duree_mediane_s)) "\u2013" else paste0(round(l$duree_mediane_s), " s")
+				)
+			)
+		)
+	)
 }

@@ -4,7 +4,8 @@ var CQ_CRUMBS = {
   accueil: "Touchez un thème pour en savoir plus.",
   seances: "À votre rythme",
   statistiques: "Le carnet de progression",
-  ressources: "Pour aller plus loin"
+  ressources: "Pour aller plus loin",
+  admin: "Administration : comptes et retours"
 };
 
 function cqRelancerEntree(pane) {

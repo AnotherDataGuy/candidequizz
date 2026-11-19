@@ -112,3 +112,39 @@ test_that("l'administrateur supprime un compte et toutes ses données", {
 	expect_error(auth_supprimer("admin_test"), class = "candidequizz_auth_invalide")
 	expect_false(is.null(auth_trouver("admin_test")))
 })
+
+test_that("identifiant inconnu : même calcul d'empreinte qu'un identifiant connu", {
+	local_sqlite()
+	auth_creer("dora_test", "motdepasse", admin = TRUE)
+	appels <- 0L
+	vrai_verify <- sodium::password_verify
+	local_mocked_bindings(
+		password_verify = function(hash, password) {
+			appels <<- appels + 1L
+			vrai_verify(hash, password)
+		},
+		.package = "sodium"
+	)
+
+	expect_error(auth_connecter("inconnu_test", "motdepasse"), "Identifiant ou mot de passe incorrect")
+	expect_identical(appels, 1L)
+	expect_error(auth_connecter("dora_test", "mauvaisxx"), "Identifiant ou mot de passe incorrect")
+	expect_identical(appels, 2L)
+	# Le bon mot de passe d'un autre compte ne marche pas sur un inconnu.
+	expect_error(auth_connecter("inconnu_test", "motdepasse"), class = "candidequizz_auth_invalide")
+	expect_identical(auth_connecter("dora_test", "motdepasse")$username, "dora_test")
+})
+
+test_that("identifiant inconnu : durée de réponse comparable", {
+	skip_on_cran()
+	local_sqlite()
+	auth_creer("eve_test", "motdepasse", admin = TRUE)
+	auth_empreinte_factice()
+	duree <- function(nom) {
+		system.time(for (i in 1:3) try(auth_connecter(nom, "mauvaisxx"), silent = TRUE))[["elapsed"]]
+	}
+	connu <- duree("eve_test")
+	inconnu <- duree("inconnu_test")
+	# Avant correction, l'inconnu répondait des dizaines de fois plus vite.
+	expect_gt(inconnu, connu / 3)
+})

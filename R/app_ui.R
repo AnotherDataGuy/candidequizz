@@ -66,7 +66,9 @@ cq_ui_principale <- function() {
 					bslib::nav_panel_hidden("accueil", mod_home_ui("accueil")),
 					bslib::nav_panel_hidden("seances", mod_seances_ui("seances")),
 					bslib::nav_panel_hidden("statistiques", mod_stats_ui("statistiques")),
-					bslib::nav_panel_hidden("ressources", mod_ressources_ui("ressources"))
+					bslib::nav_panel_hidden("ressources", mod_ressources_ui("ressources")),
+					# Administration : hors du dock, ouverte par l'icône de l'en-tête.
+					bslib::nav_panel_hidden("admin", mod_admin_ui("admin"))
 				)
 			),
 			shiny::tags$footer(

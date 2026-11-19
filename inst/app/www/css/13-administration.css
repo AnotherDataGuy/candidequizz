@@ -11,9 +11,7 @@
 /* --- Administration : retours sur les questions (R/mod_admin_retours.R) ---- */
 
 .cq-retours {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
+  margin-top: 4px;
 }
 
 .cq-retours-filtres {
@@ -26,39 +24,6 @@
 
 .cq-retours-filtres .shiny-input-container {
   margin: 0;
-  width: auto !important;
-}
-
-.cq-retour {
-  border-bottom: 1px solid var(--line);
-  padding: 8px 2px;
-}
-
-.cq-retour > summary {
-  cursor: pointer;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 2px 10px;
-}
-
-.cq-retour > summary code {
-  font-size: 12px;
-}
-
-.cq-retour-chiffres {
-  grid-column: 2;
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.cq-retour ul {
-  margin: 8px 0;
-  padding-left: 20px;
-  font-size: 14px;
-}
-
-.cq-retour.is-traite {
-  opacity: .6;
 }
 
 .cq-retours-aide {
@@ -77,3 +42,757 @@
   margin: 8px 0 0;
 }
 
+
+/* --- Administration : icône de l'en-tête et section (R/mod_admin.R) ------- */
+
+/* Même ordre que le bouton clair / sombre (order: 1, 02-base-2.css) et placée
+   avant lui : l'icône s'affiche juste à sa gauche. */
+.header-tools #admin_bouton {
+  order: 1;
+  display: inline-flex;
+}
+
+.admin-toggle {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+}
+
+.admin-toggle:hover {
+  background: var(--soft);
+}
+
+.admin-toggle .icon {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 520px) {
+  .admin-toggle {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+
+
+/* --- Tableau de bord (R/mod_admin.R) ------------------------------------- */
+
+.cq-admin {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 8px 0 calc(var(--cq-dock-clearance, 110px) + 12px);
+}
+
+.cq-admin h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.cq-admin-tete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px 24px;
+  margin-bottom: 14px;
+}
+
+.cq-admin-titre {
+  font-family: var(--g-serif);
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  margin: 4px 0 2px;
+}
+
+.cq-admin-actions,
+.cq-admin-exports,
+.cq-admin-copies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cq-admin .nav-underline {
+  gap: 4px 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cq-admin .nav-underline .nav-link {
+  color: var(--muted);
+  padding: 8px 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cq-admin .nav-underline .nav-link.active {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+  font-weight: 600;
+}
+
+.cq-admin-pastille {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.cq-admin-pastille.is-alerte {
+  background: var(--g-faux-fond);
+  color: var(--g-faux);
+}
+
+/* Tuiles de chiffres clés */
+
+.cq-admin-tuiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.cq-admin-tuile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  font: inherit;
+}
+
+.cq-admin-tuile.is-lien {
+  cursor: pointer;
+}
+
+.cq-admin-tuile.is-lien:hover {
+  border-color: var(--muted);
+}
+
+.cq-admin-tuile.is-alerte {
+  border-color: var(--g-faux);
+  background: var(--g-faux-fond);
+}
+
+.cq-admin-tuile-titre {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.cq-admin-tuile-valeur {
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.cq-admin-tuile-sous {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.cq-admin-tuile .cq-admin-barre {
+  margin-top: 8px;
+}
+
+.cq-admin-mini {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 26px;
+  margin-top: 8px;
+}
+
+.cq-admin-mini > span {
+  flex: 1;
+  border-radius: 2px;
+  background: var(--plot);
+  opacity: .75;
+}
+
+/* Blocs de la vue d'ensemble */
+
+.cq-admin-grille {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.cq-admin-bloc {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  margin: 0;
+}
+
+@media (max-width: 860px) {
+  .cq-admin-grille {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.cq-admin-histo {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 140px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cq-admin-histo-col {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.cq-admin-histo-barre {
+  display: block;
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+  background: var(--plot);
+  transition: opacity .15s ease;
+}
+
+.cq-admin-histo-barre.is-vide {
+  background: var(--line);
+}
+
+.cq-admin-histo-col.is-aujourdhui .cq-admin-histo-barre:not(.is-vide) {
+  background: var(--good);
+}
+
+.cq-admin-histo-col:hover .cq-admin-histo-barre {
+  opacity: .7;
+}
+
+.cq-admin-histo-axe {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 4px 0 8px;
+}
+
+.cq-admin-alertes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cq-admin-alertes li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: start;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+
+.cq-admin-alertes li:last-child {
+  border-bottom: 0;
+}
+
+.cq-admin-alertes li > svg {
+  margin-top: 3px;
+  color: var(--muted);
+}
+
+.cq-admin-ok {
+  color: var(--good);
+}
+
+.cq-admin-themes {
+  display: grid;
+  gap: 8px;
+}
+
+.cq-admin-theme {
+  display: grid;
+  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 3rem;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.cq-admin-theme-nom {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cq-admin-theme-chiffre {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Barres (réussite, échec, progression vers l'IA) */
+
+.cq-admin-barre {
+  display: block;
+  width: 100%;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.cq-admin-barre > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--muted);
+}
+
+.cq-admin-barre.is-bon > span { background: var(--g-juste); }
+.cq-admin-barre.is-moyen > span { background: var(--g-partiel); }
+.cq-admin-barre.is-faible > span { background: var(--g-faux); }
+.cq-admin-barre.is-ia > span { background: var(--plot); }
+
+/* Liste des comptes */
+
+.cq-admin-outils {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.cq-admin-outils .shiny-input-container {
+  margin: 0;
+}
+
+.cq-admin-liste {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.cq-admin-ligne {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.9fr) minmax(0, 1.4fr) minmax(0, 1fr) 4.5rem 5.5rem;
+  gap: 14px;
+  align-items: center;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+
+.cq-admin-ligne:last-child {
+  border-bottom: 0;
+}
+
+.cq-admin-ligne:not(.cq-admin-entete):hover {
+  background: var(--soft);
+}
+
+.cq-admin-entete {
+  font-size: 12px;
+  color: var(--muted);
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+.cq-admin-compte {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  min-width: 0;
+}
+
+.cq-admin-alias {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cq-admin-cree {
+  flex-basis: 100%;
+  padding-left: 17px;
+}
+
+.cq-admin-point {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: 0 0 9px;
+  background: var(--line);
+}
+
+.is-actif .cq-admin-point { background: var(--g-juste); }
+.is-inactif .cq-admin-point { background: var(--g-partiel); }
+
+.cq-admin-cellule {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cq-admin-boutons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.cq-admin-icone {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.cq-admin-icone:hover {
+  background: var(--surface);
+  border-color: var(--muted);
+}
+
+.cq-admin-icone.is-danger:hover {
+  color: var(--bad);
+  border-color: var(--bad);
+}
+
+.cq-admin-icone.is-verrou {
+  color: var(--muted);
+  border-style: dashed;
+  cursor: help;
+}
+
+/* Téléphone : chaque compte devient une carte. */
+@media (max-width: 760px) {
+  .cq-admin-entete {
+    display: none;
+  }
+  .cq-admin-ligne {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px 14px;
+  }
+  .cq-admin-compte {
+    grid-column: 1 / -1;
+  }
+  .cq-admin-boutons {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+  .cq-admin-cellule::before {
+    content: attr(data-label);
+    font-size: 11px;
+    color: var(--muted);
+  }
+}
+
+/* Fenêtres : mot de passe généré, nouveau compte */
+
+.cq-admin-mdp {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px dashed var(--muted);
+  border-radius: 12px;
+  background: var(--soft);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.cq-admin-mdp-valeur {
+  font-family: var(--g-mono);
+  font-size: clamp(1.25rem, 4vw, 1.7rem);
+  letter-spacing: .06em;
+  color: var(--ink);
+  background: none;
+  user-select: all;
+}
+
+.cq-admin-avertissement {
+  color: var(--g-faux);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.cq-admin-copies .btn.is-copie {
+  border-color: var(--good);
+  color: var(--good);
+}
+
+.cq-admin-message {
+  margin: 10px 0 4px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--soft);
+  color: var(--ink);
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.cq-admin-erreur {
+  color: var(--g-faux);
+  font-size: 14px;
+  margin: 6px 0 0;
+}
+
+.btn.cq-admin-danger {
+  background: var(--bad);
+  border-color: var(--bad);
+  color: #fff;
+}
+
+/* Questions (R/mod_admin_retours.R) */
+
+.cq-q-liste {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.cq-q {
+  border-bottom: 1px solid var(--line);
+}
+
+.cq-q:last-child {
+  border-bottom: 0;
+}
+
+.cq-q > summary {
+  list-style: none;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: minmax(0, 2.6fr) minmax(0, 1.1fr) minmax(0, 0.9fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.cq-q > summary::-webkit-details-marker {
+  display: none;
+}
+
+.cq-q > summary:hover,
+.cq-q[open] > summary {
+  background: var(--soft);
+}
+
+.cq-q.is-traite > summary {
+  opacity: .6;
+}
+
+.cq-q-texte {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cq-q-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  font-size: 12px;
+}
+
+.cq-q-meta code {
+  font-size: 11px;
+  color: var(--muted);
+  background: none;
+  padding: 0;
+}
+
+.cq-q-theme {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--g-juste-fond);
+  color: var(--g-juste);
+  font-weight: 600;
+}
+
+.cq-q-comm {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--g-faux);
+  font-weight: 600;
+}
+
+.cq-q-question {
+  font-size: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cq-q-chiffre {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cq-q-diff {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cq-q-diff.is-plus-dure { color: var(--g-faux); }
+.cq-q-diff.is-plus-facile { color: var(--g-juste); }
+
+.cq-q-traiter {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cq-q-traiter:hover {
+  border-color: var(--good);
+  color: var(--good);
+}
+
+.cq-q-detail {
+  padding: 4px 16px 14px;
+  background: var(--soft);
+}
+
+.cq-q-commentaires {
+  margin: 0 0 8px;
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+.cq-q-commentaires li + li {
+  margin-top: 4px;
+}
+
+@media (max-width: 760px) {
+  .cq-q > summary {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px 14px;
+  }
+  .cq-q-texte {
+    grid-column: 1 / -1;
+  }
+  .cq-q-chiffre::before {
+    content: attr(data-label);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .cq-q-traiter {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+/* Retours sur l'application (onglet « Retours appli ») */
+
+.cq-appli-liste {
+  display: grid;
+  gap: 10px;
+}
+
+.cq-appli {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--g-juste);
+  border-radius: 0 14px 14px 0;
+  background: var(--surface);
+}
+
+.cq-appli.is-probleme {
+  border-left-color: var(--g-faux);
+}
+
+.cq-appli.is-traite {
+  opacity: .6;
+}
+
+.cq-appli-icone {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--g-juste-fond);
+  color: var(--g-juste);
+  font-size: 18px;
+}
+
+.is-probleme .cq-appli-icone {
+  background: var(--g-faux-fond);
+  color: var(--g-faux);
+}
+
+.cq-appli-tete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 14px;
+}
+
+.cq-appli-texte {
+  margin: 8px 0 6px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.cq-appli-contexte {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+@media (max-width: 760px) {
+  .cq-appli {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+  .cq-appli .cq-q-traiter {
+    grid-column: 2;
+    justify-self: start;
+  }
+}

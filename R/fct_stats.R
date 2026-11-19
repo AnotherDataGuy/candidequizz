@@ -644,7 +644,8 @@ stats_export_html <- function(titre,
 		x
 	}
 
-	pct <- function(x) if (!is.finite(x)) "\u2014" else paste0(round(100 * x), " %")
+	# Vectorisée : appelée sur toute une colonne (ligne_tab()).
+	pct <- function(x) ifelse(is.finite(x), paste0(round(100 * x), " %"), "\u2014")
 	ligne_tab <- function(t) {
 		if (!nrow(t)) {
 			return("<tr><td colspan='3'>Aucune donn\u00e9e</td></tr>")
